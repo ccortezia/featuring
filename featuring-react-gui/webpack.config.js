@@ -5,7 +5,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 
     entry: {
-      app: path.resolve(__dirname, 'src/main.js')
+      app: path.resolve(__dirname, 'src/main.js'),
+      test: 'babel!mocha!' + path.resolve(__dirname, 'tests.bundle.js'),
     },
 
     output: {
@@ -26,13 +27,19 @@ module.exports = {
     },
 
     plugins: [
-      // This plugin generates an index.html that loads the bundle
+      // This plugin instance generates an index.html that loads the bundle
       //  under the destination build directory, so we don't have to
       //  manually maintain the index.html file.
       new HtmlWebpackPlugin({chunks: ['app'],
         chunks: ['app'],
         template: 'src/index.tpl.html',
         inject: 'body'
+      }),
+      // This plugin instance generates an test.html that runs the test on
+      //  the browser used to open it. Useful to distribute the test suite.
+      new HtmlWebpackPlugin({
+        chunks: ['test'],
+        filename: 'test.html'
       })
     ]
 };
