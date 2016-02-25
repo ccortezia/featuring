@@ -11,3 +11,5 @@ The structure is going to be like this:
 - the toplevel directory will hold the scripts to setup the dev environment.
 
 These sub-projects *could* be splitted into git submodules, but for the sake of simplicity I will keep everything under a single repo for now.
+
+Currently deployed at http://104.236.242.231.
