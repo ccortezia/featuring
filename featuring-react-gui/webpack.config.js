@@ -33,7 +33,8 @@ module.exports = {
       new HtmlWebpackPlugin({chunks: ['app'],
         chunks: ['app'],
         template: 'src/index.tpl.html',
-        inject: 'body'
+        inject: 'body',
+        title: 'Featuring: todo-mvc nice brother'
       }),
       // This plugin instance generates an test.html that runs the test on
       //  the browser used to open it. Useful to distribute the test suite.
