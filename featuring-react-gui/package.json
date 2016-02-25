@@ -1,0 +1,22 @@
+{
+  "name": "featuring-react-gui",
+  "version": "1.0.0",
+  "description": "A react frontend for the featuring app",
+  "main": "build/app.js",
+  "scripts": {
+    "start": "NODE_ENV=development webpack-dev-server --port 8080 --devtool eval --progress --colors --hot --inline --content-base build",
+    "build": "NODE_ENV=development webpack"
+  },
+  "author": "Cristiano Cortezia",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.3",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "html-webpack-plugin": "^2.9.0",
+    "react": "^0.14.7",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
