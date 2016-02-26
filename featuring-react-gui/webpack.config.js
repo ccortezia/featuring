@@ -22,7 +22,21 @@ module.exports = {
           test: /\.js$/,
           loader: 'babel',
           exclude: /(node_modules)/,
-        }
+        },
+
+        // Allow import of css files
+        // requires: style-loader, css-loader
+        {
+          test: /\.css$/,
+          loader: 'style!css'
+        },
+
+        // Allow import of less files.
+        // requires: less, less-loader
+        {
+          test: /\.less$/,
+          loader: 'style!css!less'
+        },
       ]
     },
 

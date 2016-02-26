@@ -4,10 +4,18 @@ import {FeatureListItem} from 'app/feature';
 
 export function FeatureList({items}) {
   return (
-    <div>
-      <ul>
+    <div className="panel panel-default panel-feature-list">
+      <div className="panel-body">
+        <button className="btn btn-default">NEW</button>
+        <select>
+          <option>Client A</option>
+          <option>Client B</option>
+          <option>Client C</option>
+        </select>
+      </div>
+      <div className="list-group list-feature">
         {items.map((item) => <FeatureListItem key={item.id} data={item} />)}
-      </ul>
+      </div>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 
 
 export function Footer() {
-  return (<footer>FOOTER</footer>);
+  return (<footer>@ccortezia</footer>);
 }
 
 export default Footer;
