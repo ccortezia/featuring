@@ -11,6 +11,6 @@ describe('Footer', () => {
     let element = renderer.getRenderOutput();
     chai.expect(TestUtils.isElement(element)).to.be.true;
     chai.expect(element.type).to.equal('footer');
-    chai.expect(element.props.children).to.equal('FOOTER');
+    chai.expect(element.props.children).to.equal('@ccortezia');
   });
 });

@@ -1,5 +1,9 @@
+import _ from 'lodash';
 import React from 'react';
+import store from 'app/root/store';
 import {FeatureBoard} from 'app/feature';
+import {selectFeatureListItemAction, receiveFeatureListAction} from 'app/feature/actions';
+
 
 const features = [
   {id: 1, title: 'Title 1', description: 'Description 1', priority: 1},
@@ -27,12 +31,20 @@ const features = [
   {id: 23, title: 'Title 7', description: 'Description 7', priority: 7},
 ];
 
-export function FeatureSection() {
-  return (
-    <section>
-      <FeatureBoard items={features}/>
-    </section>
-  );
+export class FeatureSection extends React.Component {
+
+  componentWillMount() {
+    store.dispatch(receiveFeatureListAction(features));
+    store.dispatch(selectFeatureListItemAction(_.first(features).id));
+  }
+
+  render() {
+    return (
+      <section>
+        <FeatureBoard items={features} />
+      </section>
+    );
+  }
 }
 
 export default FeatureSection;

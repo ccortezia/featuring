@@ -2,7 +2,7 @@ import React from 'react';
 import {FeatureListItem} from 'app/feature';
 
 
-export function FeatureList({items}) {
+export function FeatureList({items, selectedId}) {
   return (
     <div className="panel panel-default panel-feature-list">
       <div className="panel-body">
@@ -14,7 +14,7 @@ export function FeatureList({items}) {
         </select>
       </div>
       <div className="list-group list-feature">
-        {items.map((item) => <FeatureListItem key={item.id} data={item} />)}
+        {items.map((item) => <FeatureListItem key={item.id} data={item} active={item.id == selectedId} />)}
       </div>
     </div>
   );

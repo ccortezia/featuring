@@ -12,6 +12,6 @@ describe('FeatureListItem', () => {
     renderer.render(<FeatureListItem data={data}/>);
     let element = renderer.getRenderOutput();
     chai.expect(TestUtils.isElement(element)).to.be.true;
-    chai.expect(element.type).to.equal('li');
+    chai.expect(element.type).to.equal('a');
   });
 });
