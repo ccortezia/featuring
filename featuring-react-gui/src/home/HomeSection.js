@@ -1,23 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import store from 'app/root/store';
-
-
-export function Header() {
-  return (<header>HEADER</header>);
-}
-
-
-export function Footer() {
-  return (<footer>FOOTER</footer>);
-}
+import {FeatureSection} from 'app/feature';
+import {Header} from 'app/header';
+import {Footer} from 'app/footer';
 
 
 export function HomeSection() {
   return (
     <div className="base home">
       <Header />
-      <div>Some content</div>
+      <FeatureSection />
       <Footer />
     </div>
   );
