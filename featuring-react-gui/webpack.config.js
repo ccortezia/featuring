@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
@@ -55,6 +56,9 @@ module.exports = {
       new HtmlWebpackPlugin({
         chunks: ['test'],
         filename: 'test.html'
+      }),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': '"' + process.env.NODE_ENV + '"'
       })
     ]
 };
