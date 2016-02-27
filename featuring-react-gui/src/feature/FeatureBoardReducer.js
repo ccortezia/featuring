@@ -1,7 +1,7 @@
 import * as CT from 'app/feature/constants';
 
 
-export default function featureBoardReducer(state={selectedClientId: 2}, action) {
+export default function featureBoardReducer(state={selectedClientId: 1}, action) {
 
   switch (action.type) {
 

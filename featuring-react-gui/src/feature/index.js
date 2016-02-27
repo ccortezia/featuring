@@ -7,3 +7,8 @@ export {default as FeatureFilteredList} from './FeatureFilteredList';
 export {default as FeatureBoard} from './FeatureBoard';
 
 export {default as featureReducer} from './reducers';
+
+export {
+  tryFirstValidFeatureOnEnterHook,
+  fixClientIdFilterOnEnterHook}
+  from './router-hooks';

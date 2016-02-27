@@ -5,6 +5,7 @@ import store from 'app/root/store';
 import {App} from 'app/root';
 import {HomeSection} from 'app/home';
 import {FeatureSection, FeatureDetails, FeatureCreate} from 'app/feature';
+import {tryFirstValidFeatureOnEnterHook, fixClientIdFilterOnEnterHook} from 'app/feature';
 
 
 // Enhanced history object, better integrated with redux store.
@@ -15,11 +16,12 @@ const history = syncHistoryWithStore(browserHistory, store);
 const router = (
   <Router history={history}>
     <Route path="/" component={App}>
-      <IndexRoute component={HomeSection} />
-      <Route path="/" component={HomeSection}>
+      <IndexRoute component={HomeSection} onEnter={redirectToDefault} />
+      <Route path="/" component={HomeSection} >
         <Route path="features" component={FeatureSection} >
+          <IndexRoute component={null} onEnter={tryFirstValidFeatureOnEnterHook} />
           <Route path="new" component={FeatureCreate} />
-          <Route path=":id" component={FeatureDetails} />
+          <Route path=":id" component={FeatureDetails} onEnter={fixClientIdFilterOnEnterHook} />
         </Route>
       </Route>
       <Redirect from="*" to="/features" />
@@ -30,6 +32,9 @@ const router = (
 export default router;
 
 
-function NoMatch() {
-  return <p>No Match</p>;
+function redirectToDefault(nextState, replace) {
+  return replace({
+    pathname: `/features`,
+    state: {nextPathname: nextState.location.pathname}
+  });
 }
