@@ -28,6 +28,16 @@ let data = [
 
 export default class FeaturesRemoteAPI {
 
+  create(obj) {
+    return new Promise((resolve, reject) => {
+      const ids = data.map((item) => item.id);
+      const maxid = Math.max.apply(null, ids);
+      obj.id = maxid + 1;
+      data.push(obj);
+      resolve(obj);
+    });
+  }
+
   list() {
     return new Promise((resolve, reject) => {
       resolve(data.slice());

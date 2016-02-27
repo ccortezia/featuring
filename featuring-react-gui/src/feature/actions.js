@@ -8,12 +8,22 @@ const api = new FeaturesRemoteAPI();
 // Sync Actions
 // ------------------------------
 
-export function selectFeatureCreateAction() {
-  return {type: CT.SELECT_FEATURE_CREATE};
-}
-
 export function selectFeatureFilterClientAction(id) {
   return {type: CT.SELECT_FEATURE_FILTER_CLIENT, clientId: id};
+}
+
+// --
+
+export function requestFeatureCreateAction(data) {
+  return {type: CT.REQUEST_FEATURE_CREATE, data};
+}
+
+export function receiveFeatureCreateAction(data) {
+  return {type: CT.RECEIVE_FEATURE_CREATE, data};
+}
+
+export function failureFeatureCreateAction(reason) {
+  return {type: CT.FAILURE_FEATURE_CREATE, reason};
 }
 
 // --
@@ -52,6 +62,28 @@ export function failureFeatureDeleteAction(reason) {
 // ------------------------------
 // Async Actions
 // ------------------------------
+
+// Creates a dispatcher that signalizes the intention to retrieve the features list.
+export function remoteRequestFeatureCreateAction(data) {
+  return dispatch => {
+
+    return Promise.resolve().then(() => {
+      // Announce remote request is in progress.
+      return dispatch(requestFeatureCreateAction(data));
+    })
+    .then(() => {
+      // Reaches the backend.
+      return api.create(data);
+    })
+    .then((results) => {
+      // Announce remote results were retrieved.
+      return dispatch(receiveFeatureCreateAction(results));
+    })
+    .catch((err) => {
+      return dispatch(failureFeatureCreateAction('unknown'))
+    });
+  };
+}
 
 // Creates a dispatcher that signalizes the intention to retrieve the features list.
 export function remoteRequestFeatureListAction() {
