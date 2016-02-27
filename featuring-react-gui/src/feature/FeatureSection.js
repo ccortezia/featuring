@@ -12,7 +12,7 @@ export class FeatureSection extends React.Component {
 
   maybeRedirectDefault(action) {
     const features = action.items;
-    const id = _.first(features).id;
+    const id = (_.first(features) || {}).id;
     !this.props.children
       && id !== undefined
       && browserHistory.push(`/features/${id}`);

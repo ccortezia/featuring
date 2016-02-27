@@ -14,7 +14,7 @@ export function FeatureList({items, selectedId}) {
         </select>
       </div>
       <div className="list-group list-feature">
-        {items.map((item) => <FeatureListItem key={item.id} data={item} active={item.id == selectedId} />)}
+        {(items || []).map((item) => <FeatureListItem key={item.id} data={item} active={item.id == selectedId} />)}
       </div>
     </div>
   );

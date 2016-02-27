@@ -11,12 +11,12 @@ export function FeatureBoard({items, current}) {
 
   return (
     <div className="board-feature">
-      <FeatureList items={items} selectedId={data && data.id} />
-      <FeatureDetails data={data} />
+      <FeatureList items={items || []} selectedId={data && data.id} />
+      {/* TODO: add conditional rendering of details and default page here */}
+      {data && <FeatureDetails data={data} />}
     </div>
   );
 }
-
 
 export default connect((state) => ({
   items: state.feature.board.items,
