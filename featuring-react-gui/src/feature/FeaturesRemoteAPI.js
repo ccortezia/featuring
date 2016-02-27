@@ -44,6 +44,13 @@ export default class FeaturesRemoteAPI {
     });
   }
 
+  update(id, nobj) {
+    return new Promise((resolve, reject) => {
+      let obj = data.find((item) => item.id == id);
+      resolve(Object.assign(obj, nobj));
+    });
+  }
+
   del(id) {
     return new Promise((resolve, reject) => {
       data = data.filter((item) => item.id != id);

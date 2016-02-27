@@ -3,8 +3,12 @@ import React, {PropTypes} from 'react';
 import {browserHistory} from 'react-router';
 import store from 'app/root/store';
 import {featureDataType} from 'app/feature/types';
-import {remoteRequestFeatureDeleteAction, remoteRequestFeatureListAction} from 'app/feature/actions';
 import {PRODUCT_AREA_ID_MAP, CLIENT_ID_MAP} from 'app/feature/constants';
+
+import {
+  remoteRequestFeatureDeleteAction,
+  remoteRequestFeatureListAction}
+  from 'app/feature/actions';
 
 
 export function FeatureDetails({data}) {
@@ -22,6 +26,10 @@ export function FeatureDetails({data}) {
       .dispatch(remoteRequestFeatureDeleteAction(data.id))
       .then(() => store.dispatch(remoteRequestFeatureListAction()))
       .then(tryToRedirectToSomeFeature);
+  }
+
+  function onEditClicked(ev) {
+    browserHistory.push(`/features/${data.id}/edit`);
   }
 
   return (
@@ -54,6 +62,7 @@ export function FeatureDetails({data}) {
       </div>
 
       <div>
+        <button onClick={onEditClicked} className="btn btn-default">EDIT</button>
         <button onClick={onDeleteClicked} className="btn btn-danger">DELETE</button>
       </div>
     </div>

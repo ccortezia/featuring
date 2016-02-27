@@ -11,10 +11,16 @@ export function FeatureBoard({items, current}) {
   const data = (id !== undefined && _.find(items, {id})) || _.first(items);
   const CentralComponent = (current && current.type) || FeatureDetails;
   const creating = current && current.props.location.pathname == '/features/new';
+  const editing = current && !!current.props.location.pathname.match(/edit/);
 
   return (
     <div className="board-feature">
-      <FeatureFilteredList items={items || []} selectedId={data && data.id} creating={creating} />
+      <FeatureFilteredList
+        items={items || []}
+        selectedId={data && data.id}
+        creating={creating}
+        editing={editing} />
+
       {/* TODO: add conditional rendering of details and default page here */}
       {data && <CentralComponent data={data} />}
     </div>

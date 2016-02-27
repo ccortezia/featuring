@@ -6,8 +6,8 @@ import {isUrl} from 'app/common/utils';
 import {PRODUCT_AREA_ID_MAP, CLIENT_ID_MAP} from 'app/feature/constants';
 
 
-export function FeatureCreateForm(
-  {fields: {title, description, clientId, area, deadline, ticketUrl}, handleSubmit, invalid, onCancel}) {
+export function FeatureEditForm(
+  {fields: {title, description, clientId, area, deadline, ticketUrl}, handleSubmit, invalid, onCancel, data}) {
 
   const validationClasses = {
     title: {
@@ -34,7 +34,7 @@ export function FeatureCreateForm(
 
       <div className={classNames(["form-group", validationClasses.title])}>
         <label className="control-label">Title</label>
-        <input type="text" className="form-control" placeholder="Provide some short description here" {...title} autoFocus />
+        <input type="text" className="form-control" placeholder="Provide some short description here" {...title} />
         {helper(title, 'required', 'A valid title is required')}
         {helper(title, 'minLength', `A valid title has at least ${title.error && title.error.minLength} characters`)}
       </div>
@@ -136,4 +136,4 @@ export default reduxForm({
   fields,
   validate,
   initialValues
-})(FeatureCreateForm);
+})(FeatureEditForm);

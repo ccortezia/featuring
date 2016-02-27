@@ -4,7 +4,7 @@ import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 import store from 'app/root/store';
 import {App} from 'app/root';
 import {HomeSection} from 'app/home';
-import {FeatureSection, FeatureDetails, FeatureCreate} from 'app/feature';
+import {FeatureSection, FeatureDetails, FeatureCreate, FeatureEdit} from 'app/feature';
 import {tryFirstValidFeatureOnEnterHook, fixClientIdFilterOnEnterHook} from 'app/feature';
 
 
@@ -22,6 +22,7 @@ const router = (
           <IndexRoute component={null} onEnter={tryFirstValidFeatureOnEnterHook} />
           <Route path="new" component={FeatureCreate} />
           <Route path=":id" component={FeatureDetails} onEnter={fixClientIdFilterOnEnterHook} />
+          <Route path=":id/edit" component={FeatureEdit} onEnter={fixClientIdFilterOnEnterHook} />
         </Route>
       </Route>
       <Redirect from="*" to="/features" />

@@ -42,6 +42,20 @@ export function failureFeatureListAction(reason) {
 
 // --
 
+export function requestFeatureUpdateAction(data) {
+  return {type: CT.REQUEST_FEATURE_UPDATE, data};
+}
+
+export function receiveFeatureUpdateAction(data) {
+  return {type: CT.RECEIVE_FEATURE_UPDATE, data};
+}
+
+export function failureFeatureUpdateAction(reason) {
+  return {type: CT.FAILURE_FEATURE_UPDATE, reason};
+}
+
+// --
+
 export function selectFeatureDeleteAction(id) {
   return {type: CT.SELECT_FEATURE_DELETE, featureId: id};
 }
@@ -103,6 +117,28 @@ export function remoteRequestFeatureListAction() {
     })
     .catch((err) => {
       return dispatch(failureFeatureListAction('unknown'))
+    });
+  };
+}
+
+// Creates a dispatcher that signalizes the intention to retrieve the features list.
+export function remoteRequestFeatureUpdateAction(data) {
+  return dispatch => {
+
+    return Promise.resolve().then(() => {
+      // Announce remote request is in progress.
+      return dispatch(requestFeatureUpdateAction(data));
+    })
+    .then(() => {
+      // Reaches the backend.
+      return api.update(data.id, data);
+    })
+    .then((obj) => {
+      // Announce remote success.
+      return dispatch(receiveFeatureUpdateAction(obj));
+    })
+    .catch((err) => {
+      return dispatch(failureFeatureUpdateAction('unknown'))
     });
   };
 }

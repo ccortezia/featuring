@@ -25,7 +25,7 @@ export function FeatureList({items, selectedId, selectedClientId, creating, edit
     <div className="panel panel-default panel-feature-list">
       <div className="panel-body">
         {
-          creating ?
+          (creating || editing) ?
           <button className="btn btn-default" disabled="true">NEW</button> :
           <Link to="/features/new" className="btn btn-primary">NEW</Link>
         }
