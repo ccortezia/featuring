@@ -70,7 +70,7 @@ export function remoteRequestFeatureListAction() {
       return dispatch(receiveFeatureListAction(results));
     })
     .catch((err) => {
-      return dispatch(failureFeatureListAction(extractReasonFromHttpError(err)))
+      return dispatch(failureFeatureListAction('unknown'))
     });
   };
 }
@@ -92,7 +92,7 @@ export function remoteRequestFeatureDeleteAction(id) {
       return dispatch(receiveFeatureDeleteAction());
     })
     .catch((err) => {
-      return dispatch(failureFeatureDeleteAction(extractReasonFromHttpError(err)))
+      return dispatch(failureFeatureDeleteAction('unknown'))
     });
   };
 }

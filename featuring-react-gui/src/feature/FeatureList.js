@@ -22,7 +22,7 @@ export function FeatureList({items, selectedId, creating}) {
           <button className="btn btn-default" disabled="true">NEW</button> :
           <Link to="/features/new" className="btn btn-primary">NEW</Link>
         }
-        <select>
+        <select disabled={creating}>
           <option>Client A</option>
           <option>Client B</option>
           <option>Client C</option>
