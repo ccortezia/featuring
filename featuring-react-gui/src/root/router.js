@@ -4,7 +4,7 @@ import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 import store from 'app/root/store';
 import {App} from 'app/root';
 import {HomeSection} from 'app/home';
-import {FeatureSection, FeatureDetails} from 'app/feature';
+import {FeatureSection, FeatureDetails, FeatureCreate} from 'app/feature';
 
 
 // Enhanced history object, better integrated with redux store.
@@ -18,6 +18,7 @@ const router = (
       <IndexRoute component={HomeSection} />
       <Route path="/" component={HomeSection}>
         <Route path="features" component={FeatureSection} >
+          <Route path="new" component={FeatureCreate} />
           <Route path=":id" component={FeatureDetails} />
         </Route>
       </Route>

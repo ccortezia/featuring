@@ -5,11 +5,11 @@ import {browserHistory} from 'react-router';
 import {featureDataType} from 'app/feature/types';
 
 
-export function FeatureListItem({data, active, dispatch}) {
+export function FeatureListItem({data, active, enabled, dispatch}) {
 
   function onSelectItem(ev) {
     ev.preventDefault();
-    (data.id !== undefined) && browserHistory.push(`/features/${data.id}`)
+    (data.id !== undefined) && enabled && browserHistory.push(`/features/${data.id}`)
   }
 
   const maxTitleLenght = 30;
@@ -17,7 +17,7 @@ export function FeatureListItem({data, active, dispatch}) {
   title = title.length > maxTitleLenght ? title.slice(0, maxTitleLenght) + '...' : title;
 
   return (
-    <a href="#" className={classNames(["list-group-item", {active}])} onClick={onSelectItem}>
+    <a href="#" className={classNames(["list-group-item", {active}, {disabled: !enabled}])} onClick={onSelectItem}>
       <h4 className="list-group-item-heading">{title}</h4>
       <p className="list-group-item-text">{data.area}</p>
     </a>
@@ -28,6 +28,7 @@ export function FeatureListItem({data, active, dispatch}) {
 FeatureListItem.propTypes = {
   data: featureDataType,
   active: PropTypes.bool.isRequired,
+  enabled: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
