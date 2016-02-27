@@ -9,7 +9,7 @@ function build_react_gui() {
   pushd $ROOT/featuring-react-gui > /dev/null
   rm -rf build
   npm install
-  npm run build
+  npm run dist
   popd > /dev/null
 }
 

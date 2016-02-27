@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
@@ -11,7 +12,8 @@ module.exports = {
 
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: '[name].js'
+        filename: '[name].js',
+        publicPath: '/',
     },
 
     module: {
@@ -22,7 +24,21 @@ module.exports = {
           test: /\.js$/,
           loader: 'babel',
           exclude: /(node_modules)/,
-        }
+        },
+
+        // Allow import of css files
+        // requires: style-loader, css-loader
+        {
+          test: /\.css$/,
+          loader: 'style!css'
+        },
+
+        // Allow import of less files.
+        // requires: less, less-loader
+        {
+          test: /\.less$/,
+          loader: 'style!css!less'
+        },
       ]
     },
 
@@ -41,6 +57,9 @@ module.exports = {
       new HtmlWebpackPlugin({
         chunks: ['test'],
         filename: 'test.html'
+      }),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': '"' + process.env.NODE_ENV + '"'
       })
     ]
 };

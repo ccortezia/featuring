@@ -1,0 +1,93 @@
+
+// Feature Board
+// ------------------------------
+
+.board-feature {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+
+  > div:first-child {
+    flex-grow: 1;
+    flex-shrink: 0;
+    width: 300px;
+    max-width: 300px;
+    min-height: 700px;
+  }
+
+  > div:nth-child(2) {
+    flex-grow: 4;
+  }
+}
+
+
+// Feature List
+// ------------------------------
+
+.panel-feature-list {
+  .panel-body {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px #CCCCCC;
+  }
+}
+
+.list-feature {
+  overflow-y: overlay;
+  max-height: 68vh;
+}
+
+.panel-feature-main {
+  padding: 30px;
+}
+
+// Feature Details
+// ------------------------------
+
+.panel-feature-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  > div:first-child {flex-grow: 3;}
+  > div:nth-child(2) {flex-grow: 5;}
+  > div:nth-child(3) {flex-grow: 0;}
+}
+
+.feature-detail-field {
+  margin-bottom: 10px;
+}
+
+.feature-detail-field-description {
+  padding: 20px;
+  text-align: left;
+  line-height: 1.6em;
+}
+
+
+// Feature Create
+// ------------------------------
+
+.panel-feature-create {
+}
+
+
+// Feature Create Invitation Page
+// ------------------------------
+
+.panel-feature-invitation {
+  display: flex;
+  padding-top: 170px;
+  .call-to-action {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 70%;
+    h1 {
+      font-size: 3em;
+    }
+    h2 {
+      font-size: 1.6em;
+      color: lighten(black, 40%);
+    }
+  }
+}
