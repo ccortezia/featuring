@@ -6,14 +6,14 @@ import {CLIENT_ID_MAP} from 'app/feature/constants';
 import {selectFeatureFilterClientAction} from 'app/feature/actions';
 
 
-export function FeatureList({items, selectedId, selectedClientId, creating}) {
+export function FeatureList({items, selectedId, selectedClientId, creating, editing}) {
 
   function mkListItem(item) {
     return <FeatureListItem
       key={item.id}
       data={item}
       active={!creating && item.id == selectedId}
-      enabled={!creating}
+      disabled={!!creating || !!editing}
     />;
   }
 
@@ -29,7 +29,10 @@ export function FeatureList({items, selectedId, selectedClientId, creating}) {
           <button className="btn btn-default" disabled="true">NEW</button> :
           <Link to="/features/new" className="btn btn-primary">NEW</Link>
         }
-        <select disabled={creating} defaultValue={selectedClientId} onChange={onClientSelectChange}>
+        <select
+          disabled={creating || editing}
+          value={selectedClientId}
+          onChange={onClientSelectChange}>
           {
             Object.keys(CLIENT_ID_MAP).map((k) => {
               return <option key={k} value={k}>{CLIENT_ID_MAP[k]}</option>;
