@@ -12,6 +12,7 @@
     flex-shrink: 0;
     width: 300px;
     max-width: 300px;
+    min-height: 700px;
   }
 
   > div:nth-child(2) {
@@ -36,12 +37,14 @@
   max-height: 68vh;
 }
 
+.panel-feature-main {
+  padding: 30px;
+}
 
 // Feature Details
 // ------------------------------
 
 .panel-feature-details {
-  padding: 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -66,5 +69,25 @@
 // ------------------------------
 
 .panel-feature-create {
-  padding: 30px;
+}
+
+
+// Feature Create Invitation Page
+// ------------------------------
+
+.panel-feature-invitation {
+  display: flex;
+  padding-top: 170px;
+  .call-to-action {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 70%;
+    h1 {
+      font-size: 3em;
+    }
+    h2 {
+      font-size: 1.6em;
+      color: lighten(black, 40%);
+    }
+  }
 }

@@ -33,7 +33,7 @@ export function FeatureDetails({data}) {
   }
 
   return (
-    <div className="panel panel-default panel-feature-details">
+    <div className="panel panel-default panel-feature-main panel-feature-details">
 
       <div>
         <h2>

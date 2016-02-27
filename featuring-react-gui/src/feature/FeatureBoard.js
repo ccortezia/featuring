@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import {connect} from 'react-redux';
-import {FeatureFilteredList, FeatureDetails} from 'app/feature';
+import {FeatureFilteredList, FeatureDetails, FeatureCreateInvitation} from 'app/feature';
 
 
 export function FeatureBoard({items, current}) {
@@ -22,7 +22,7 @@ export function FeatureBoard({items, current}) {
         editing={editing} />
 
       {/* TODO: add conditional rendering of details and default page here */}
-      {data && <CentralComponent data={data} />}
+      {(data || creating) ? <CentralComponent data={data} /> : <FeatureCreateInvitation />}
     </div>
   );
 }

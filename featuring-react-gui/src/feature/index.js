@@ -6,10 +6,11 @@ export {default as FeatureListItem} from './FeatureListItem';
 export {default as FeatureList} from './FeatureList';
 export {default as FeatureFilteredList} from './FeatureFilteredList';
 export {default as FeatureBoard} from './FeatureBoard';
+export {default as FeatureCreateInvitation} from './FeatureCreateInvitation';
 
 export {default as featureReducer} from './reducers';
 
 export {
-  tryFirstValidFeatureOnEnterHook,
-  fixClientIdFilterOnEnterHook}
+  onEnterFeatureList,
+  onEnterFeatureItem}
   from './router-hooks';

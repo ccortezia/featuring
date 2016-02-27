@@ -26,7 +26,7 @@ export function FeatureEdit({data}) {
   }
 
   return (
-    <div className="panel panel-default panel-feature-create">
+    <div className="panel panel-default panel-feature-main panel-feature-create">
       <h2>Edit this feature request</h2>
       <FeatureEditForm initialValues={data} onSubmit={onSubmit} onCancel={onCancel} />
     </div>

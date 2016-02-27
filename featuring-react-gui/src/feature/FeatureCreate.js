@@ -22,7 +22,7 @@ export function FeatureCreate() {
   }
 
   return (
-    <div className="panel panel-default panel-feature-create">
+    <div className="panel panel-default panel-feature-main panel-feature-create">
       <h2>Create one more request</h2>
       <FeatureCreateForm onSubmit={onSubmit} onCancel={onCancel} />
     </div>
