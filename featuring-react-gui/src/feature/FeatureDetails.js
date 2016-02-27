@@ -1,5 +1,9 @@
+import _ from 'lodash';
 import React, {PropTypes} from 'react';
+import {browserHistory} from 'react-router';
 import {featureDataType} from 'app/feature/types';
+import {remoteRequestFeatureDeleteAction, remoteRequestFeatureListAction} from 'app/feature/actions';
+import store from 'app/root/store';
 
 
 const clientMap = {
@@ -9,6 +13,22 @@ const clientMap = {
 }
 
 export function FeatureDetails({data}) {
+
+  function tryToRedirectToSomeFeature(action) {
+    // TODO: move this logic into a route redirect function.
+    const features = action.items;
+    const id = (_.first(features) || {}).id;
+    const url = id !== undefined ? `/features/${id}` : `/features`;
+    browserHistory.push(url);
+  }
+
+  function onDeleteClicked(ev) {
+    store
+      .dispatch(remoteRequestFeatureDeleteAction(data.id))
+      .then(() => store.dispatch(remoteRequestFeatureListAction()))
+      .then(tryToRedirectToSomeFeature);
+  }
+
   return (
     <div className="panel panel-default panel-feature-details">
 
@@ -39,7 +59,7 @@ export function FeatureDetails({data}) {
       </div>
 
       <div>
-        <button className="btn btn-danger">DELETE</button>
+        <button onClick={onDeleteClicked} className="btn btn-danger">DELETE</button>
       </div>
     </div>
   );

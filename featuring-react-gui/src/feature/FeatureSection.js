@@ -10,7 +10,8 @@ import {browserHistory} from 'react-router';
 export class FeatureSection extends React.Component {
 
 
-  maybeRedirectDefault(action) {
+  tryToRedirectToSomeFeature(action) {
+    // TODO: move this logic into a route redirect function.
     const features = action.items;
     const id = (_.first(features) || {}).id;
     !this.props.children
@@ -23,8 +24,7 @@ export class FeatureSection extends React.Component {
     store.dispatch(remoteRequestFeatureListAction())
 
       // Try to redirect to first item in case none is injected from the router.
-      // TODO: move this logic into a route redirect function.
-      .then(this.maybeRedirectDefault.bind(this));
+      .then(this.tryToRedirectToSomeFeature.bind(this));
   }
 
   render() {
