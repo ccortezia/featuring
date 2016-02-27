@@ -1,10 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router';
+import store from 'app/root/store';
 import {FeatureListItem} from 'app/feature';
 import {CLIENT_ID_MAP} from 'app/feature/constants';
+import {selectFeatureFilterClientAction} from 'app/feature/actions';
 
 
-export function FeatureList({items, selectedId, creating}) {
+export function FeatureList({items, selectedId, selectedClientId, creating}) {
 
   function mkListItem(item) {
     return <FeatureListItem
@@ -15,6 +17,10 @@ export function FeatureList({items, selectedId, creating}) {
     />;
   }
 
+  function onClientSelectChange(ev) {
+    store.dispatch(selectFeatureFilterClientAction(ev.target.value));
+  }
+
   return (
     <div className="panel panel-default panel-feature-list">
       <div className="panel-body">
@@ -23,7 +29,7 @@ export function FeatureList({items, selectedId, creating}) {
           <button className="btn btn-default" disabled="true">NEW</button> :
           <Link to="/features/new" className="btn btn-primary">NEW</Link>
         }
-        <select disabled={creating}>
+        <select disabled={creating} defaultValue={selectedClientId} onChange={onClientSelectChange}>
           {
             Object.keys(CLIENT_ID_MAP).map((k) => {
               return <option key={k} value={k}>{CLIENT_ID_MAP[k]}</option>;

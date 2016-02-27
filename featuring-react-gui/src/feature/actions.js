@@ -9,7 +9,7 @@ const api = new FeaturesRemoteAPI();
 // ------------------------------
 
 export function selectFeatureFilterClientAction(id) {
-  return {type: CT.SELECT_FEATURE_FILTER_CLIENT, clientId: id};
+  return {type: CT.SELECT_FEATURE_FILTER_CLIENT, clientId: Number(id)};
 }
 
 // --
