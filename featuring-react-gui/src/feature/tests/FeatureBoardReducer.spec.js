@@ -14,16 +14,4 @@ describe('FeatureBoardReducer', () => {
     chai.expect(nstate.items[0].id).to.equal(items[0].id);
     chai.expect(nstate.items[1].id).to.equal(items[1].id);
   });
-
-  it('should set seletecId on SELECT_FEATURE_LIST_ITEM', () => {
-    const init = {items: [{id: 1}, {id: 2}]};
-    const nstate = featureBoardReducer(init, selectFeatureListItemAction(2));
-    chai.expect(nstate.selectedId).to.equal(2);
-  });
-
-  it('should set mode="show" on SELECT_FEATURE_LIST_ITEM', () => {
-    const init = {items: [{id: 1}, {id: 2}]};
-    const nstate = featureBoardReducer(init, selectFeatureListItemAction(2));
-    chai.expect(nstate.mode).to.equal('show');
-  });
 });

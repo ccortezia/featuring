@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
-import {selectFeatureListItemAction} from 'app/feature/actions';
+import {browserHistory} from 'react-router';
 
 
 export function FeatureListItem({data, active, dispatch}) {
 
   function onSelectItem(ev) {
     ev.preventDefault();
-    dispatch(selectFeatureListItemAction(data.id));
+    (data.id !== undefined) && browserHistory.push(`/features/${data.id}`)
   }
 
   return (

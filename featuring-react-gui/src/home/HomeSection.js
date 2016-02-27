@@ -6,11 +6,11 @@ import {Header} from 'app/header';
 import {Footer} from 'app/footer';
 
 
-export function HomeSection() {
+export function HomeSection({children}) {
   return (
     <div className="base home">
       <Header />
-      <FeatureSection />
+      {children}
       <Footer />
     </div>
   );

@@ -16,7 +16,8 @@ describe('HomeSection', () => {
     chai.expect(element.type).to.equal('div');
     chai.expect(element.props.children.length).to.equal(3);
     chai.expect(element.props.children[0].type).to.equal(Header);
-    chai.expect(element.props.children[1].type).to.equal(FeatureSection);
     chai.expect(element.props.children[2].type).to.equal(Footer);
+    // This is undefined because there is no router injection going on.
+    chai.expect(element.props.children[1]).to.equal(undefined);
   });
 });

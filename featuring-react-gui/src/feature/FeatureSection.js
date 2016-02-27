@@ -3,6 +3,7 @@ import React from 'react';
 import store from 'app/root/store';
 import {FeatureBoard} from 'app/feature';
 import {selectFeatureListItemAction, receiveFeatureListAction} from 'app/feature/actions';
+import {browserHistory} from 'react-router';
 
 
 const features = [
@@ -31,17 +32,31 @@ const features = [
   {id: 23, title: 'Title 7', description: 'Description 7', priority: 7},
 ];
 
+
 export class FeatureSection extends React.Component {
 
+  // NOTE: this.props.children is injected by the router
+
+  // TODO: move this logic into a route redirect function.
+  maybeRedirectDefault() {
+    const id = _.first(features).id;
+    !this.props.children
+      && id !== undefined
+      && browserHistory.push(`/features/${id}`);
+  }
+
   componentWillMount() {
+    // Trigger retrieval of items data.
     store.dispatch(receiveFeatureListAction(features));
-    store.dispatch(selectFeatureListItemAction(_.first(features).id));
+
+    // Try to redirect to first item in case none is injected from the router
+    this.maybeRedirectDefault();
   }
 
   render() {
     return (
       <section>
-        <FeatureBoard items={features} />
+        <FeatureBoard items={features} current={this.props.children} />
       </section>
     );
   }

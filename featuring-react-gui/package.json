@@ -6,7 +6,7 @@
   "scripts": {
     "test": "karma start",
     "test:live": "karma start --single-run=false",
-    "start": "NODE_ENV=development webpack-dev-server --port 8080 --devtool eval --progress --colors --hot --inline --content-base build",
+    "start": "NODE_ENV=development webpack-dev-server --port 8080 --devtool eval --progress --colors --hot --inline --content-base build --history-api-fallback",
     "build": "NODE_ENV=development webpack",
     "dist": "NODE_ENV=production webpack -p"
   },
