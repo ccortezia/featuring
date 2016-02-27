@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {FeatureListItem} from 'app/feature';
+import {CLIENT_ID_MAP} from 'app/feature/constants';
 
 
 export function FeatureList({items, selectedId, creating}) {
@@ -23,9 +24,11 @@ export function FeatureList({items, selectedId, creating}) {
           <Link to="/features/new" className="btn btn-primary">NEW</Link>
         }
         <select disabled={creating}>
-          <option>Client A</option>
-          <option>Client B</option>
-          <option>Client C</option>
+          {
+            Object.keys(CLIENT_ID_MAP).map((k) => {
+              return <option key={k} value={k}>{CLIENT_ID_MAP[k]}</option>;
+            })
+          }
         </select>
       </div>
 

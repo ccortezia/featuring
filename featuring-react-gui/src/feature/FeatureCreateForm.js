@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
 import {isUrl} from 'app/common/utils';
+import {PRODUCT_AREA_ID_MAP, CLIENT_ID_MAP} from 'app/feature/constants';
 
 
 export function FeatureCreateForm(
@@ -49,9 +50,11 @@ export function FeatureCreateForm(
         <label className="control-label">Client</label>
         <div>
           <select {...clientId}>
-            <option value="1">Client A</option>
-            <option value="2">Client B</option>
-            <option value="3">Client C</option>
+            {
+              Object.keys(CLIENT_ID_MAP).map((k) => {
+                return <option key={k} value={k}>{CLIENT_ID_MAP[k]}</option>;
+              })
+            }
           </select>
         </div>
       </div>
@@ -60,10 +63,11 @@ export function FeatureCreateForm(
         <label className="control-label">Product Area</label>
         <div>
           <select {...area}>
-            <option value="1">Policies</option>
-            <option value="2">Billing</option>
-            <option value="3">Claims</option>
-            <option value="4">Reports</option>
+            {
+              Object.keys(PRODUCT_AREA_ID_MAP).map((k) => {
+                return <option key={k} value={k}>{PRODUCT_AREA_ID_MAP[k]}</option>;
+              })
+            }
           </select>
         </div>
       </div>

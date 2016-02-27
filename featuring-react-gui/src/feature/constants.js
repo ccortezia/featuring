@@ -12,3 +12,17 @@ export const FAILURE_FEATURE_DELETE = 'FAILURE_FEATURE_DELETE';
 export const REQUEST_FEATURE_LIST = 'REQUEST_FEATURE_LIST';
 export const RECEIVE_FEATURE_LIST = 'RECEIVE_FEATURE_LIST';
 export const FAILURE_FEATURE_LIST = 'FAILURE_FEATURE_LIST';
+
+
+export const CLIENT_ID_MAP = {
+  1: 'Client A',
+  2: 'Client B',
+  3: 'Client C'
+};
+
+export const PRODUCT_AREA_ID_MAP = {
+  1: 'Policies',
+  2: 'Billing',
+  3: 'Claims',
+  4: 'Reports'
+};

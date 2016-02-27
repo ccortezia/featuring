@@ -1,16 +1,11 @@
 import _ from 'lodash';
 import React, {PropTypes} from 'react';
 import {browserHistory} from 'react-router';
+import store from 'app/root/store';
 import {featureDataType} from 'app/feature/types';
 import {remoteRequestFeatureDeleteAction, remoteRequestFeatureListAction} from 'app/feature/actions';
-import store from 'app/root/store';
+import {PRODUCT_AREA_ID_MAP, CLIENT_ID_MAP} from 'app/feature/constants';
 
-
-const clientMap = {
-  1: 'Client A',
-  2: 'Client B',
-  3: 'Client C',
-}
 
 export function FeatureDetails({data}) {
 
@@ -35,7 +30,7 @@ export function FeatureDetails({data}) {
       <div>
         <h2>
           <div>{[data.title]}</div>
-          <small>{[clientMap[data.clientId] || '<UNKNOWN>']}</small>
+          <small>{[CLIENT_ID_MAP[data.clientId] || '<UNKNOWN>']}</small>
         </h2>
         <div className="feature-detail-field-description">{data.description || 'No description provided'}</div>
         <hr />
@@ -48,7 +43,7 @@ export function FeatureDetails({data}) {
         </div>
         <div className="feature-detail-field">
           <label>Product Area</label>
-          <div>{data.area}</div>
+          <div>{PRODUCT_AREA_ID_MAP[data.area]}</div>
         </div>
         <div className="feature-detail-field">
           <label>Ticket</label>
