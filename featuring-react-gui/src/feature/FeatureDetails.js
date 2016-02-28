@@ -23,13 +23,6 @@ export class FeatureDetails extends React.Component {
     this.state = {pendingDelAck: false};
   }
 
-  tryToRedirectToSomeFeature(items) {
-    // TODO: move this logic into a route redirect function.
-    const id = (_.first(items) || {}).id;
-    const url = id !== undefined ? `/features/${id}` : `/features`;
-    browserHistory.push(url);
-  }
-
   onDeleteClicked(ev) {
     this.setState({pendingDelAck: true});
   }
@@ -43,13 +36,11 @@ export class FeatureDetails extends React.Component {
   }
 
   handleDelAckModalConfirmRequest() {
-    let items;
     store
       .dispatch(remoteRequestFeatureDeleteAction(this.props.data.id))
       .then(() => store.dispatch(remoteRequestFeatureListAction()))
-      .then((action) => items = action.items)
       .then(() => this.setState({pendingDelAck: false}))
-      .then(() => this.tryToRedirectToSomeFeature(items));
+      .then(() => browserHistory.push('/features'));
   }
 
   render() {
