@@ -69,3 +69,18 @@ export function onEnterFeatureList(nextState, replace, callback) {
   replaceBasedOnFeature(chosenFeature);
   return callback();
 }
+
+
+
+export function onEnterFeatureCreation(nextState, replace, callback) {
+  const state = store.getState();
+
+  // This flow is async, and is executed upon full refresh.
+  if (!state.feature.board.items) {
+    return store.dispatch(remoteRequestFeatureListAction())
+      .then(() => callback());
+  }
+
+  // This flow is sync, executed upon internal link navigation.
+  return callback();
+}

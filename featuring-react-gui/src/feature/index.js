@@ -12,5 +12,6 @@ export {default as featureReducer} from './reducers';
 
 export {
   onEnterFeatureList,
-  onEnterFeatureItem}
+  onEnterFeatureItem,
+  onEnterFeatureCreation}
   from './router-hooks';
