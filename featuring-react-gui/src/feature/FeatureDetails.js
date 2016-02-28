@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, {PropTypes} from 'react';
+import Modal from 'react-modal';
 import {browserHistory} from 'react-router';
 import store from 'app/root/store';
 import {featureDataType} from 'app/feature/types';
@@ -11,62 +12,125 @@ import {
   from 'app/feature/actions';
 
 
-export function FeatureDetails({data}) {
+export class FeatureDetails extends React.Component {
 
-  function tryToRedirectToSomeFeature(action) {
+  constructor({data}) {
+    super({data});
+    this.onDeleteClicked = this.onDeleteClicked.bind(this);
+    this.onEditClicked = this.onEditClicked.bind(this);
+    this.handleDelAckModalCloseRequest = this.handleDelAckModalCloseRequest.bind(this);
+    this.handleDelAckModalConfirmRequest = this.handleDelAckModalConfirmRequest.bind(this);
+    this.state = {pendingDelAck: false};
+  }
+
+  tryToRedirectToSomeFeature(items) {
     // TODO: move this logic into a route redirect function.
-    const features = action.items;
-    const id = (_.first(features) || {}).id;
+    const id = (_.first(items) || {}).id;
     const url = id !== undefined ? `/features/${id}` : `/features`;
     browserHistory.push(url);
   }
 
-  function onDeleteClicked(ev) {
+  onDeleteClicked(ev) {
+    this.setState({pendingDelAck: true});
+  }
+
+  onEditClicked(ev) {
+    browserHistory.push(`/features/${this.props.data.id}/edit`);
+  }
+
+  handleDelAckModalCloseRequest() {
+    this.setState({pendingDelAck: false});
+  }
+
+  handleDelAckModalConfirmRequest() {
+    let items;
     store
-      .dispatch(remoteRequestFeatureDeleteAction(data.id))
+      .dispatch(remoteRequestFeatureDeleteAction(this.props.data.id))
       .then(() => store.dispatch(remoteRequestFeatureListAction()))
-      .then(tryToRedirectToSomeFeature);
+      .then((action) => items = action.items)
+      .then(() => this.setState({pendingDelAck: false}))
+      .then(() => this.tryToRedirectToSomeFeature(items));
   }
 
-  function onEditClicked(ev) {
-    browserHistory.push(`/features/${data.id}/edit`);
-  }
+  render() {
 
-  return (
-    <div className="panel panel-default panel-feature-main panel-feature-details">
+    const modalStyles = {
+      overlay: {
+        zIndex         : '2',
+      },
+      content : {
+        top            : '50%',
+        left           : '50%',
+        right          : 'auto',
+        bottom         : 'auto',
+        marginRight    : '-50%',
+        transform      : 'translate(-50%, -50%)',
+        minHeight      : '180px',
+        display        : 'flex',
+        flexDirection  : 'column',
+        justifyContent : 'space-between',
+      }
+    };
 
-      <div>
-        <h2>
-          <div>{[data.title]}</div>
-          <small>{[CLIENT_ID_MAP[data.clientId] || '<UNKNOWN>']}</small>
-        </h2>
-        <div className="feature-detail-field-description">{data.description || 'No description provided'}</div>
-        <hr />
-      </div>
+    return (
+      <div className="panel panel-default panel-feature-main panel-feature-details">
 
-      <div>
-        <div className="feature-detail-field">
-          <label>Target Date</label>
-          <div>{data.deadline}</div>
+        <div>
+          <h2>
+            <div>{[this.props.data.title]}</div>
+            <small>{[CLIENT_ID_MAP[this.props.data.clientId] || '<UNKNOWN>']}</small>
+          </h2>
+          <div className="feature-detail-field-description">
+            {this.props.data.description || 'No description provided'}
+          </div>
+          <hr />
         </div>
-        <div className="feature-detail-field">
-          <label>Product Area</label>
-          <div>{PRODUCT_AREA_ID_MAP[data.area]}</div>
-        </div>
-        <div className="feature-detail-field">
-          <label>Ticket</label>
-          <div>
-            <a href={data.ticketUrl}>{data.ticketUrl}</a>
+
+        <div>
+          <div className="feature-detail-field">
+            <label>Target Date</label>
+            <div>{this.props.data.deadline}</div>
+          </div>
+          <div className="feature-detail-field">
+            <label>Product Area</label>
+            <div>{PRODUCT_AREA_ID_MAP[this.props.data.area]}</div>
+          </div>
+          <div className="feature-detail-field">
+            <label>Ticket</label>
+            <div>
+              <a href={this.props.data.ticketUrl}>{this.props.data.ticketUrl}</a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div>
-        <button onClick={onEditClicked} className="btn btn-default">EDIT</button>
-        <button onClick={onDeleteClicked} className="btn btn-danger">DELETE</button>
+        <div>
+          <button onClick={this.onEditClicked} className="btn btn-default">EDIT</button>
+          <button onClick={this.onDeleteClicked} className="btn btn-danger">DELETE</button>
+        </div>
+
+        <Modal
+          closeTimeoutMS={150}
+          isOpen={this.state.pendingDelAck}
+          onRequestClose={this.handleDelAckModalCloseRequest}
+          style={modalStyles}>
+          <h2>Are you sure you want to delete this record ?</h2>
+          <div className="modal-btn-bar">
+            <button
+              className="btn btn-danger"
+              onClick={this.handleDelAckModalConfirmRequest}>
+              OK, trash it
+            </button>
+            <button
+              className="btn btn-default"
+              onClick={this.handleDelAckModalCloseRequest}>
+              NO, keep it
+            </button>
+          </div>
+        </Modal>
+
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 FeatureDetails.propTypes = {
