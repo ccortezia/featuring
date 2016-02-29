@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import React, {PropTypes} from 'react';
 import Modal from 'react-modal';
 import {browserHistory} from 'react-router';
@@ -80,7 +81,7 @@ export class FeatureDetails extends React.Component {
         <div>
           <div className="feature-detail-field">
             <label>Target Date</label>
-            <div>{this.props.data.deadline}</div>
+            <div>{moment(this.props.data.deadline).format('MM/DD/YYYY')}</div>
           </div>
           <div className="feature-detail-field">
             <label>Product Area</label>

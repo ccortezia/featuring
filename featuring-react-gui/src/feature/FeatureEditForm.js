@@ -1,8 +1,10 @@
 import React from 'react';
+import moment from 'moment';
 import classNames from 'classnames';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
 import {isUrl} from 'app/common/utils';
+import DatePicker from 'react-datepicker';
 import {PRODUCT_AREA_ID_MAP, CLIENT_ID_MAP} from 'app/feature/constants';
 
 
@@ -72,6 +74,11 @@ export function FeatureEditForm(
         </div>
       </div>
 
+      <div className="feature-detail-field">
+        <label>Target Date</label>
+        <DatePicker dateFormat="MM/DD/YYYY" selected={moment(deadline.value)} {...deadline} />
+      </div>
+
       <div className={classNames(["form-group", validationClasses.ticketUrl])}>
         <label className="control-label">Ticket URL</label>
         <input type="text" className="form-control" placeholder="http://company.jira/issues/AAA-9080" {...ticketUrl} />
@@ -92,6 +99,13 @@ export function FeatureEditForm(
     </form>
   );
 }
+
+
+// This object should be installed in the form reducer in order to transform
+//  data prior to sending it through submission.
+export const featureEditFormNormalizer = {
+  deadline: value => moment(value).toISOString()
+};
 
 
 function validate(values) {

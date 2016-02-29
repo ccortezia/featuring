@@ -1,7 +1,9 @@
 import React from 'react';
+import moment from 'moment';
 import classNames from 'classnames';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
+import DatePicker from 'react-datepicker';
 import {isUrl} from 'app/common/utils';
 import {PRODUCT_AREA_ID_MAP, CLIENT_ID_MAP} from 'app/feature/constants';
 
@@ -70,6 +72,11 @@ export function FeatureCreateForm(
             }
           </select>
         </div>
+      </div>
+
+      <div className="feature-detail-field">
+        <label>Target Date</label>
+        <DatePicker dateFormat="MM/DD/YYYY" selected={moment(deadline.value)} {...deadline} />
       </div>
 
       <div className={classNames(["form-group", validationClasses.ticketUrl])}>
