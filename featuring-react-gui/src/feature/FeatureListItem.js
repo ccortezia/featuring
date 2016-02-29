@@ -3,6 +3,12 @@ import classNames from 'classnames';
 import {browserHistory} from 'react-router';
 import {featureDataType} from 'app/feature/types';
 import {PRODUCT_AREA_ID_MAP} from 'app/feature/constants';
+import store from 'app/root/store';
+
+import {
+  remoteRequestFeatureUpdateAction,
+  remoteRequestFeatureListAction}
+  from 'app/feature/actions';
 
 
 export function FeatureListItem({data, active, disabled}) {
@@ -12,7 +18,15 @@ export function FeatureListItem({data, active, disabled}) {
     (data.id !== undefined) && !disabled && browserHistory.push(`/features/${data.id}`)
   }
 
-  const maxTitleLenght = 30;
+  function onRaisePriorityClick(ev) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    const obj = Object.assign({}, data, {priority: data.priority + 1});
+    store.dispatch(remoteRequestFeatureUpdateAction(obj))
+      .then(() => store.dispatch(remoteRequestFeatureListAction()));
+  }
+
+  const maxTitleLenght = 29;
   let title = data.title;
   title = title.length > maxTitleLenght ? title.slice(0, maxTitleLenght) + '...' : title;
 
@@ -20,6 +34,12 @@ export function FeatureListItem({data, active, disabled}) {
     <a href="#" className={classNames(["list-group-item", {active}, {disabled}])} onClick={onSelectItem}>
       <h4 className="list-group-item-heading">{title}</h4>
       <p className="list-group-item-text">{PRODUCT_AREA_ID_MAP[data.area]}</p>
+      {
+        active &&
+          <button className="btn btn-default btn-inc-priority" onClick={onRaisePriorityClick}>
+            <i className="fa fa-level-up"></i>
+          </button>
+      }
     </a>
   );
 }
