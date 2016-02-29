@@ -132,7 +132,7 @@ const initialValues = {
 };
 
 export default reduxForm({
-  form: 'submitFromParent',
+  form: 'featureEditForm',
   fields,
   validate,
   initialValues
