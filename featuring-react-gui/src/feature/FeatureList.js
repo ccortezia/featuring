@@ -6,50 +6,69 @@ import store from 'app/root/store';
 import {FeatureListItem} from 'app/feature';
 import {CLIENT_ID_MAP} from 'app/feature/constants';
 import {selectFeatureFilterClientAction} from 'app/feature/actions';
+import {browserHistory} from 'react-router';
 
 
-export function FeatureList({items, selectedId, selectedClientId, clientIds, creating, editing}) {
+export class FeatureList extends React.Component {
+  constructor({props}) {
+    super({props})
+    this.mkListItem = this.mkListItem.bind(this);
+    this.onClientSelectChange = this.onClientSelectChange.bind(this);
+  }
 
-  function mkListItem(item) {
-    const maxp = Math.max.apply(null, items.map((item) => item.priority));
+  mkListItem(item) {
+    const maxp = Math.max.apply(null, this.props.items.map((item) => item.priority));
     return <FeatureListItem
       key={item.id}
       data={item}
       top={item.priority >= maxp}
-      active={!creating && item.id == selectedId}
-      disabled={!!creating || !!editing}
+      active={!this.props.creating && item.id == this.props.selectedId}
+      disabled={!!this.props.creating || !!this.props.editing}
     />;
   }
 
-  function onClientSelectChange(ev) {
+  onClientSelectChange(ev) {
     store.dispatch(selectFeatureFilterClientAction(ev.target.value));
   }
 
-  const filteredItems = items.filter((item) => item.clientId == selectedClientId);
+  componentDidUpdate(prevProps, prevState) {
+    // Make sure that an element from the chosen client filter is selected when the filter changes.
+    if (prevProps.selectedClientId != this.props.selectedClientId) {
+      const items = this.props.items.filter((item) => item.clientId == this.props.selectedClientId);
+      const current = items.find((item) => item.id === this.props.selectedId);
+      const candidate = _.first(items);
+      (!current && !!candidate) && browserHistory.push(`/features/${candidate.id}`);
+    }
+  }
 
-  const newButton = (creating || editing) ?
-      <button className="btn btn-default" disabled="true">NEW</button> :
-      <Link to="/features/new" className="btn btn-primary">NEW</Link>;
+  render() {
+    const filteredItems = this.props.items.filter(
+      (item) => item.clientId == this.props.selectedClientId);
 
-  const clientSelector = (clientIds && clientIds.length) ?
-    <select
-      disabled={creating || editing}
-      value={selectedClientId}
-      onChange={onClientSelectChange}>
-      {clientIds.map((k) =><option key={k} value={k}>{CLIENT_ID_MAP[k]}</option>)}
-    </select> : undefined;
+    const newButton = (this.props.creating || this.props.editing) ?
+        <button className="btn btn-default" disabled="true">NEW</button> :
+        <Link to="/features/new" className="btn btn-primary">NEW</Link>;
 
-  return (
-    <div className="panel panel-default panel-feature-list">
-      <div className="panel-body">
-        {newButton}
-        {clientSelector}
+    const clientSelector = (this.props.clientIds.length) ?
+      <select
+        disabled={this.props.creating || this.props.editing}
+        value={this.props.selectedClientId}
+        onChange={this.onClientSelectChange}>
+        {this.props.clientIds.map((k) =><option key={k} value={k}>{CLIENT_ID_MAP[k]}</option>)}
+      </select> : undefined;
+
+    return (
+      <div className="panel panel-default panel-feature-list">
+        <div className="panel-body">
+          {newButton}
+          {clientSelector}
+        </div>
+        <div className="list-group list-feature">
+          {(filteredItems || []).map(this.mkListItem)}
+        </div>
       </div>
-      <div className="list-group list-feature">
-        {(filteredItems || []).map(mkListItem)}
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 
