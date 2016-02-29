@@ -16,8 +16,7 @@ SETTINGS = {
         "builder": os.path.join(HERE, "build.sh"),
     },
     "react-gui": {
-        "dist-js": os.path.join(ROOT, REACT_GUI, "build/app.js"),
-        "dist-html": os.path.join(ROOT, REACT_GUI, "build/index.html")
+        "dist": os.path.join(ROOT, REACT_GUI, "build"),
     },
     "nginx": {
         "conf": os.path.join(HERE, 'nginx.conf'),
@@ -43,11 +42,20 @@ def nginx():
 
 
 @task
-def install_react_gui():
+def build_react_gui():
     local(SETTINGS["proj"]["builder"])
+
+
+@task
+def install_react_gui():
+    sudo("rm -rf /var/www/featuring")
     sudo("mkdir -p /var/www/featuring")
-    put(SETTINGS["react-gui"]["dist-html"], '/var/www/featuring/index.html')
-    put(SETTINGS["react-gui"]["dist-js"], '/var/www/featuring/app.js')
+    put(SETTINGS["react-gui"]["dist"] + "/app.js", '/var/www/featuring/')
+    put(SETTINGS["react-gui"]["dist"] + "/index.html", '/var/www/featuring/')
+    put(SETTINGS["react-gui"]["dist"] + "/*.woff", '/var/www/featuring/')
+    put(SETTINGS["react-gui"]["dist"] + "/*.woff2", '/var/www/featuring/')
+    put(SETTINGS["react-gui"]["dist"] + "/*.eot", '/var/www/featuring/')
+    put(SETTINGS["react-gui"]["dist"] + "/*.svg", '/var/www/featuring/')
 
 
 @task
@@ -67,5 +75,6 @@ def deploy():
     checkenv()
     debs()
     nginx()
+    build_react_gui()
     install_react_gui()
     restart()
