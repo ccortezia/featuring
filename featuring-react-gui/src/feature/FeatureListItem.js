@@ -30,16 +30,16 @@ export function FeatureListItem({data, active, disabled, top}) {
   let title = data.title;
   title = title.length > maxTitleLenght ? title.slice(0, maxTitleLenght) + '...' : title;
 
+  const priorityRaiseButton = (active && !top) &&
+    <button className="btn btn-default btn-inc-priority" onClick={onRaisePriorityClick}>
+      <i className="fa fa-level-up"></i>
+    </button>;
+
   return (
     <a href="#" className={classNames(["list-group-item", {active}, {disabled}])} onClick={onSelectItem}>
       <h4 className="list-group-item-heading">{title}</h4>
       <p className="list-group-item-text">{PRODUCT_AREA_ID_MAP[data.area]}</p>
-      {
-        active && !top &&
-          <button className="btn btn-default btn-inc-priority" onClick={onRaisePriorityClick}>
-            <i className="fa fa-level-up"></i>
-          </button>
-      }
+      {priorityRaiseButton}
     </a>
   );
 }
