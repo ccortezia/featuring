@@ -10,7 +10,7 @@ class Ping(Resource):
         return "pong"
 
 
-def make_api():
+def make_app():
     HERE = os.path.dirname(os.path.abspath(__file__))
     os.environ.setdefault('SETTINGS_ENVIRON', 'featuring.settings.production')
     os.environ.setdefault('LOGCONFIG_ENVIRON', 'featuring.settings.logconfig.production')

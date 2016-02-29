@@ -1,7 +1,6 @@
 import os
 import logging
 from docopt import docopt
-from featuring.application import make_api
 
 
 __doc__ = """run
@@ -57,17 +56,19 @@ def main():
     # Define environment variables.
     define_settings_environ(environ)
 
+    # Safe to make fisrt import app from now on, environ is already setup.
+    import featuring
+
     try:
-        app = make_api()
-        log_app_details(app)
-        log_app_url_map(app)
+        log_app_details(featuring.app)
+        log_app_url_map(featuring.app)
 
     except KeyboardInterrupt:
         return
 
     else:
         logging.info('application server listening at http://{}:{}'.format(host, port))
-        app.run(host=host, port=port, debug=debug, use_reloader=use_reloader)
+        featuring.app.run(host=host, port=port, debug=debug, use_reloader=use_reloader)
 
 
 if __name__ == '__main__':
