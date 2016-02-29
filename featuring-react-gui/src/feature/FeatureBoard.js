@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import {connect} from 'react-redux';
-import {FeatureFilteredList, FeatureDetails, FeatureCreateInvitation} from 'app/feature';
+import {FeatureList, FeatureDetails, FeatureCreateInvitation} from 'app/feature';
 
 
 export function FeatureBoard({items, current}) {
@@ -15,7 +15,7 @@ export function FeatureBoard({items, current}) {
 
   return (
     <div className="board-feature">
-      <FeatureFilteredList
+      <FeatureList
         items={items || []}
         selectedId={data && data.id}
         creating={creating}

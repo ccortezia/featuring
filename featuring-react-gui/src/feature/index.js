@@ -4,7 +4,6 @@ export {default as FeatureEdit} from './FeatureEdit';
 export {default as FeatureDetails} from './FeatureDetails';
 export {default as FeatureListItem} from './FeatureListItem';
 export {default as FeatureList} from './FeatureList';
-export {default as FeatureFilteredList} from './FeatureFilteredList';
 export {default as FeatureBoard} from './FeatureBoard';
 export {default as FeatureCreateInvitation} from './FeatureCreateInvitation';
 

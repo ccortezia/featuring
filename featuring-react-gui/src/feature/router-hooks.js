@@ -45,7 +45,7 @@ export function onEnterFeatureItem(nextState, replace, callback) {
 export function onEnterFeatureList(nextState, replace, callback) {
   const state = store.getState();
   const clientFilter = (item) => item.clientId == state.feature.board.selectedClientId;
-  const pickBestFeature = (items) => _.first(items.filter(clientFilter));
+  const pickBestFeature = (items) => _.first(items.filter(clientFilter)) || _.first(items);
 
   function replaceBasedOnFeature(obj) {
     if (!obj) return;

@@ -11,7 +11,7 @@ import {
   from 'app/feature/actions';
 
 
-export function FeatureListItem({data, active, disabled}) {
+export function FeatureListItem({data, active, disabled, top}) {
 
   function onSelectItem(ev) {
     ev.preventDefault();
@@ -35,7 +35,7 @@ export function FeatureListItem({data, active, disabled}) {
       <h4 className="list-group-item-heading">{title}</h4>
       <p className="list-group-item-text">{PRODUCT_AREA_ID_MAP[data.area]}</p>
       {
-        active &&
+        active && !top &&
           <button className="btn btn-default btn-inc-priority" onClick={onRaisePriorityClick}>
             <i className="fa fa-level-up"></i>
           </button>
@@ -48,7 +48,8 @@ export function FeatureListItem({data, active, disabled}) {
 FeatureListItem.propTypes = {
   data: featureDataType,
   active: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool.isRequired
+  disabled: PropTypes.bool.isRequired,
+  top: PropTypes.bool.isRequired
 };
 
 export default FeatureListItem;
