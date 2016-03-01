@@ -12,22 +12,26 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'formatter': 'simple',
+            'level': 'DEBUG'
         },
         'null': {
-            'level': 'DEBUG',
             'class': 'logging.NullHandler',
-            'formatter': 'simple'
+            'formatter': 'simple',
+            'level': 'DEBUG'
+        },
+        'file.error': {
+            'class': 'logging.FileHandler',
+            'formatter': 'simple',
+            'filename': '/tmp/featuring.error.log',
+            'level': 'ERROR'
+        },
+        'file.access': {
+            'class': 'logging.FileHandler',
+            'formatter': 'simple',
+            'filename': '/tmp/featuring.access.log',
+            'level': 'DEBUG'
         }
     }
 }
-
-
-def logger(level):
-    return {
-        'handlers': ['console'],
-        'propagate': False,
-        'level': level
-    }

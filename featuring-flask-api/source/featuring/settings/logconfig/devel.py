@@ -1,6 +1,8 @@
-from .common import LOGGING, logger
+from .common import LOGGING
 
 LOGGING['loggers'] = {
-    'werkzeug': logger('DEBUG'),
-    'featuring': logger('DEBUG'),
+    'gunicorn.error':  {'level': 'DEBUG', 'handlers': ['console']},
+    'gunicorn.access': {'level': 'DEBUG', 'handlers': ['null']},
+    'werkzeug':        {'level': 'DEBUG', 'handlers': ['console']},
+    'featuring':       {'level': 'DEBUG', 'handlers': ['console']}
 }
