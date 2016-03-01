@@ -1,0 +1,7 @@
+[run]
+omit =
+    *test*
+    source/featuring/version.py
+    source/featuring/settings/production.py
+    source/featuring/settings/devel.py
+    source/featuring/settings/logconfig/*

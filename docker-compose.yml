@@ -1,0 +1,11 @@
+version: '2'
+services:
+  api:
+    network_mode: "host"
+    ports:
+      - "8090:8090"
+    build: featuring-flask-api
+    volumes:
+     - ./featuring-flask-api:/code
+    environment:
+      GUNICORN_AUTO_RELOAD: "true"

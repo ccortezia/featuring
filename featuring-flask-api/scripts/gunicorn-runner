@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+readonly HERE=$(dirname $(readlink -f $0))
+readonly SOURCE=$HERE/../source/
+readonly SETTINGS=$SOURCE/featuring/settings
+
+[ -z "$SETTINGS_ENVIRON" ] && export SETTINGS_ENVIRON=featuring.settings.devel
+[ -z "$LOGCONFIG_ENVIRON" ] && export LOGCONFIG_ENVIRON=featuring.settings.logconfig.devel
+gunicorn --chdir=$SOURCE --config=$SETTINGS/gunicorn.py featuring:app
