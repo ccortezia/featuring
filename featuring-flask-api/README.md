@@ -18,10 +18,6 @@ Try ```python cli-runner.py --help``` for more info.
 
 ### Running the tests
 
-Make sure you have the development environment prepared as mentioned above and do as following:
-
-```
-py.test $ROOT/source/tests
-```
+Activate into the development environment prepared as above and run ```scripts/runtest```
 
 Coverage info is available under the directory htmlcov
