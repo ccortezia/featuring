@@ -1,3 +1,6 @@
+import os
+from ..default import LOGGING_BASEDIR
+
 
 LOGGING = {
     'version': 1,
@@ -22,16 +25,32 @@ LOGGING = {
             'level': 'DEBUG'
         },
         'file.error': {
-            'class': 'logging.FileHandler',
+            'class': 'logging.NullHandler',
             'formatter': 'simple',
-            'filename': '/tmp/featuring.error.log',
             'level': 'ERROR'
         },
         'file.access': {
-            'class': 'logging.FileHandler',
+            'class': 'logging.NullHandler',
             'formatter': 'simple',
-            'filename': '/tmp/featuring.access.log',
             'level': 'DEBUG'
         }
     }
 }
+
+
+if LOGGING_BASEDIR:
+    LOGGING['handlers'].update({
+        'file.error': {
+            'class': 'featuring.settings.logconfig.handlers.FileHandler',
+            'formatter': 'simple',
+            'filename': os.path.join(LOGGING_BASEDIR, 'featuring.error.log'),
+            'level': 'ERROR'
+        },
+        'file.access': {
+            'class': 'featuring.settings.logconfig.handlers.FileHandler',
+            'formatter': 'simple',
+            'filename': os.path.join(LOGGING_BASEDIR, 'featuring.access.log'),
+            'level': 'DEBUG'
+        }
+
+    })
