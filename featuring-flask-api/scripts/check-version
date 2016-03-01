@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+import os
+import re
+import sys
+
+try:
+    from debian import changelog
+except ImportError as e:
+    sys.stderr.write("{}\n".format(e))
+    sys.stderr.write("Make sure no virtualenv is activated\n".format(e))
+    sys.exit(2)
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.join(HERE, '..')
+VERSION_FILE = os.path.join(ROOT, "source/featuring/version.py")
+
+
+def get_debian_version():
+    with open(os.path.join(ROOT, "debian/changelog")) as fp:
+        clog = changelog.Changelog(fp)
+    return clog.version
+
+
+def get_project_version():
+    with open(VERSION_FILE) as fp:
+        for line in fp.readlines():
+            m = re.match(r'^version\s*=\s*"([^"]+)"', line.strip(' \t'))
+            if not m:
+                continue
+            return m.groups()[0]
+    raise ValueError('could not find statement version="x.y.z" in {}'.format(VERSION_FILE))
+
+
+if __name__ == "__main__":
+    try:
+        debian_version = get_debian_version()
+    except Exception as e:
+        sys.stderr.write("{}\n".format(e))
+        sys.exit(2)
+
+    try:
+        proj_version = get_project_version()
+    except ValueError as e:
+        sys.stderr.write("{}\n".format(e))
+        sys.exit(2)
+
+    if (debian_version != proj_version):
+        sys.stderr.write("project-setup-version ({}) != debian-changelog-version ({})\n"
+            .format(proj_version, debian_version))
+        sys.exit(1)

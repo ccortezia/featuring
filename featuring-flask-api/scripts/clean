@@ -1,0 +1,13 @@
+#!/bin/bash -e
+HERE=$(echo $(dirname $(readlink -f $0)))
+ROOT=$HERE/..
+
+rm -rf $ROOT/build/
+rm -rf $ROOT/packaging/
+rm -rf $ROOT/debian/{files,tmp,*.log,featuring-flask-api}
+rm -rf $ROOT/.coverage
+rm -rf $ROOT/htmlcov/
+rm -rf $ROOT/.coverage
+rm -rf $ROOT/*.egg-info
+rm -rf $ROOT/source/*.egg-info
+find $ROOT -name '*.pyc' -exec rm -f "{}" \;

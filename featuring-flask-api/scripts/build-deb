@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+set -u
+
+readonly HERE=$(echo $(dirname $(readlink -f $0)))
+readonly ROOT=$HERE/..
+readonly OUTPUT=$ROOT/packaging/
+
+
+if [ -z "$(which dh_virtualenv)" ]; then
+  echo "dh_virtualenv is not available in the PATH" 1>&2
+  echo "More info: https://github.com/spotify/dh-virtualenv" 1>&2
+  exit 1
+fi
+
+$HERE/check-version
+$HERE/clean
+
+pushd $ROOT
+dpkg-buildpackage -us -uc
+rm -rf $OUTPUT
+mkdir -p $OUTPUT
+mv $ROOT/../featuring-flask-api_* $OUTPUT/
+popd
