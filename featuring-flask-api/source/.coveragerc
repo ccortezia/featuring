@@ -1,8 +1,0 @@
-[run]
-omit =
-    *test*
-    featuring/version.py
-    featuring/settings/production.py
-    featuring/settings/devel.py
-    featuring/settings/logconfig/*
-    featuring/
