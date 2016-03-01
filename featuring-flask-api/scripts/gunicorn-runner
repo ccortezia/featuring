@@ -1,16 +1,7 @@
 #!/bin/bash
-
-[ -z $SETTINGS_ENVIRON ] && SETTINGS_ENVIRON=featuring.settings.devel
-[ -z $LOGCONFIG_ENVIRON ] && LOGCONFIG_ENVIRON=featuring.settings.logconfig.devel
-
 set -e
-
 readonly HERE=$(dirname $(readlink -f $0))
 
-gunicorn \
-  --chdir=$HERE/../source \
-  --env SETTINGS_ENVIRON=${SETTINGS_ENVIRON} \
-  --env LOGCONFIG_ENVIRON=${LOGCONFIG_ENVIRON} \
-  --env GUNICORN_BASE_LOGDIR=${GUNICORN_BASE_LOGDIR} \
-  --config=$HERE/../gunicorn.py \
-  featuring:app
+[ -z "$SETTINGS_ENVIRON" ] && export SETTINGS_ENVIRON=featuring.settings.devel
+[ -z "$LOGCONFIG_ENVIRON" ] && export LOGCONFIG_ENVIRON=featuring.settings.logconfig.devel
+gunicorn --chdir=$HERE/../source --config=$HERE/../gunicorn.py featuring:app
