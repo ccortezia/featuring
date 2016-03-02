@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+import os
+import sys
+
+try:
+    import featuring
+except ImportError:
+    HERE = os.path.dirname(os.path.abspath(__file__))
+    SOURCE = os.path.join(HERE, '../source')
+    sys.path.append(SOURCE)
+
+# TODO: ensure db dir
+from featuring import app
+from featuring.feature_request.models import FeatureRequest, Client
+from featuring.feature_request.fixtures import create_clients, create_demo_feature_requests
+
+app.db.connect()
+app.db.create_tables([Client, FeatureRequest], safe=True)
+clients = create_clients()
+create_demo_feature_requests(clients)
+app.db.close()

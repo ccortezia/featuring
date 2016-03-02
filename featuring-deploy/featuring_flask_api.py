@@ -51,6 +51,14 @@ def restart():
 
 
 @task
+def create_db():
+    sudo("SETTINGS_ENVIRON=featuring.settings.production "
+         "LOGCONFIG_ENVIRON=featuring.settings.logconfig.production "
+         "DB_PATH=/var/lib/featuring/app.db "
+         "/usr/share/python/{}/bin/create_db".format(COMPNAME))
+
+
+@task
 def deploy():
     checkenv()
     build()

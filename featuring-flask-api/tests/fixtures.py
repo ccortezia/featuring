@@ -1,8 +1,9 @@
 import pytest
 import featuring
+from featuring.api import app
 
 
 @pytest.fixture
-def client(request):
+def client():
     featuring.app.config['TESTING'] = True
-    return featuring.app.test_client()
+    return app.test_client()

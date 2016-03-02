@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+HERE=$(echo $(dirname $(readlink -f $0)))
+ROOT=$HERE/..
+
+[ -z "$SETTINGS_ENVIRON" ] && export SETTINGS_ENVIRON=featuring.settings.devel
+[ -z "$LOGCONFIG_ENVIRON" ] && export LOGCONFIG_ENVIRON=featuring.settings.logconfig.devel
+pushd $ROOT/source >/dev/null
+ipython

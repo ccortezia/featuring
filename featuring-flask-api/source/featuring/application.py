@@ -1,23 +1,18 @@
 import os
-from flask import Flask
-from flask_restful import Resource, Api
+import sqlite3
+from flask import Flask, g, jsonify
+from flask import got_request_exception
+import logging
 from logging.config import dictConfig
-from .version import version
-
-
-class Ping(Resource):
-    def get(self):
-        return "pong"
+from peewee import SqliteDatabase, IntegrityError
 
 
 def make_app():
     HERE = os.path.dirname(os.path.abspath(__file__))
-    os.environ.setdefault('SETTINGS_ENVIRON', 'featuring.settings.production')
-    os.environ.setdefault('LOGCONFIG_ENVIRON', 'featuring.settings.logconfig.production')
+    os.environ.setdefault('SETTINGS_ENVIRON', 'featuring.settings.devel')
+    os.environ.setdefault('LOGCONFIG_ENVIRON', 'featuring.settings.logconfig.devel')
 
     app = Flask('featuring')
-    api = Api(app, catch_all_404s=True)
-    api.add_resource(Ping, '/api/v1/ping')
 
     # Get application configuration.
     app.config.from_object('featuring.settings.default')
@@ -26,5 +21,41 @@ def make_app():
     # Get logging configuration.
     app.config.from_object(os.environ['LOGCONFIG_ENVIRON'])
     dictConfig(app.config['LOGGING'])
+
+    database = SqliteDatabase(app.config['DB_PATH'])
+    app.db = database
+
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+        return response
+
+    @app.errorhandler(IntegrityError)
+    def application_db_integrity_error(e):
+        logging.getLogger("featuring").error(e)
+        message = "a database integrity error occurred, review you request"
+        response = jsonify({"detail": message})
+        response.status_code = 400
+        return response
+
+    @app.errorhandler(Exception)
+    def application_generic_err(e):
+        logging.getLogger("featuring").error(e)
+        message = "an unexpected error occured. Check the log for details"
+        response = jsonify({"detail": message})
+        response.status_code = 500
+        return response
+
+    @app.before_request
+    def before_request():
+        g.db = database
+        g.db.connect()
+
+    @app.after_request
+    def after_request(response):
+        g.db.close()
+        return response
 
     return app

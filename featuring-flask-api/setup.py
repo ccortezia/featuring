@@ -18,6 +18,7 @@ setup(
     package_dir={'': 'source'},
     packages=find_packages('source'),
     include_package_data=True,
+    scripts=['scripts/create_db'],
     author="Cristiano Cortezia",
     author_email="cristiano.cortezia@gmail.com",
     description="",
