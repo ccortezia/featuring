@@ -14,4 +14,5 @@ FeatureRequestSerializer = {
     'priority': fields.Integer,
     'deadline': fields.String,
     'ticket_url': fields.String,
+    'product_area': fields.Integer
 }
