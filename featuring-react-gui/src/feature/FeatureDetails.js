@@ -6,6 +6,8 @@ import {browserHistory} from 'react-router';
 import store from 'app/root/store';
 import {featureDataType} from 'app/feature/types';
 import {PRODUCT_AREA_ID_MAP, CLIENT_ID_MAP} from 'app/feature/constants';
+import {ackFailureNetworkAction} from 'app/error/actions';
+import {createErrorAlert} from 'app/common/alert';
 
 import {
   remoteRequestFeatureDeleteAction,
@@ -21,6 +23,7 @@ export class FeatureDetails extends React.Component {
     this.onEditClicked = this.onEditClicked.bind(this);
     this.handleDelAckModalCloseRequest = this.handleDelAckModalCloseRequest.bind(this);
     this.handleDelAckModalConfirmRequest = this.handleDelAckModalConfirmRequest.bind(this);
+    this.acknowledgeError = this.acknowledgeError.bind(this);
     this.state = {pendingDelAck: false};
   }
 
@@ -41,7 +44,12 @@ export class FeatureDetails extends React.Component {
       .dispatch(remoteRequestFeatureDeleteAction(this.props.data.id))
       .then(() => store.dispatch(remoteRequestFeatureListAction()))
       .then(() => this.setState({pendingDelAck: false}))
-      .then(() => browserHistory.push('/features'));
+      .then(() => browserHistory.push('/features'))
+      .catch(() => this.setState({pendingDelAck: false}));
+  }
+
+  acknowledgeError() {
+    store.dispatch(ackFailureNetworkAction())
   }
 
   render() {
@@ -66,6 +74,7 @@ export class FeatureDetails extends React.Component {
 
     return (
       <div className="panel panel-default panel-feature-main panel-feature-details">
+        {this.props.err && !this.props.err.ack && createErrorAlert(err, this.acknowledgeError)}
 
         <div>
           <h2>

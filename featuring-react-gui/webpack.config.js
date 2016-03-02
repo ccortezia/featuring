@@ -3,6 +3,10 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
+var NODE_ENV = process.env.NODE_ENV;
+var API_HOST = NODE_ENV == 'development' ? 'http://localhost:8090' : '';
+
+
 module.exports = {
 
     entry: {
@@ -86,7 +90,8 @@ module.exports = {
         filename: 'test.html'
       }),
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': '"' + process.env.NODE_ENV + '"'
+        'process.env.NODE_ENV': '"' + NODE_ENV + '"',
+        'process.env.API_HOST': '"' + API_HOST + '"'
       })
     ]
 };

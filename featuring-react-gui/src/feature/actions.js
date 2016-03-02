@@ -1,5 +1,7 @@
 import * as CT from 'app/feature/constants';
 import FeaturesRemoteAPI from './FeaturesRemoteAPI';
+import {extractReasonFromHttpError} from 'app/common/services';
+import {failureNetworkAction} from 'app/error/actions';
 
 const api = new FeaturesRemoteAPI();
 
@@ -94,7 +96,13 @@ export function remoteRequestFeatureCreateAction(data) {
       return dispatch(receiveFeatureCreateAction(results));
     })
     .catch((err) => {
-      return dispatch(failureFeatureCreateAction('unknown'))
+      return Promise.reject(extractReasonFromHttpError(err));
+    })
+    .catch((reason) => {
+      return Promise.reject(dispatch(failureFeatureListAction(reason)));
+    })
+    .catch((action) => {
+      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
     });
   };
 }
@@ -116,8 +124,14 @@ export function remoteRequestFeatureListAction() {
       return dispatch(receiveFeatureListAction(results));
     })
     .catch((err) => {
-      return dispatch(failureFeatureListAction('unknown'))
-    });
+      return Promise.reject(extractReasonFromHttpError(err));
+    })
+    .catch((reason) => {
+      return Promise.reject(dispatch(failureFeatureListAction(reason)));
+    })
+    .catch((action) => {
+      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+    });;
   };
 }
 
@@ -138,8 +152,14 @@ export function remoteRequestFeatureUpdateAction(data) {
       return dispatch(receiveFeatureUpdateAction(obj));
     })
     .catch((err) => {
-      return dispatch(failureFeatureUpdateAction('unknown'))
-    });
+      return Promise.reject(extractReasonFromHttpError(err));
+    })
+    .catch((reason) => {
+      return Promise.reject(dispatch(failureFeatureListAction(reason)));
+    })
+    .catch((action) => {
+      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+    });;
   };
 }
 
@@ -160,7 +180,13 @@ export function remoteRequestFeatureDeleteAction(id) {
       return dispatch(receiveFeatureDeleteAction());
     })
     .catch((err) => {
-      return dispatch(failureFeatureDeleteAction('unknown'))
-    });
+      return Promise.reject(extractReasonFromHttpError(err));
+    })
+    .catch((reason) => {
+      return Promise.reject(dispatch(failureFeatureListAction(reason)));
+    })
+    .catch((action) => {
+      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+    });;
   };
 }
