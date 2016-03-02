@@ -1,5 +1,6 @@
 import * as CT from 'app/feature/constants';
 import FeaturesRemoteAPI from './FeaturesRemoteAPI';
+import {extractReasonFromHttpError} from 'app/common/services';
 
 const api = new FeaturesRemoteAPI();
 
@@ -94,7 +95,7 @@ export function remoteRequestFeatureCreateAction(data) {
       return dispatch(receiveFeatureCreateAction(results));
     })
     .catch((err) => {
-      return dispatch(failureFeatureCreateAction('unknown'))
+      return dispatch(failureFeatureCreateAction(extractReasonFromHttpError(err)))
     });
   };
 }
@@ -116,7 +117,7 @@ export function remoteRequestFeatureListAction() {
       return dispatch(receiveFeatureListAction(results));
     })
     .catch((err) => {
-      return dispatch(failureFeatureListAction('unknown'))
+      return dispatch(failureFeatureListAction(extractReasonFromHttpError(err)))
     });
   };
 }
@@ -138,7 +139,7 @@ export function remoteRequestFeatureUpdateAction(data) {
       return dispatch(receiveFeatureUpdateAction(obj));
     })
     .catch((err) => {
-      return dispatch(failureFeatureUpdateAction('unknown'))
+      return dispatch(failureFeatureUpdateAction(extractReasonFromHttpError(err)))
     });
   };
 }
@@ -160,7 +161,7 @@ export function remoteRequestFeatureDeleteAction(id) {
       return dispatch(receiveFeatureDeleteAction());
     })
     .catch((err) => {
-      return dispatch(failureFeatureDeleteAction('unknown'))
+      return dispatch(failureFeatureDeleteAction(extractReasonFromHttpError(err)))
     });
   };
 }

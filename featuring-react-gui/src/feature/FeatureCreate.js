@@ -11,6 +11,7 @@ export function FeatureCreate() {
 
   function onSubmit(data) {
     let nid;
+    data.priority = 1;
     store.dispatch(remoteRequestFeatureCreateAction(data))
       .then((action) => nid = action.data.id)
       .then(() => store.dispatch(remoteRequestFeatureListAction()))
