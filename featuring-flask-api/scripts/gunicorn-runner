@@ -6,4 +6,4 @@ readonly SETTINGS=$SOURCE/featuring/settings
 
 [ -z "$SETTINGS_ENVIRON" ] && export SETTINGS_ENVIRON=featuring.settings.devel
 [ -z "$LOGCONFIG_ENVIRON" ] && export LOGCONFIG_ENVIRON=featuring.settings.logconfig.devel
-gunicorn --chdir=$SOURCE --config=$SETTINGS/gunicorn.py featuring:app
+gunicorn --chdir=$SOURCE --config=$SETTINGS/gunicorn.py featuring.wsgi:app

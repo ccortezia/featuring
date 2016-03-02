@@ -9,3 +9,4 @@ services:
      - ./featuring-flask-api:/code
     environment:
       GUNICORN_AUTO_RELOAD: "true"
+      DB_PATH: "/db"

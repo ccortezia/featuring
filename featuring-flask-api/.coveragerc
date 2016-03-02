@@ -3,3 +3,4 @@ omit =
     *test*
     source/featuring/version.py
     source/featuring/settings/*
+    *fixtures*
