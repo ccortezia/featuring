@@ -4,6 +4,7 @@ import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 import store from 'app/root/store';
 import {App} from 'app/root';
 import {HomeSection} from 'app/home';
+import {ErrorSection} from 'app/error';
 import {FeatureSection, FeatureDetails, FeatureCreate, FeatureEdit} from 'app/feature';
 import {onEnterFeatureList, onEnterFeatureItem, onEnterFeatureCreation} from 'app/feature';
 
@@ -22,6 +23,7 @@ const router = (
           <Route path=":id" component={FeatureDetails} onEnter={onEnterFeatureItem} />
           <Route path=":id/edit" component={FeatureEdit} onEnter={onEnterFeatureItem} />
         </Route>
+        <Route path="/error" component={ErrorSection} />
       </Route>
       <Redirect from="*" to="/features" />
     </Route>

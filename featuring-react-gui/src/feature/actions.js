@@ -95,7 +95,10 @@ export function remoteRequestFeatureCreateAction(data) {
       return dispatch(receiveFeatureCreateAction(results));
     })
     .catch((err) => {
-      return dispatch(failureFeatureCreateAction(extractReasonFromHttpError(err)))
+      return Promise.reject(extractReasonFromHttpError(err));
+    })
+    .catch((reason) => {
+      return Promise.reject(dispatch(failureFeatureListAction(reason)));
     });
   };
 }
@@ -117,7 +120,10 @@ export function remoteRequestFeatureListAction() {
       return dispatch(receiveFeatureListAction(results));
     })
     .catch((err) => {
-      return dispatch(failureFeatureListAction(extractReasonFromHttpError(err)))
+      return Promise.reject(extractReasonFromHttpError(err));
+    })
+    .catch((reason) => {
+      return Promise.reject(dispatch(failureFeatureListAction(reason)));
     });
   };
 }
@@ -139,7 +145,10 @@ export function remoteRequestFeatureUpdateAction(data) {
       return dispatch(receiveFeatureUpdateAction(obj));
     })
     .catch((err) => {
-      return dispatch(failureFeatureUpdateAction(extractReasonFromHttpError(err)))
+      return Promise.reject(extractReasonFromHttpError(err));
+    })
+    .catch((reason) => {
+      return Promise.reject(dispatch(failureFeatureListAction(reason)));
     });
   };
 }
@@ -161,7 +170,10 @@ export function remoteRequestFeatureDeleteAction(id) {
       return dispatch(receiveFeatureDeleteAction());
     })
     .catch((err) => {
-      return dispatch(failureFeatureDeleteAction(extractReasonFromHttpError(err)))
+      return Promise.reject(extractReasonFromHttpError(err));
+    })
+    .catch((reason) => {
+      return Promise.reject(dispatch(failureFeatureListAction(reason)));
     });
   };
 }
