@@ -25,6 +25,13 @@ def make_app():
     database = SqliteDatabase(app.config['DB_PATH'])
     app.db = database
 
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+        return response
+
     @app.errorhandler(IntegrityError)
     def application_db_integrity_error(e):
         logging.getLogger("featuring").error(e)
