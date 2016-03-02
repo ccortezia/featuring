@@ -1,6 +1,7 @@
 import * as CT from 'app/feature/constants';
 import FeaturesRemoteAPI from './FeaturesRemoteAPI';
 import {extractReasonFromHttpError} from 'app/common/services';
+import {failureNetworkAction} from 'app/error/actions';
 
 const api = new FeaturesRemoteAPI();
 
@@ -99,6 +100,9 @@ export function remoteRequestFeatureCreateAction(data) {
     })
     .catch((reason) => {
       return Promise.reject(dispatch(failureFeatureListAction(reason)));
+    })
+    .catch((action) => {
+      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
     });
   };
 }
@@ -124,7 +128,10 @@ export function remoteRequestFeatureListAction() {
     })
     .catch((reason) => {
       return Promise.reject(dispatch(failureFeatureListAction(reason)));
-    });
+    })
+    .catch((action) => {
+      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+    });;
   };
 }
 
@@ -149,7 +156,10 @@ export function remoteRequestFeatureUpdateAction(data) {
     })
     .catch((reason) => {
       return Promise.reject(dispatch(failureFeatureListAction(reason)));
-    });
+    })
+    .catch((action) => {
+      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+    });;
   };
 }
 
@@ -174,6 +184,9 @@ export function remoteRequestFeatureDeleteAction(id) {
     })
     .catch((reason) => {
       return Promise.reject(dispatch(failureFeatureListAction(reason)));
-    });
+    })
+    .catch((action) => {
+      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+    });;
   };
 }

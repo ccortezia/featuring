@@ -1,15 +1,15 @@
-import * as CT from 'app/feature/constants';
+import * as CT from 'app/error/constants';
 
 
-export default function errorReducer(state=null, action) {
+export default function errorReducer(state={reason: "unknown", ack: true}, action) {
 
   switch (action.type) {
 
-    case CT.FAILURE_FEATURE_CREATE:
-    case CT.FAILURE_FEATURE_LIST:
-    case CT.FAILURE_FEATURE_UPDATE:
-    case CT.FAILURE_FEATURE_DELETE:
-      return action.reason || "unknown";
+    case CT.FAILURE_NETWORK:
+      return {reason: action.reason || "unknown", ack: false};
+
+    case CT.ACK_FAILURE_NETWORK:
+      return Object.assign({}, state, {ack: true});
 
     default:
       return state;

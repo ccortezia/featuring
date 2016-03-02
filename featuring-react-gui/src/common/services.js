@@ -6,7 +6,7 @@ export function extractReasonFromHttpError(err) {
   // HTTP error, has some status to be decoded.
   if (err.status) {
     return {
-      400: 'unauthorized',
+      400: 'bad-request',
       401: 'unauthorized',
       500: 'server-error'
     }[err.status] || 'unknown';
