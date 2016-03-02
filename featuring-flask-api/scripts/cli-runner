@@ -62,18 +62,19 @@ def main():
     define_settings_environ(environ)
 
     # Safe to make fisrt import app from now on, environ is already setup.
-    import featuring
+    import featuring.api
 
     try:
-        log_app_details(featuring.app)
-        log_app_url_map(featuring.app)
+        app = featuring.api.app
+        log_app_details(app)
+        log_app_url_map(app)
 
     except KeyboardInterrupt:
         return
 
     else:
         logging.info('application server listening at http://{}:{}'.format(host, port))
-        featuring.app.run(host=host, port=port, debug=debug, use_reloader=use_reloader)
+        app.run(host=host, port=port, debug=debug, use_reloader=use_reloader)
 
 
 if __name__ == '__main__':

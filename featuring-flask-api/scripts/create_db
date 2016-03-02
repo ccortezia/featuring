@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+import os
+import sys
+HERE = os.path.dirname(os.path.abspath(__file__))
+SOURCE = os.path.join(HERE, '../source')
+sys.path.append(SOURCE)
+from featuring import db
+from featuring.feature_request.models import FeatureRequest, Client
+from featuring.feature_request.fixtures import create_clients, create_demo_feature_requests
+
+db.connect()
+db.create_tables([Client, FeatureRequest], safe=True)
+clients = create_clients()
+create_demo_feature_requests(clients)
+db.close()

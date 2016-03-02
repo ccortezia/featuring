@@ -5,4 +5,4 @@ set -u
 readonly HERE=$(echo $(dirname $(readlink -f $0)))
 readonly ROOT=$HERE/..
 
-PYTHONPATH=$ROOT/source py.test $ROOT/tests
+PYTHONPATH=$ROOT/source py.test $ROOT/tests $@
