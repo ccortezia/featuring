@@ -1,3 +1,4 @@
+import moment from 'moment';
 import request from 'superagent';
 import {api} from 'app/common/services';
 
@@ -61,7 +62,7 @@ function adaptOut(item) {
     description: item.description,
     client: item.clientId,
     priority: item.priority,
-    deadline: item.deadline,
+    deadline: moment(item.deadline).toISOString(),
     ticket_url: item.ticketUrl,
     product_area: item.area
   }, _.negate(_.isUndefined));

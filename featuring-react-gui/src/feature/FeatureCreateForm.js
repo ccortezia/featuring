@@ -76,7 +76,7 @@ export function FeatureCreateForm(
 
       <div className="feature-detail-field">
         <label>Target Date</label>
-        <DatePicker dateFormat="MM/DD/YYYY" selected={moment(deadline.value)} {...deadline} />
+        <DatePicker dateFormat="MM/DD/YYYY" selected={deadline.value && moment(deadline.value, 'MM/DD/YYYY')} {...deadline} />
       </div>
 
       <div className={classNames(["form-group", validationClasses.ticketUrl])}>
