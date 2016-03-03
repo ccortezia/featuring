@@ -26,7 +26,7 @@ export function FeatureListItem({data, active, disabled, top}) {
       .then(() => store.dispatch(remoteRequestFeatureListAction()));
   }
 
-  const maxTitleLenght = 29;
+  const maxTitleLenght = 35;
   let title = data.title;
   title = title.length > maxTitleLenght ? title.slice(0, maxTitleLenght) + '...' : title;
 
