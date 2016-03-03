@@ -34,7 +34,7 @@ def test_feature_request_create_with_invalid_client_should_fail(setdb, client):
     assert resp.status_code == 400
 
 
-@pytest.mark.parametrize("field", ["priority", "ticket_url", "client", "ticket_url", "product_area"])
+@pytest.mark.parametrize("field", ["ticket_url", "client", "ticket_url", "product_area"])
 def test_feature_request_create_should_fail_with_missing_field(setdb, client, field):
     data = {"title": "novo", "client": 1, "priority": 100, "product_area": 2, "ticket_url": "http://bugzimp/1"}
     data.pop(field)
@@ -59,7 +59,7 @@ def test_feature_request_update(setdb, client):
     resp = client.patch("/api/v1/features/1", data=data)
     assert resp.status_code == 201
     resp = client.get("/api/v1/features/1")
-    assert json.loads(resp.data)["priority"] == 100
+    assert json.loads(resp.data)["priority"] == 9
 
 
 def test_feature_request_update_with_valid_deadline(setdb, client):

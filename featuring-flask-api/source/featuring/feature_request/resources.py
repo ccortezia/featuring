@@ -39,9 +39,8 @@ class FeatureRequestListResource(Resource):
 
     @marshal_with(serializer)
     def get(self):
-        return list(FeatureRequest
-            .select()
-            .order_by(FeatureRequest.priority.desc()))
+        return list(FeatureRequest.select()
+            .order_by(FeatureRequest.priority.asc()))
 
     @marshal_with(serializer)
     def post(self):
