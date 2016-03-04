@@ -6,8 +6,8 @@ A simple feature request web app
 - Follow the instructions inside featuring-flask-api.
 - Follow the instructions inside featuring-react-gui.
 - Make sure you have both docker and docker-compose properly setup.
-- Run ```docker-compose up``` in a shell
-- Run ```cd featuring-react-gui && npm start```
+- Run ```docker-compose up``` in a terminal.
+- Run ```cd featuring-react-gui && npm start``` in another terminal.
 - Point your browser to http://localhost:8080 and check it out.
 
 ## Deploy to a generic VPS
