@@ -52,6 +52,7 @@ def restart():
 
 @task
 def create_db():
+    sudo("mkdir -p /var/lib/featuring/")
     sudo("SETTINGS_ENVIRON=featuring.settings.production "
          "LOGCONFIG_ENVIRON=featuring.settings.logconfig.production "
          "DB_PATH=/var/lib/featuring/app.db "
