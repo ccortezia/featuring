@@ -74,7 +74,7 @@ export class FeatureDetails extends React.Component {
 
     return (
       <div className="panel panel-default panel-feature-main panel-feature-details">
-        {this.props.err && !this.props.err.ack && createErrorAlert(err, this.acknowledgeError)}
+        {this.props.err && !this.props.err.ack && createErrorAlert(this.props.err, this.acknowledgeError)}
 
         <div>
           <h2>

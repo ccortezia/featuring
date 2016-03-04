@@ -21,7 +21,7 @@ export function FeatureListItem({data, active, disabled, top}) {
   function onRaisePriorityClick(ev) {
     ev.preventDefault();
     ev.stopPropagation();
-    const obj = Object.assign({}, data, {priority: data.priority + 1});
+    const obj = Object.assign({}, data, {priority: data.priority - 1});
     store.dispatch(remoteRequestFeatureUpdateAction(obj))
       .then(() => store.dispatch(remoteRequestFeatureListAction()));
   }
@@ -38,7 +38,7 @@ export function FeatureListItem({data, active, disabled, top}) {
   return (
     <a href="#" className={classNames(["list-group-item", {active}, {disabled}])} onClick={onSelectItem}>
       <h4 className="list-group-item-heading">{title}</h4>
-      <p className="list-group-item-text">{PRODUCT_AREA_ID_MAP[data.area]}</p>
+      <p className="list-group-item-text">{PRODUCT_AREA_ID_MAP[data.area] + ' ' + data.priority}</p>
       {priorityRaiseButton}
     </a>
   );

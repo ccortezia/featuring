@@ -17,11 +17,10 @@ export class FeatureList extends React.Component {
   }
 
   mkListItem(item) {
-    const maxp = Math.max.apply(null, this.props.items.map((item) => item.priority));
     return <FeatureListItem
       key={item.id}
       data={item}
-      top={item.priority >= maxp}
+      top={item.priority == 1}
       active={!this.props.creating && item.id == this.props.selectedId}
       disabled={!!this.props.creating || !!this.props.editing}
     />;
