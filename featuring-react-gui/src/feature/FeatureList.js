@@ -44,8 +44,7 @@ export class FeatureList extends React.Component {
     const filteredItems = this.props.items.filter(
       (item) => item.clientId == this.props.selectedClientId);
 
-    const newButton = (this.props.creating || this.props.editing) ?
-        <button className="btn btn-default" disabled="true">NEW</button> :
+    const newButton = !this.props.creating && !this.props.editing &&
         <Link to="/features/new" className="btn btn-primary">NEW</Link>;
 
     const clientSelector = (this.props.clientIds.length) ?
