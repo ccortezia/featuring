@@ -1,15 +1,18 @@
 # featuring
 A simple feature request web app
 
-This repository will gain at least three sub-projects on the next few days.
+## Run it locally
 
-The structure is going to be like this:
+- Follow the instructions inside featuring-flask-api.
+- Follow the instructions inside featuring-react-gui.
+- Make sure you have both docker and docker-compose properly setup.
+- Run ```docker-compose up``` in a shell
+- Run ```cd featuring-react-gui && npm start```
+- Point your browser to http://localhost:8080 and check it out.
 
-- one sub-project for a backend API (python + flask + sqlalchemy + sqlite).
-- one sub-project for a frontend SPA (ES6 + reactjs).
-- one sub-project to automate the deployment of its sibblings.
-- the toplevel directory will hold the scripts to setup the dev environment.
+## Deploy to a generic VPS
 
-These sub-projects *could* be splitted into git submodules, but for the sake of simplicity I will keep everything under a single repo for now.
+- Follow the instruction inside featuring-deploy.
+- Run ```cd featuring-deploy && fab -H $user@$host```.
 
-Currently deployed at http://104.236.242.231.
+*Temporarily deployed at http://104.236.242.231*
