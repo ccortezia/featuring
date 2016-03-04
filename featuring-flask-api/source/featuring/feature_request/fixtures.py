@@ -10,31 +10,40 @@ def create_clients():
     ]
 
 
+def mkdesc(text):
+    import random
+    return text * int(random.random() * 100)
+
+
+def mkurl(n):
+    return 'http://local.trac/issues/{}'.format(n)
+
+
 def create_demo_feature_requests(clients):
     items = [
-        dict(client=clients[0], title='Title 01' * 5, description='desc-01' * 100,  priority=1,  product_area=1, ticket_url='http://local.trac/1'),
-        dict(client=clients[0], title='Title 02' * 5, description='desc-02' * 100,  priority=2,  product_area=2, ticket_url='http://local.trac/2'),
-        dict(client=clients[0], title='Title 03' * 5, description='desc-03' * 100,  priority=3,  product_area=1, ticket_url='http://local.trac/3'),
-        dict(client=clients[0], title='Title 04' * 5, description='desc-04' * 100,  priority=4,  product_area=3, ticket_url='http://local.trac/4'),
-        dict(client=clients[0], title='Title 05' * 5, description='desc-05' * 100,  priority=5,  product_area=1, ticket_url='http://local.trac/5'),
-        dict(client=clients[0], title='Title 06' * 5, description='desc-06' * 100,  priority=6,  product_area=4, ticket_url='http://local.trac/6'),
-        dict(client=clients[0], title='Title 07' * 5, description='desc-07' * 100,  priority=7,  product_area=1, ticket_url='http://local.trac/7'),
-        dict(client=clients[0], title='Title 08' * 5, description='desc-08' * 100,  priority=8,  product_area=1, ticket_url='http://local.trac/8'),
-        dict(client=clients[0], title='Title 09' * 5, description='desc-09' * 100,  priority=9,  product_area=1, ticket_url='http://local.trac/9'),
-        dict(client=clients[1], title='Title 10' * 5, description='desc-10 ' * 100, priority=1,  product_area=3, ticket_url='http://local.trac/10'),
-        dict(client=clients[1], title='Title 11' * 5, description='desc-11 ' * 100, priority=2,  product_area=4, ticket_url='http://local.trac/11'),
-        dict(client=clients[1], title='Title 12' * 5, description='desc-12 ' * 100, priority=3,  product_area=2, ticket_url='http://local.trac/12'),
-        dict(client=clients[2], title='Title 13' * 5, description='desc-13 ' * 100, priority=1,  product_area=1, ticket_url='http://local.trac/13'),
-        dict(client=clients[2], title='Title 14' * 5, description='desc-14 ' * 100, priority=2,  product_area=2, ticket_url='http://local.trac/14'),
-        dict(client=clients[2], title='Title 15' * 5, description='desc-15 ' * 100, priority=3,  product_area=1, ticket_url='http://local.trac/15'),
-        dict(client=clients[2], title='Title 16' * 5, description='desc-16 ' * 100, priority=4,  product_area=3, ticket_url='http://local.trac/16'),
-        dict(client=clients[2], title='Title 17' * 5, description='desc-17 ' * 100, priority=5,  product_area=1, ticket_url='http://local.trac/17'),
-        dict(client=clients[2], title='Title 18' * 5, description='desc-18 ' * 100, priority=6,  product_area=1, ticket_url='http://local.trac/18'),
-        dict(client=clients[2], title='Title 19' * 5, description='desc-19 ' * 100, priority=7,  product_area=2, ticket_url='http://local.trac/19'),
-        dict(client=clients[2], title='Title 20' * 5, description='desc-20 ' * 100, priority=8,  product_area=4, ticket_url='http://local.trac/20'),
-        dict(client=clients[2], title='Title 21' * 5, description='desc-21 ' * 100, priority=9,  product_area=3, ticket_url='http://local.trac/21'),
-        dict(client=clients[2], title='Title 22' * 5, description='desc-22 ' * 100, priority=10, product_area=1, ticket_url='http://local.trac/22'),
-        dict(client=clients[2], title='Title 23' * 5, description='desc-23 ' * 100, priority=11, product_area=4, ticket_url='http://local.trac/23')
+        dict(client=clients[0], title='Feature request number 01', description=mkdesc('desc-01'),  priority=1,  product_area=1, ticket_url=mkurl(1)),
+        dict(client=clients[0], title='Feature request number 02', description=mkdesc('desc-02'),  priority=2,  product_area=2, ticket_url=mkurl(2)),
+        dict(client=clients[0], title='Feature request number 03', description=mkdesc('desc-03'),  priority=3,  product_area=1, ticket_url=mkurl(3)),
+        dict(client=clients[0], title='Feature request number 04', description=mkdesc('desc-04'),  priority=4,  product_area=3, ticket_url=mkurl(4)),
+        dict(client=clients[0], title='Feature request number 05', description=mkdesc('desc-05'),  priority=5,  product_area=1, ticket_url=mkurl(5)),
+        dict(client=clients[0], title='Feature request number 06', description=mkdesc('desc-06'),  priority=6,  product_area=4, ticket_url=mkurl(6)),
+        dict(client=clients[0], title='Feature request number 07', description=mkdesc('desc-07'),  priority=7,  product_area=1, ticket_url=mkurl(7)),
+        dict(client=clients[0], title='Feature request number 08', description=mkdesc('desc-08'),  priority=8,  product_area=1, ticket_url=mkurl(8)),
+        dict(client=clients[0], title='Feature request number 09', description=mkdesc('desc-09'),  priority=9,  product_area=1, ticket_url=mkurl(9)),
+        dict(client=clients[1], title='Feature request number 10', description=mkdesc('desc-10 '), priority=1,  product_area=3, ticket_url=mkurl(10)),
+        dict(client=clients[1], title='Feature request number 11', description=mkdesc('desc-11 '), priority=2,  product_area=4, ticket_url=mkurl(11)),
+        dict(client=clients[1], title='Feature request number 12', description=mkdesc('desc-12 '), priority=3,  product_area=2, ticket_url=mkurl(12)),
+        dict(client=clients[2], title='Feature request number 13', description=mkdesc('desc-13 '), priority=1,  product_area=1, ticket_url=mkurl(13)),
+        dict(client=clients[2], title='Feature request number 14', description=mkdesc('desc-14 '), priority=2,  product_area=2, ticket_url=mkurl(14)),
+        dict(client=clients[2], title='Feature request number 15', description=mkdesc('desc-15 '), priority=3,  product_area=1, ticket_url=mkurl(15)),
+        dict(client=clients[2], title='Feature request number 16', description=mkdesc('desc-16 '), priority=4,  product_area=3, ticket_url=mkurl(16)),
+        dict(client=clients[2], title='Feature request number 17', description=mkdesc('desc-17 '), priority=5,  product_area=1, ticket_url=mkurl(17)),
+        dict(client=clients[2], title='Feature request number 18', description=mkdesc('desc-18 '), priority=6,  product_area=1, ticket_url=mkurl(18)),
+        dict(client=clients[2], title='Feature request number 19', description=mkdesc('desc-19 '), priority=7,  product_area=2, ticket_url=mkurl(19)),
+        dict(client=clients[2], title='Feature request number 20', description=mkdesc('desc-20 '), priority=8,  product_area=4, ticket_url=mkurl(20)),
+        dict(client=clients[2], title='Feature request number 21', description=mkdesc('desc-21 '), priority=9,  product_area=3, ticket_url=mkurl(21)),
+        dict(client=clients[2], title='Feature request number 22', description=mkdesc('desc-22 '), priority=10, product_area=1, ticket_url=mkurl(22)),
+        dict(client=clients[2], title='Feature request number 23', description=mkdesc('desc-23 '), priority=11, product_area=4, ticket_url=mkurl(23))
     ]
     with featuring.app.db.atomic():
         return [FeatureRequest.create(**kwargs) for kwargs in items]
