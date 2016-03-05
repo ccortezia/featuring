@@ -4,7 +4,6 @@ from ..default import LOGGING_BASEDIR
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
     'formatters': {
         'verbose': {
             'format': '[%(levelname)-7s][%(asctime)s][%(threadName)s %(process)d][%(name)s] %(message)s'
@@ -34,7 +33,11 @@ LOGGING = {
             'formatter': 'simple',
             'level': 'DEBUG'
         }
-    }
+    },
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['console']
+    },
 }
 
 
