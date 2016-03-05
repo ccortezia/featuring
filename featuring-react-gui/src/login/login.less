@@ -1,0 +1,66 @@
+section.login {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-image: radial-gradient(white, rgba(157, 192, 226, 0.9));
+
+  form {
+    height: 220px;
+    width: 300px;
+    border: solid 1px #CCCCCC;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.7);
+
+    > div:first-child {flex-grow: 1}
+    > div:nth-child(2) {flex-grow: 0}
+    > div:nth-child(3) {height: 20px; flex-grow: 0}
+  }
+
+  input[type=text],input[type=password] {
+    display: block;
+    outline: 0;
+    padding: 8px;
+    border: solid 1px #CCC;
+    width: 100%;
+  }
+
+  .btn, .btn:focus {
+    outline: 0;
+    border-radius: 0;
+    color: #fcf8e3;
+    background-color: #337ab7;
+    font-weight: bold;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  .btn:active {
+    background-color: #FFFFFF;
+    color: #CCCCCC;
+  }
+
+  .login-status {
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  .logo {
+    height: 100px;
+    margin-bottom: 25px;
+    h1 {font-size: 4em}
+  }
+}
+
+@media (min-width: @screen-sm-min) {
+section.login {
+  .logo {
+    height: 100px;
+    margin-bottom: 40px;
+  }
+}
+}
