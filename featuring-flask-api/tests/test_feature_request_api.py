@@ -17,66 +17,93 @@ def setdb(request):
     create_demo_feature_requests(clients)
 
 
-def test_feature_request_list(setdb, client):
-    resp = client.get("/api/v1/features")
+def test_feature_request_list(setdb, client, auth):
+    resp = client.get("/api/v1/features", headers=auth)
     assert resp.status_code == 200
 
 
-def test_feature_request_create(setdb, client):
+def test_feature_request_list_auth_error(setdb, client):
+    resp = client.get("/api/v1/features")
+    assert resp.status_code == 401
+
+
+def test_feature_request_create(setdb, client, auth):
     data = {"title": "novo", "client": 1, "priority": 100, "product_area": 1, "ticket_url": "http://bugzimp/1"}
-    resp = client.post("/api/v1/features", data=data)
+    resp = client.post("/api/v1/features", data=data, headers=auth)
     assert resp.status_code == 201
 
 
-def test_feature_request_create_with_invalid_client_should_fail(setdb, client):
-    data = {"title": "novo", "client": 1010, "priority": 100, "product_area": 1, "ticket_url": "http://bugzimp/1"}
+def test_feature_request_create_auth_error(setdb, client):
+    data = {"title": "novo", "client": 1, "priority": 100, "product_area": 1, "ticket_url": "http://bugzimp/1"}
     resp = client.post("/api/v1/features", data=data)
+    assert resp.status_code == 401
+
+
+def test_feature_request_create_with_invalid_client_should_fail(setdb, client, auth):
+    data = {"title": "novo", "client": 1010, "priority": 100, "product_area": 1, "ticket_url": "http://bugzimp/1"}
+    resp = client.post("/api/v1/features", data=data, headers=auth)
     assert resp.status_code == 400
 
 
 @pytest.mark.parametrize("field", ["ticket_url", "client", "ticket_url", "product_area"])
-def test_feature_request_create_should_fail_with_missing_field(setdb, client, field):
+def test_feature_request_create_should_fail_with_missing_field(setdb, client, field, auth):
     data = {"title": "novo", "client": 1, "priority": 100, "product_area": 2, "ticket_url": "http://bugzimp/1"}
     data.pop(field)
-    resp = client.post("/api/v1/features", data=data)
+    resp = client.post("/api/v1/features", data=data, headers=auth)
     assert resp.status_code == 400
 
 
-def test_feature_request_get_one(setdb, client):
-    resp = client.get("/api/v1/features/1")
+def test_feature_request_get_one(setdb, client, auth):
+    resp = client.get("/api/v1/features/1", headers=auth)
     assert resp.status_code == 200
 
 
-def test_feature_request_get_no_existent_should_fail(setdb, client):
-    resp = client.get("/api/v1/features/oioio")
-    assert resp.status_code == 404
-    resp = client.get("/api/v1/features/909")
-    assert resp.status_code == 404
-
-
-def test_feature_request_update(setdb, client):
-    data = {"title": "novo", "client": 1, "priority": 100, "ticket_url": "http://bugzimp/1"}
-    resp = client.patch("/api/v1/features/1", data=data)
-    assert resp.status_code == 201
+def test_feature_request_get_one_auth_error(setdb, client):
     resp = client.get("/api/v1/features/1")
+    assert resp.status_code == 401
+
+
+def test_feature_request_get_no_existent_should_fail(setdb, client, auth):
+    resp = client.get("/api/v1/features/oioio", headers=auth)
+    assert resp.status_code == 404
+    resp = client.get("/api/v1/features/909", headers=auth)
+    assert resp.status_code == 404
+
+
+def test_feature_request_update(setdb, client, auth):
+    data = {"title": "novo", "client": 1, "priority": 100, "ticket_url": "http://bugzimp/1"}
+    resp = client.patch("/api/v1/features/1", data=data, headers=auth)
+    assert resp.status_code == 201
+    resp = client.get("/api/v1/features/1", headers=auth)
     assert json.loads(resp.data)["priority"] == 9
 
 
-def test_feature_request_update_with_valid_deadline(setdb, client):
+def test_feature_request_update_auth_error(setdb, client):
+    data = {"title": "novo", "client": 1, "priority": 100, "ticket_url": "http://bugzimp/1"}
+    resp = client.patch("/api/v1/features/1", data=data)
+    assert resp.status_code == 401
+
+
+def test_feature_request_update_with_valid_deadline(setdb, client, auth):
     dt = now().isoformat()
     data = {"deadline": dt}
-    resp = client.patch("/api/v1/features/1", data=data)
+    resp = client.patch("/api/v1/features/1", data=data, headers=auth)
     assert resp.status_code == 201
-    resp = client.get("/api/v1/features/1")
+    resp = client.get("/api/v1/features/1", headers=auth)
     assert json.loads(resp.data)["deadline"] == dt
 
 
-def test_feature_request_update_with_invalid_deadline_should_fail(setdb, client):
+def test_feature_request_update_with_invalid_deadline_should_fail(setdb, client, auth):
     data = {"deadline": "2010-01"}
-    resp = client.patch("/api/v1/features/1", data=data)
+    resp = client.patch("/api/v1/features/1", data=data, headers=auth)
     assert resp.status_code == 400
 
 
-def test_feature_request_delete(setdb, client):
-    resp = client.delete("/api/v1/features/1")
+def test_feature_request_delete(setdb, client, auth):
+    resp = client.delete("/api/v1/features/1", headers=auth)
     assert resp.status_code == 204
+
+
+def test_feature_request_delete_auth_error(setdb, client):
+    resp = client.delete("/api/v1/features/1")
+    assert resp.status_code == 401

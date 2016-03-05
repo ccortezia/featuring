@@ -13,3 +13,7 @@ six==1.10.0
 wsgiref==0.1.2
 peewee==2.8.0
 blinker==1.4
+pycparser==2.14
+cffi==1.5.2
+PyJWT==1.4.0
+bcrypt==2.0.0

@@ -1,6 +1,7 @@
 from flask import request
 from flask_restful import Resource, abort, marshal_with
 from featuring.security import jwt_protected, generate_token, decode_token
+from featuring.user import User
 from .serializers import SessionDetailSerializer, SessionCreationResultSerializer
 from .parsers import SessionCreateParser
 
@@ -15,6 +16,13 @@ class SessionResource(Resource):
     @marshal_with(SessionCreationResultSerializer)
     def post(self):
         args = SessionCreateParser.parse_args()
-        # XXX: ignore password for now
+        try:
+            user = User.get(User.username == args['username'])
+        except User.DoesNotExist:
+            print('does not exist')
+            abort(401, message='invalid credentials')
+        if not user.password.check_password(args['password']):
+            print('invalid passwd')
+            abort(401, message='invalid credentials')
         token = generate_token(args['username'])
         return {'token': token}, 201
