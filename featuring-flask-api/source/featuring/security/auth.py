@@ -2,7 +2,7 @@ import re
 import jwt
 import functools
 from flask import current_app, request
-from flask_restful import abort
+from .exceptions import AuthenticationFailure
 
 
 def parse_jwt_header(header):
@@ -16,14 +16,14 @@ def jwt_protected(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         if 'Authorization' not in request.headers:
-            abort(401, message='missing authentication data')
+            raise AuthenticationFailure('missing authentication data')
         token = parse_jwt_header(request.headers['Authorization'])
         if not token:
-            abort(401, message='unaccepted authentication data')
-        session = decode_token(token)
-        if not session:
-            abort(401, message='authentication rejected')
-        request.session = session
+            raise AuthenticationFailure('unaccepted authentication data')
+        jwt_payload = decode_token(token)
+        if not jwt_payload:
+            raise AuthenticationFailure('authentication rejected')
+        request.session = jwt_payload
         return func(*args, **kwargs)
     return wrapper
 
