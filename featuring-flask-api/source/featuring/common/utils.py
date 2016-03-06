@@ -6,6 +6,10 @@ def now():
     return datetime.datetime.now(pytz.utc)
 
 
+def dt_from_ts(ts):
+    return datetime.datetime.fromtimestamp(ts, pytz.utc)
+
+
 def tomorrow():
     _now = now()
     return datetime.datetime(
