@@ -6,6 +6,8 @@ from feature_request import (
     FeatureRequestResource,
     FeatureRequestListResource)
 
+from session import SessionResource
+
 
 class Ping(Resource):
     def get(self):
@@ -15,4 +17,5 @@ api = Api(featuring.app, catch_all_404s=True)
 api.add_resource(Ping, '/api/v1/ping')
 api.add_resource(FeatureRequestListResource, '/api/v1/features')
 api.add_resource(FeatureRequestResource, '/api/v1/features/<int:rid>')
+api.add_resource(SessionResource, '/api/v1/session')
 app = api.app

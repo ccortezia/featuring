@@ -4,6 +4,7 @@ from flask_restful import Resource, abort, marshal_with
 from .models import FeatureRequest
 from .serializers import FeatureRequestSerializer as serializer
 from .parsers import FeatureRequestCreateParser, FeatureRequestPatchParser
+from featuring.security import jwt_protected
 
 
 def find_or_abort(rid):
@@ -14,6 +15,7 @@ def find_or_abort(rid):
 
 
 class FeatureRequestResource(Resource):
+    method_decorators = [jwt_protected]
 
     @marshal_with(serializer)
     def get(self, rid):
@@ -36,6 +38,7 @@ class FeatureRequestResource(Resource):
 
 
 class FeatureRequestListResource(Resource):
+    method_decorators = [jwt_protected]
 
     @marshal_with(serializer)
     def get(self):

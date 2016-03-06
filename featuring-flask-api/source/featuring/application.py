@@ -5,6 +5,7 @@ from flask import got_request_exception
 import logging
 from logging.config import dictConfig
 from peewee import SqliteDatabase, IntegrityError
+from featuring.security import AuthenticationFailure
 
 
 def make_app():
@@ -27,6 +28,7 @@ def make_app():
 
     @app.after_request
     def after_request(response):
+        # TODO: make CORS more configurable, it is too wide open now.
         response.headers.add('Access-Control-Allow-Origin', '*')
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
@@ -38,6 +40,12 @@ def make_app():
         message = "a database integrity error occurred, review you request"
         response = jsonify({"detail": message})
         response.status_code = 400
+        return response
+
+    @app.errorhandler(AuthenticationFailure)
+    def application_generic_err(e):
+        response = jsonify({"detail": e.message})
+        response.status_code = 401
         return response
 
     @app.errorhandler(Exception)

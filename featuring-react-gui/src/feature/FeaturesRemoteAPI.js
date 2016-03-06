@@ -1,6 +1,7 @@
 import moment from 'moment';
 import request from 'superagent';
 import {api} from 'app/common/services';
+import {authHeader} from 'app/session/services';
 
 
 export default class FeaturesRemoteAPI {
@@ -9,6 +10,7 @@ export default class FeaturesRemoteAPI {
     return new Promise((resolve, reject) => {
       return request
         .post(api('/features'))
+        .set('Authorization', authHeader())
         .send(adaptOut(obj))
         .end((err, res) => err ? reject(err) : resolve((res.body && adaptIn(res.body))));
     });
@@ -18,6 +20,7 @@ export default class FeaturesRemoteAPI {
     return new Promise((resolve, reject) => {
       return request
         .get(api('/features'))
+        .set('Authorization', authHeader())
         .end((err, res) => err ? reject(err) : resolve((res.body && res.body.map(adaptIn)) || []));
     });
   }
@@ -26,6 +29,7 @@ export default class FeaturesRemoteAPI {
     return new Promise((resolve, reject) => {
       return request
         .patch(api(`/features/${id}`))
+        .set('Authorization', authHeader())
         .send(adaptOut(nobj))
         .end((err, res) => err ? reject(err) : resolve((res.body && adaptIn(res.body))));
     });
@@ -35,6 +39,7 @@ export default class FeaturesRemoteAPI {
     return new Promise((resolve, reject) => {
       return request
         .delete(api(`/features/${id}`))
+        .set('Authorization', authHeader())
         .end((err, res) => err ? reject(err) : resolve());
     });
   }
