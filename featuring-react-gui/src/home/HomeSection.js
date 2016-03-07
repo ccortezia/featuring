@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Header} from 'app/header';
 import {Footer} from 'app/footer';
 import {LogoutButton} from 'app/login';
+import {Link} from 'react-router';
 import store from 'app/root/store';
 import {requestSessionDetailAsyncAction} from 'app/session/actions';
 
@@ -23,7 +24,9 @@ export class HomeSection extends React.Component {
         <Header />
 
         <nav className={classNames({opened: this.props.menuOpened})}>
-          <div className="item"><span>{this.props.username}</span></div>
+          <Link className="item" to={`/users/${this.props.username}`}>
+            <div className="username"><i className="fa fa-user"/>{this.props.username}</div>
+          </Link>
           <div className="item"><LogoutButton redirectTo="/login" /></div>
         </nav>
 

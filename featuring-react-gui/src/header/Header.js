@@ -1,15 +1,16 @@
 import React from 'react';
 import {LogoutButton} from 'app/login'
 import {connect} from 'react-redux';
+import {Link} from 'react-router';
 import {navbarToggleAction} from './actions';
 
 
 export function Header({username, onNavToggle}) {
   return (
     <header>
-      <div className="logo">FEATURING</div>
+      <Link to="/" className="logo">FEATURING</Link>
       <div className="auth-box">
-        <div className="username">{username}</div>
+        <Link className="username" to={`/users/${username}`}>{username}</Link>
         <LogoutButton redirectTo="/login" />
       </div>
       <button className="btn btn-dark nav-toggle" onClick={onNavToggle}>

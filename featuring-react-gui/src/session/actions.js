@@ -28,8 +28,8 @@ export function requestSessionDetailAction() {
   return {type: CT.REQUEST_SESSION_DETAIL};
 }
 
-export function receiveSessionDetailAction({username}) {
-  return {type: CT.RECEIVE_SESSION_DETAIL, username};
+export function receiveSessionDetailAction({username, fullname}) {
+  return {type: CT.RECEIVE_SESSION_DETAIL, username, fullname};
 }
 
 export function failureSessionDetailAction(reason) {
