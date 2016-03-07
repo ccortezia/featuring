@@ -1,27 +1,35 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
+import UserRemoteAPI from './UserRemoteAPI';
 
 
-export function UserDetailSection({username, fullname}) {
-  return (
-    <section className="user">
-      <h1>{fullname}</h1>
-      <div>
-        <label>USERNAME</label>
-        <div>{username}</div>
-      </div>
-      <div className="btn-bar">
-        <Link className="btn btn-default" to="/">BACK</Link>
-        <Link className="btn btn-default" to={`/users/${username}/edit`}>EDIT</Link>
-      </div>
-    </section>
-  );
+export default class UserDetailSection extends React.Component {
+
+  constructor({props}) {
+    super({props});
+    this.state = {data: null};
+    this.remoteAPI = new UserRemoteAPI();
+  }
+
+  componentWillMount() {
+    return this.remoteAPI.get(this.props.params.username)
+      .then((data) => this.setState({data}))
+      .catch((err) => console.error(err)
+        || browserHistory.push(`/`));
+  }
+
+  render() {
+    return (
+      <section className="user">
+        <h1>{this.state.data && this.state.data.fullname}
+          <small>{this.state.data && this.state.data.username}</small>
+        </h1>
+        <div className="btn-bar">
+          <Link className="btn btn-default" to="/">BACK</Link>
+          <Link className="btn btn-default" to={`/users/${this.props.params.username}/edit`}>EDIT</Link>
+        </div>
+      </section>
+    );
+  }
 }
-
-export default connect(
-  (state) => ({
-    username: state.session.username,
-    fullname: state.session.fullname
-  })
-)(UserDetailSection);

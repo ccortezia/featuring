@@ -6,12 +6,25 @@ import * as CT from './constants';
 
 
 export function UserEditForm(
-  {fields: {fullname}, handleSubmit, invalid, onCancel, data}) {
+  {fields: {fullname, currentPassword, newPassword, newPasswordCheck},
+  handleSubmit, invalid, onCancel, data}) {
 
   const validationClasses = {
     fullname: {
       'has-success': fullname.dirty && !fullname.error,
       'has-error': (fullname.touched || fullname.dirty) && fullname.error
+    },
+    currentPassword: {
+      'has-success': currentPassword.dirty && !currentPassword.error,
+      'has-error': (currentPassword.touched || currentPassword.dirty) && currentPassword.error
+    },
+    newPassword: {
+      'has-success': newPassword.dirty && !newPassword.error,
+      'has-error': (newPassword.touched || newPassword.dirty) && newPassword.error
+    },
+    newPasswordCheck: {
+      'has-success': newPasswordCheck.dirty && !newPasswordCheck.error,
+      'has-error': (newPasswordCheck.touched || newPasswordCheck.dirty) && newPasswordCheck.error
     }
   };
 
@@ -32,6 +45,30 @@ export function UserEditForm(
       </div>
 
       <div>
+        <div className={classNames(["form-group", validationClasses.currentPassword])}>
+          <label className="control-label">Current password</label>
+          <input type="text" className="form-control" {...currentPassword} />
+        </div>
+
+        <div className={classNames(["form-group", validationClasses.newPassword])}>
+          <label className="control-label">New password</label>
+          <input type="text"
+            className="form-control"
+            disabled={!currentPassword.value}
+            {...newPassword} />
+        </div>
+
+        <div className={classNames(["form-group", validationClasses.newPasswordCheck])}>
+          <input type="text"
+            className="form-control"
+            placeholder="Please repeat the new password here"
+            disabled={!newPassword.value}
+            {...newPasswordCheck} />
+          {helper(newPasswordCheck, 'mismatch', "Passwords didn't match")}
+        </div>
+      </div>
+
+      <div>
         <button type="submit"
           className={classNames(["btn", "btn-success"])}
           onClick={handleSubmit}
@@ -49,6 +86,9 @@ export function UserEditForm(
 
 const fields = [
   'fullname',
+  'currentPassword',
+  'newPassword',
+  'newPasswordCheck'
 ];
 
 

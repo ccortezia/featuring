@@ -18,6 +18,15 @@ export default class UsersRemoteAPI {
     });
   }
 
+  get(username) {
+    return new Promise((resolve, reject) => {
+      return request
+        .get(api(`/users/${username}`))
+        .set('Authorization', authHeader())
+        .end((err, res) => err ? reject(err) : resolve(res.body && adaptIn(res.body)));
+    });
+  }
+
   list() {
     return new Promise((resolve, reject) => {
       // TODO: enable real request.
@@ -31,13 +40,11 @@ export default class UsersRemoteAPI {
 
   update(id, nobj) {
     return new Promise((resolve, reject) => {
-      // TODO: enable real request.
-      // return request
-      //   .patch(api(`/users/${id}`))
-      //   .set('Authorization', authHeader())
-      //   .send(adaptOut(nobj))
-      //   .end((err, res) => err ? reject(err) : resolve((res.body && adaptIn(res.body))));
-      return resolve({});
+      return request
+        .patch(api(`/users/${id}`))
+        .set('Authorization', authHeader())
+        .send(adaptOut(nobj))
+        .end((err, res) => err ? reject(err) : resolve((res.body && adaptIn(res.body))));
     });
   }
 
@@ -66,5 +73,6 @@ function adaptOut(item) {
   return _.pickBy({
     username: item.username,
     fullname: item.fullname,
+    password: item.password,
   }, _.negate(_.isUndefined));
 }

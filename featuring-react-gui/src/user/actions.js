@@ -1,9 +1,9 @@
 import * as CT from 'app/user/constants';
-import UsersRemoteAPI from './UsersRemoteAPI';
+import UserRemoteAPI from './UserRemoteAPI';
 import {extractReasonFromHttpError} from 'app/common/services';
 import {failureNetworkAction} from 'app/error/actions';
 
-const api = new UsersRemoteAPI();
+const api = new UserRemoteAPI();
 
 
 // ------------------------------
@@ -38,6 +38,20 @@ export function failureUserListAction(reason) {
 
 // --
 
+export function requestUserItemAction() {
+  return {type: CT.REQUEST_USER_ITEM};
+}
+
+export function receiveUserItemAction(data) {
+  return {type: CT.RECEIVE_USER_ITEM, data};
+}
+
+export function failureUserItemAction(reason) {
+  return {type: CT.FAILURE_USER_ITEM, reason};
+}
+
+// --
+
 export function requestUserUpdateAction(data) {
   return {type: CT.REQUEST_USER_UPDATE, data};
 }
@@ -52,12 +66,12 @@ export function failureUserUpdateAction(reason) {
 
 // --
 
-export function selectUserDeleteAction(id) {
-  return {type: CT.SELECT_USER_DELETE, featureId: id};
+export function selectUserDeleteAction(username) {
+  return {type: CT.SELECT_USER_DELETE, username: username};
 }
 
-export function requestUserDeleteAction(id) {
-  return {type: CT.REQUEST_USER_DELETE, featureId: id};
+export function requestUserDeleteAction(username) {
+  return {type: CT.REQUEST_USER_DELETE, username: username};
 }
 
 export function receiveUserDeleteAction() {
@@ -73,7 +87,7 @@ export function failureUserDeleteAction(reason) {
 // Async Actions
 // ------------------------------
 
-// Creates a dispatcher that signalizes the intention to retrieve the features list.
+// Creates a dispatcher that signalizes the intention to retrieve the users list.
 export function remoteRequestUserCreateAction(data) {
   return dispatch => {
 
@@ -101,7 +115,7 @@ export function remoteRequestUserCreateAction(data) {
   };
 }
 
-// Creates a dispatcher that signalizes the intention to retrieve the features list.
+// Creates a dispatcher that signalizes the intention to retrieve the users list.
 export function remoteRequestUserListAction() {
   return dispatch => {
 
@@ -129,7 +143,34 @@ export function remoteRequestUserListAction() {
   };
 }
 
-// Creates a dispatcher that signalizes the intention to retrieve the features list.
+// Creates a dispatcher that signalizes the intention to retrieve an user item.
+export function remoteRequestUserItemAction(username) {
+  return dispatch => {
+    return Promise.resolve().then(() => {
+      // Announce remote request is in progress.
+      return dispatch(requestUserItemAction());
+    })
+    .then((action) => {
+      // Reaches the backend.
+      return api.get(username);
+    })
+    .then((data) => {
+      // Announce remote results were retrieved.
+      return dispatch(receiveUserItemAction(data));
+    })
+    .catch((err) => {
+      return Promise.reject(extractReasonFromHttpError(err));
+    })
+    .catch((reason) => {
+      return Promise.reject(dispatch(failureUserListAction(reason)));
+    })
+    .catch((action) => {
+      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+    });
+  };
+}
+
+// Creates a dispatcher that signalizes the intention to retrieve the users list.
 export function remoteRequestUserUpdateAction(data) {
   return dispatch => {
 
@@ -158,7 +199,7 @@ export function remoteRequestUserUpdateAction(data) {
 }
 
 // Creates a dispatcher that signalizes the intention to delete a user record.
-export function remoteRequestUserDeleteAction(id) {
+export function remoteRequestUserDeleteAction(username) {
   return dispatch => {
 
     return Promise.resolve().then(() => {
@@ -167,7 +208,7 @@ export function remoteRequestUserDeleteAction(id) {
     })
     .then(() => {
       // Reaches the backend.
-      return api.del(id);
+      return api.del(username);
     })
     .then(() => {
       // Announce remote success.
