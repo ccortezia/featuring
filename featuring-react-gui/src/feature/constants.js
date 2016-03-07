@@ -32,3 +32,7 @@ export const PRODUCT_AREA_ID_MAP = {
   3: 'Claims',
   4: 'Reports'
 };
+
+export const TITLE_MIN_LENGTH = 10;
+export const TITLE_MAX_LENGTH = 60;
+export const DESCRIPTION_MAX_LENGTH = 300;

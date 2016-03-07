@@ -1,1 +1,0 @@
-export {featureEditFormNormalizer} from './FeatureEditForm';

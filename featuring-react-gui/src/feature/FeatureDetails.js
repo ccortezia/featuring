@@ -103,7 +103,7 @@ export class FeatureDetails extends React.Component {
         <div>
           <div className="feature-detail-field">
             <label>Target Date</label>
-            <div>{moment(this.props.data.deadline).format('MM/DD/YYYY')}</div>
+            <div>{this.props.data.deadline}</div>
           </div>
           <div className="feature-detail-field">
             <label>Product Area</label>

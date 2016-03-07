@@ -61,15 +61,13 @@ function adaptIn(item) {
 
 
 function adaptOut(item) {
-  console.log(item.deadline);
-  console.log(typeof item.deadline);
   return _.pickBy({
     id: item.id,
     title: item.title,
     description: item.description,
     client: item.clientId,
     priority: item.priority,
-    deadline: moment(item.deadline).toISOString(),
+    deadline: item.deadline,
     ticket_url: item.ticketUrl,
     product_area: item.area
   }, _.negate(_.isUndefined));

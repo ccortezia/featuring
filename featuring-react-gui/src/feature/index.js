@@ -14,3 +14,6 @@ export {
   onEnterFeatureItem,
   onEnterFeatureCreation}
   from './router-hooks';
+
+export {featureEditFormNormalizer} from './FeatureEditForm';
+export {featureCreateFormNormalizer} from './FeatureCreateForm';

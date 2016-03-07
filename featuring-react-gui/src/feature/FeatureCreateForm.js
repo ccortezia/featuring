@@ -4,8 +4,10 @@ import classNames from 'classnames';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
 import DatePicker from 'react-datepicker';
-import {isUrl} from 'app/common/utils';
 import {PRODUCT_AREA_ID_MAP, CLIENT_ID_MAP} from 'app/feature/constants';
+import * as CT from './constants';
+import validate from './formValidation';
+import {normalizeDeadline} from './formNormalize';
 
 
 export function FeatureCreateForm(
@@ -19,6 +21,10 @@ export function FeatureCreateForm(
     description: {
       'has-success': description.dirty && !description.error,
       'has-error': (description.touched || description.dirty) && description.error
+    },
+    deadline: {
+      'has-success': deadline.dirty && !deadline.error,
+      'has-error': (deadline.touched || deadline.dirty) && deadline.error
     },
     ticketUrl: {
       'has-success': ticketUrl.dirty && !ticketUrl.error,
@@ -39,13 +45,14 @@ export function FeatureCreateForm(
         <input type="text" className="form-control" placeholder="Provide some short description here" {...title} autoFocus />
         {helper(title, 'required', 'A valid title is required')}
         {helper(title, 'minLength', `A valid title has at least ${title.error && title.error.minLength} characters`)}
+        {helper(title, 'maxLength', `A valid title has no more than ${title.error && title.error.maxLength} characters`)}
       </div>
 
       <div className={classNames(["form-group", validationClasses.description])}>
         <label className="control-label">Description (optional)</label>
         <textarea rows="8" className="form-control"
-          placeholder="Provide a longer (max 300 words) description of the feature here. Don't spare the words !" {...description} />
-        {helper(description, 'maxWords', `Please limit yourself to ${description.error && description.error.maxWords} words`)}
+          placeholder={`Provide a longer (max ${CT.DESCRIPTION_MAX_LENGTH} words) description of the feature here. Don't spare the words !`} {...description} />
+        {helper(description, 'maxLength', `Please limit yourself to ${description.error && description.error.maxLength} characters`)}
       </div>
 
       <div className="form-group">
@@ -74,14 +81,15 @@ export function FeatureCreateForm(
         </div>
       </div>
 
-      <div className="feature-detail-field">
-        <label>Target Date</label>
-        <DatePicker dateFormat="MM/DD/YYYY" selected={deadline.value && moment(deadline.value, 'MM/DD/YYYY')} {...deadline} />
+      <div className={classNames(["form-group", validationClasses.deadline])}>
+        <label className="control-label">Target Date</label>
+        <DatePicker dateFormat="MM/DD/YYYY" selected={deadline.value && moment(deadline.value)} {...deadline} />
+        {helper(deadline, 'required', 'A valid target date is required')}
       </div>
 
       <div className={classNames(["form-group", validationClasses.ticketUrl])}>
         <label className="control-label">Ticket URL</label>
-        <input type="text" className="form-control" placeholder="http://company.jira/issues/AAA-9080" {...ticketUrl} />
+        <input type="text" className="form-control" placeholder="http://issue-tracker.company.org/issues/AAA-9080" {...ticketUrl} />
         {helper(ticketUrl, 'required', 'A valid ticket url is required')}
         {helper(ticketUrl, 'invalidFormat', 'A properly formatted url is required')}
       </div>
@@ -101,27 +109,11 @@ export function FeatureCreateForm(
 }
 
 
-function validate(values) {
-  let err = {};
-
-  if (!values.title) {
-    err.title = {required: true};
-  } else if (values.title.length < 10) {
-    err.title = {minLength: 10};
-  }
-
-  if (values.description && values.description.split(' ').length > 300) {
-    err.description = {maxWords: 300};
-  }
-
-  if (!values.ticketUrl) {
-    err.ticketUrl = {required: true};
-  } else if (!isUrl(values.ticketUrl)) {
-    err.ticketUrl = {invalidFormat: true};
-  }
-
-  return err;
-}
+// This object should be installed in the form reducer in order to transform
+//  data prior to sending it through submission.
+export const featureCreateFormNormalizer = {
+  deadline: normalizeDeadline
+};
 
 
 const fields = [
@@ -135,7 +127,8 @@ const fields = [
 
 const initialValues = {
   area: 1,
-  clientId: 1
+  clientId: 1,
+  deadline: moment()
 };
 
 export default reduxForm({
