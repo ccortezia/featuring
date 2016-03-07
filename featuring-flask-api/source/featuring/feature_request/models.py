@@ -29,12 +29,12 @@ class Client(Model):
 
 
 class FeatureRequest(Model):
-    title = CharField(max_length=60, unique=True)
+    title = CharField(max_length=60, unique=True, constraints=[Check('length(title) >= 10')])
     description = CharField(max_length=1000, default="")
     deadline = DateTimeField(default=lambda: tomorrow().isoformat())
     priority = IntegerField(constraints=[Check('priority > 0')])
     client = ForeignKeyField(Client, related_name='feature_requests')
-    product_area = CharField(choices=PRODUCT_AREAS.items())
+    product_area = IntegerField(choices=PRODUCT_AREAS.items())
     ticket_url = CharField(max_length=300)
 
     class Meta:
