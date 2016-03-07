@@ -14,6 +14,15 @@ export function selectFeatureFilterClientAction(id) {
   return {type: CT.SELECT_FEATURE_FILTER_CLIENT, clientId: Number(id)};
 }
 
+export function selectFeatureListItemAction(item) {
+  return {type: CT.SELECT_FEATURE_LIST_ITEM, item};
+}
+
+export function navbackFromBoardStageAction(item) {
+  return {type: CT.NAVBACK_FROM_STAGE, item};
+}
+
+
 // --
 
 export function requestFeatureCreateAction(data) {

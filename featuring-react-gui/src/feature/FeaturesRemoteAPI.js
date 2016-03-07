@@ -61,6 +61,8 @@ function adaptIn(item) {
 
 
 function adaptOut(item) {
+  console.log(item.deadline);
+  console.log(typeof item.deadline);
   return _.pickBy({
     id: item.id,
     title: item.title,

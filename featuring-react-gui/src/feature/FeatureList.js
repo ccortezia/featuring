@@ -1,12 +1,16 @@
 import _ from 'lodash';
+import classNames from 'classnames';
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 import store from 'app/root/store';
 import {FeatureListItem} from 'app/feature';
 import {CLIENT_ID_MAP} from 'app/feature/constants';
-import {selectFeatureFilterClientAction} from 'app/feature/actions';
-import {browserHistory} from 'react-router';
+
+import {
+  selectFeatureFilterClientAction,
+  selectFeatureListItemAction
+} from 'app/feature/actions';
 
 
 export class FeatureList extends React.Component {
@@ -23,6 +27,7 @@ export class FeatureList extends React.Component {
       top={item.priority == 1}
       active={!this.props.creating && item.id == this.props.selectedId}
       disabled={!!this.props.creating || !!this.props.editing}
+      onSelectNavigateToDetails={this.props.onSelectNavigateToDetails}
     />;
   }
 
@@ -47,7 +52,7 @@ export class FeatureList extends React.Component {
     const newButton = !this.props.creating && !this.props.editing &&
         <Link to="/features/new" className="btn btn-primary">NEW</Link>;
 
-    const clientSelector = (this.props.clientIds.length) ?
+    const clientSelector = (!this.props.creating && !this.props.editing && this.props.clientIds.length) ?
       <select
         disabled={this.props.creating || this.props.editing}
         value={this.props.selectedClientId}
@@ -55,8 +60,13 @@ export class FeatureList extends React.Component {
         {this.props.clientIds.map((k) =><option key={k} value={k}>{CLIENT_ID_MAP[k]}</option>)}
       </select> : undefined;
 
+    const classes = classNames([
+      "panel", "panel-default", "panel-feature-list",
+      {'nav-hide': !this.props.nav, 'nav-show': !!this.props.nav}
+    ]);
+
     return (
-      <div className="panel panel-default panel-feature-list">
+      <div className={classes}>
         <div className="panel-body">
           {newButton}
           {clientSelector}
@@ -79,7 +89,10 @@ export default connect(
     const defaultClientId = Math.min.apply(null, Object.keys(clientCounts));
     const fixedClientId = clientCounts[selectedClientId] ? selectedClientId : defaultClientId;
     return {items, selectedClientId: fixedClientId, clientIds};
-  }
+  },
+  (dispatch) => ({
+    onSelectNavigateToDetails: (item) => dispatch(selectFeatureListItemAction(item))
+  })
 )(FeatureList);
 
 

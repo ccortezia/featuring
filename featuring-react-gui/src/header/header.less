@@ -5,6 +5,7 @@ header {
   border: solid 2px grey;
   min-height: 60px;
   background-color: #222;
+  min-width: 300px;
 
   .logo {
     color: white;
@@ -15,25 +16,24 @@ header {
   }
 
   .auth-box {
-    color: white;
-    display: flex;
-    align-items: center;
-    .username {
-      margin-right: 10px;
-      font-size: 1.3em;
+    display: none;
+  }
+}
+
+@media (min-width: @screen-sm-min) {
+  header {
+    .nav-toggle {
+      display: none;
     }
-  }
 
-  .btn-logout {
-    color: white;
-    background-color: black;
-    padding-top: 8px;
-    font-weight: bold;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-
-  .btn-logout:hover {
-    background-color: lighten(black, 15%);
-    color: white;
+    .auth-box {
+      color: white;
+      display: flex;
+      align-items: center;
+      .username {
+        margin-right: 10px;
+        font-size: 1.3em;
+      }
+    }
   }
 }

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
+import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 import Modal from 'react-modal';
 import {browserHistory} from 'react-router';
@@ -11,16 +12,18 @@ import {createErrorAlert} from 'app/common/alert';
 
 import {
   remoteRequestFeatureDeleteAction,
-  remoteRequestFeatureListAction}
+  remoteRequestFeatureListAction,
+  navbackFromBoardStageAction}
   from 'app/feature/actions';
 
 
 export class FeatureDetails extends React.Component {
 
-  constructor({data}) {
-    super({data});
+  constructor({props}) {
+    super({props});
     this.onDeleteClicked = this.onDeleteClicked.bind(this);
     this.onEditClicked = this.onEditClicked.bind(this);
+    this.onNavBackClick = this.onNavBackClick.bind(this);
     this.handleDelAckModalCloseRequest = this.handleDelAckModalCloseRequest.bind(this);
     this.handleDelAckModalConfirmRequest = this.handleDelAckModalConfirmRequest.bind(this);
     this.acknowledgeError = this.acknowledgeError.bind(this);
@@ -33,6 +36,10 @@ export class FeatureDetails extends React.Component {
 
   onEditClicked(ev) {
     browserHistory.push(`/features/${this.props.data.id}/edit`);
+  }
+
+  onNavBackClick(ev) {
+    store.dispatch(navbackFromBoardStageAction());
   }
 
   handleDelAckModalCloseRequest() {
@@ -72,8 +79,14 @@ export class FeatureDetails extends React.Component {
       }
     };
 
+
+    const classes = classNames([
+      "panel panel-default panel-feature-main panel-feature-details",
+      {'nav-hide': !this.props.nav, 'nav-show': !!this.props.nav}
+    ]);
+
     return (
-      <div className="panel panel-default panel-feature-main panel-feature-details">
+      <div className={classes}>
         {this.props.err && !this.props.err.ack && createErrorAlert(this.props.err, this.acknowledgeError)}
 
         <div>
@@ -105,6 +118,7 @@ export class FeatureDetails extends React.Component {
         </div>
 
         <div>
+          <button onClick={this.onNavBackClick} className="btn btn-default btn-navback">BACK</button>
           <button onClick={this.onEditClicked} className="btn btn-default">EDIT</button>
           <button onClick={this.onDeleteClicked} className="btn btn-danger">DELETE</button>
         </div>

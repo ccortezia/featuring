@@ -4,6 +4,7 @@ import {reducer as formReducer} from 'redux-form';
 import {featureReducer} from 'app/feature';
 import {sessionReducer} from 'app/session';
 import {errorReducer} from 'app/error';
+import {homeReducer} from 'app/home';
 import {featureEditFormNormalizer} from 'app/feature/form-normalizers';
 
 
@@ -12,6 +13,7 @@ const reducer = combineReducers({
   feature: featureReducer,
   error: errorReducer,
   session: sessionReducer,
+  home: homeReducer,
   form: formReducer.normalize({
     featureEditForm: featureEditFormNormalizer
   })

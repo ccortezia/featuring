@@ -11,11 +11,11 @@ import {
   from 'app/feature/actions';
 
 
-export function FeatureListItem({data, active, disabled, top}) {
+export function FeatureListItem({data, active, disabled, top, onSelectNavigateToDetails}) {
 
   function onSelectItem(ev) {
     ev.preventDefault();
-    (data.id !== undefined) && !disabled && browserHistory.push(`/features/${data.id}`)
+    (data.id !== undefined) && !disabled && browserHistory.push(`/features/${data.id}`);
   }
 
   function onRaisePriorityClick(ev) {
@@ -31,15 +31,24 @@ export function FeatureListItem({data, active, disabled, top}) {
   title = title.length > maxTitleLenght ? title.slice(0, maxTitleLenght) + '...' : title;
 
   const priorityRaiseButton = (active && !top) &&
-    <button className="btn btn-default btn-inc-priority" onClick={onRaisePriorityClick}>
-      <i className="fa fa-level-up"></i>
+    <button className="list-group-item-btn" onClick={onRaisePriorityClick}>
+      <i className="fa fa-lg fa-angle-double-up"></i>
+    </button>;
+
+  const navigateToDetailsButton = (active) &&
+    <button className="list-group-item-btn btn-nav-detail" onClick={() => onSelectNavigateToDetails(data)}>
+      <i className="fa fa-search"></i>
     </button>;
 
   return (
-    <a href="#" className={classNames(["list-group-item", {active}, {disabled}])} onClick={onSelectItem}>
+    <a href="#"
+      className={classNames(["list-group-item", {active}, {disabled}])} onClick={onSelectItem}>
       <h4 className="list-group-item-heading">{title}</h4>
-      <p className="list-group-item-text">{PRODUCT_AREA_ID_MAP[data.area] + ' ' + data.priority}</p>
-      {priorityRaiseButton}
+      <p className="list-group-item-text">{PRODUCT_AREA_ID_MAP[data.area]}</p>
+      <div className="list-group-item-btn-bar">
+        {priorityRaiseButton}
+        {navigateToDetailsButton}
+      </div>
     </a>
   );
 }
