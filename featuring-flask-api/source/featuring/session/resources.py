@@ -11,7 +11,10 @@ class SessionResource(Resource):
     @jwt_protected
     @marshal_with(SessionDetailSerializer)
     def get(self):
-        return {'username': request.session['username']}
+        return {
+            'username': request.session['username'],
+            'fullname': request.session['fullname']
+        }
 
     @marshal_with(SessionCreationResultSerializer)
     def post(self):
@@ -24,5 +27,5 @@ class SessionResource(Resource):
         if not user.password.check_password(args['password']):
             print('invalid passwd')
             abort(401, message='invalid credentials')
-        token = generate_token(args['username'])
+        token = generate_token({'username': user.username, 'fullname': user.fullname})
         return {'token': token}, 201

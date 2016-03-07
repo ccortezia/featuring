@@ -7,4 +7,5 @@ SessionCreationResultSerializer = {
 
 SessionDetailSerializer = {
     'username': fields.String,
+    'fullname': fields.String,
 }

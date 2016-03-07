@@ -40,11 +40,12 @@ def jwt_protected(func):
     return wrapper
 
 
-def generate_token(username):
+def generate_token(info):
     secret = current_app.config['SECRET_KEY']
     token_duration = current_app.config['TOKEN_SECONDS']
     token_expires_on = now() + timedelta(seconds=token_duration)
-    payload = {'username': username, 'exp': token_expires_on}
+    payload = {'exp': token_expires_on}
+    payload.update(info)
     return jwt.encode(payload, secret, algorithm='HS256')
 
 
