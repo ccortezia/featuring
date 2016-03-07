@@ -1,17 +1,17 @@
 import {extractReasonFromHttpError} from 'app/common/services';
 import {persistSessionToken, destroySessionToken} from './services';
-import SessionAPI from './SessionAPI';
+import SessionRemoteAPI from './SessionRemoteAPI';
 import * as CT from './constants';
 
-const api = new SessionAPI();
+const api = new SessionRemoteAPI();
 
 
 // ------------------------------
 // Sync Actions
 // ------------------------------
 
-export function requestSessionCreateAction(username, password) {
-  return {type: CT.REQUEST_SESSION_CREATE, username, password};
+export function requestSessionCreateAction() {
+  return {type: CT.REQUEST_SESSION_CREATE};
 }
 
 export function receiveSessionCreateAction(token) {
@@ -28,8 +28,8 @@ export function requestSessionDetailAction() {
   return {type: CT.REQUEST_SESSION_DETAIL};
 }
 
-export function receiveSessionDetailAction({username, fullname}) {
-  return {type: CT.RECEIVE_SESSION_DETAIL, username, fullname};
+export function receiveSessionDetailAction(data) {
+  return {type: CT.RECEIVE_SESSION_DETAIL, data};
 }
 
 export function failureSessionDetailAction(reason) {
@@ -45,10 +45,9 @@ export function failureSessionDetailAction(reason) {
 // Creates a dispatcher that signalizes the intention to create a remote session.
 export function requestSessionCreateAsyncAction(username, password) {
   return dispatch => {
-
     return Promise.resolve()
       .then(() => destroySessionToken())
-      .then(() => dispatch(requestSessionCreateAction(username, password)))
+      .then(() => dispatch(requestSessionCreateAction()))
       .then((action) => api.create(username, password))
       .then((result) => result.token)
       .then((token) => persistSessionToken(token))
