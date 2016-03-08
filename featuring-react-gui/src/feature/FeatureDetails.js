@@ -13,7 +13,7 @@ import {createErrorAlert} from 'app/common/alert';
 import {
   remoteRequestFeatureDeleteAction,
   remoteRequestFeatureListAction,
-  navbackFromBoardStageAction}
+  navbackFromBoardCentralAction}
   from 'app/feature/actions';
 
 
@@ -56,7 +56,7 @@ export class FeatureDetails extends React.Component {
   }
 
   onNavBackClick(ev) {
-    store.dispatch(navbackFromBoardStageAction());
+    store.dispatch(navbackFromBoardCentralAction());
   }
 
   handleDelAckModalCloseRequest() {

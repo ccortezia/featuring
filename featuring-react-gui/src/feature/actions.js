@@ -18,8 +18,8 @@ export function selectFeatureListItemDetailAction(item) {
   return {type: CT.SELECT_FEATURE_LIST_ITEM_DETAIL, item};
 }
 
-export function navbackFromBoardStageAction(item) {
-  return {type: CT.NAVBACK_FROM_STAGE, item};
+export function navbackFromBoardCentralAction(item) {
+  return {type: CT.NAVBACK_FROM_CENTRAL, item};
 }
 
 

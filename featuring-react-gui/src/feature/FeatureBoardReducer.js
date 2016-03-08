@@ -18,7 +18,7 @@ export default function featureBoardReducer(state=defaultState, action) {
     case CT.SELECT_FEATURE_LIST_ITEM_DETAIL:
       return Object.assign({}, state, {selectedItemDetailId: action.item.id});
 
-    case CT.NAVBACK_FROM_STAGE:
+    case CT.NAVBACK_FROM_CENTRAL:
       return Object.assign({}, state, {selectedItemDetailId: undefined});
 
     default:
