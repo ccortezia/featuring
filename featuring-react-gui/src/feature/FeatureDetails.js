@@ -11,6 +11,7 @@ import {ackErrorAction} from 'app/error/actions';
 import {createErrorAlert} from 'app/common/alert';
 
 import {
+  remoteRequestFeatureItemAction,
   remoteRequestFeatureDeleteAction,
   remoteRequestFeatureListAction,
   navbackFromBoardCentralAction}
@@ -32,19 +33,16 @@ export class FeatureDetails extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data && nextProps.data.id && this.props.data &&
-        this.props.data.id == nextProps.data.id) {
-      return;
+    const next = nextProps;
+    const current = this.props;
+    if (next.data && next.data.id && current.data && current.data.id != next.data.id) {
+      this.acknowledgeError();
+      store.dispatch(remoteRequestFeatureItemAction({id: next.data.id}))
     }
-    // setTimeout is (clearly) a workaround for a non understood problem
-    //  when disapatching synchronously from inside this method.
-    setTimeout(this.acknowledgeError);
   }
 
   componentWillUnmount() {
-    // setTimeout is (clearly) a workaround for a non understood problem
-    //  when disapatching synchronously from inside this method.
-    setTimeout(this.acknowledgeError);
+    this.acknowledgeError();
   }
 
   onDeleteClicked(ev) {

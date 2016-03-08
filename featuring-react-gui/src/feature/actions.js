@@ -53,6 +53,20 @@ export function failureFeatureListAction({reason, origin} = {reason: null, origi
 
 // --
 
+export function requestFeatureItemAction({origin} = {origin: null}) {
+  return {type: CT.REQUEST_FEATURE_ITEM, origin};
+}
+
+export function receiveFeatureItemAction({data, origin} = {data: [], origin: null}) {
+  return {type: CT.RECEIVE_FEATURE_ITEM, data, origin};
+}
+
+export function failureFeatureItemAction({reason, origin} = {reason: null, origin: null}) {
+  return errorAction({failure: CT.FAILURE_FEATURE_ITEM, reason, origin});
+}
+
+// --
+
 export function requestFeatureUpdateAction({data, origin} = {origin: null}) {
   return {type: CT.REQUEST_FEATURE_UPDATE, data, origin};
 }
@@ -134,6 +148,31 @@ export function remoteRequestFeatureListAction({origin} = {origin: null}) {
     })
     .catch((reason) => {
       return Promise.reject(dispatch(failureFeatureListAction({reason, origin})));
+    });
+  };
+}
+
+// Creates a dispatcher that signalizes the intention to retrieve the features list.
+export function remoteRequestFeatureItemAction({id, origin} = {origin: null}) {
+  return dispatch => {
+
+    return Promise.resolve().then(() => {
+      // Announce remote request is in progress.
+      return dispatch(requestFeatureItemAction({id, origin}));
+    })
+    .then(() => {
+      // Reaches the backend.
+      return api.get(id);
+    })
+    .then((data) => {
+      // Announce remote results were retrieved.
+      return dispatch(receiveFeatureItemAction({data, origin}));
+    })
+    .catch((err) => {
+      return Promise.reject(extractReasonFromHttpError(err));
+    })
+    .catch((reason) => {
+      return Promise.reject(dispatch(failureFeatureItemAction({reason, origin})));
     });
   };
 }
