@@ -15,8 +15,14 @@ export default function validate(values) {
     err.fullname = {maxLength: CT.FULLNAME_MAX_LENGTH};
   }
 
-  if (values.currentPassword && values.newPasswordCheck) {
-    if (values.newPassword != values.newPasswordCheck) {
+  if (values.currentPassword) {
+    if (!values.newPassword) {
+      err.newPassword = {required: true};
+    }
+    else if (!values.newPasswordCheck) {
+      err.newPasswordCheck = {required: true};
+    }
+    else if (values.newPassword != values.newPasswordCheck) {
       err.newPasswordCheck = {mismatch: true};
     }
   }

@@ -40,7 +40,6 @@ export default class UsersRemoteAPI {
 
   update(id, nobj) {
     return new Promise((resolve, reject) => {
-      return reject({status: 500});
       return request
         .patch(api(`/users/${id}`))
         .set('Authorization', authHeader())

@@ -7,6 +7,10 @@ import {ackErrorAction} from 'app/error/actions';
 import UserEditForm from './UserEditForm';
 
 import {
+  requestSessionCreateAsyncAction,
+} from 'app/session/actions';
+
+import {
   remoteRequestUserItemAction,
   remoteRequestUserUpdateAction
 } from './actions';
@@ -24,7 +28,8 @@ export class  UserEditSection extends React.Component {
   }
 
   componentWillMount() {
-    const origin = this.props.location.pathname;
+    this.setState({origin: this.props.location.pathname})
+    const origin = this.state.origin;
     const username = this.props.params.username;
     store.dispatch(remoteRequestUserItemAction({username, origin}))
       .then((action) => action.data)
@@ -39,12 +44,18 @@ export class  UserEditSection extends React.Component {
 
   onSubmit(submitedData) {
     const fullname = submitedData.fullname;
+    const password = submitedData.newPassword;
+    const currentPassword = submitedData.currentPassword;
     const username = this.props.params.username;
-    const data = Object.assign({}, {username, fullname});
-    const origin = this.props.location.pathname;
-    store.dispatch(remoteRequestUserUpdateAction({data, origin}))
-      .then((result) => result && browserHistory.push(`/users/${username}`))
-      .catch((err) => this.setState({err}));
+    const data = Object.assign({}, {username, fullname, password});
+    const origin = this.state.origin;
+    const promise = currentPassword ?
+      store.dispatch(requestSessionCreateAsyncAction({
+        origin, username, password: currentPassword
+      })) : Promise.resolve();
+    promise
+      .then(() => store.dispatch(remoteRequestUserUpdateAction({data, origin})))
+      .then((result) => result && browserHistory.push(`/users/${username}`));
   }
 
   onCancel() {
@@ -52,12 +63,11 @@ export class  UserEditSection extends React.Component {
   }
 
   acknowledgeError() {
-    const origin = this.props.location.pathname;
-    store.dispatch(ackErrorAction({origin}));
+    store.dispatch(ackErrorAction({origin: this.state.origin}));
   }
 
   errorBanner() {
-    const origin = this.props.location.pathname;
+    const origin = this.state.origin;
     const error = this.props.error && this.props.error[origin];
     return error && !error.ack && createErrorAlert(error, this.acknowledgeError);
   }

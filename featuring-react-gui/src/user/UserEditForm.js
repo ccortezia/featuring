@@ -56,6 +56,7 @@ export function UserEditForm(
             className="form-control"
             disabled={!currentPassword.value}
             {...newPassword} />
+            {helper(newPassword, 'required', 'A valid new password is now required')}
         </div>
 
         <div className={classNames(["form-group", validationClasses.newPasswordCheck])}>
@@ -64,6 +65,7 @@ export function UserEditForm(
             placeholder="Please repeat the new password here"
             disabled={!newPassword.value}
             {...newPasswordCheck} />
+          {helper(newPasswordCheck, 'required', 'Please double check your new password')}
           {helper(newPasswordCheck, 'mismatch', "Passwords didn't match")}
         </div>
       </div>
