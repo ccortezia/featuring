@@ -8,13 +8,7 @@ export default class UsersRemoteAPI {
 
   create(obj) {
     return new Promise((resolve, reject) => {
-      return resolve({});
-      // TODO: enable real request.
-      // return request
-      //   .post(api('/users'))
-      //   .set('Authorization', authHeader())
-      //   .send(adaptOut(obj))
-      //   .end((err, res) => err ? reject(err) : resolve((res.body && adaptIn(res.body))));
+      return reject('not-implemented');
     });
   }
 
@@ -23,18 +17,13 @@ export default class UsersRemoteAPI {
       return request
         .get(api(`/users/${username}`))
         .set('Authorization', authHeader())
-        .end((err, res) => err ? reject(err) : resolve(res.body && adaptIn(res.body)));
+        .end((err, res) => console.log(res.body) || err ? reject(err) : resolve(res.body && adaptIn(res.body)));
     });
   }
 
   list() {
     return new Promise((resolve, reject) => {
-      // TODO: enable real request.
-      // return request
-      //   .get(api('/users'))
-      //   .set('Authorization', authHeader())
-      //   .end((err, res) => err ? reject(err) : resolve((res.body && res.body.map(adaptIn)) || []));
-      return resolve([]);
+      return reject('not-implemented');
     });
   }
 
@@ -50,12 +39,7 @@ export default class UsersRemoteAPI {
 
   del(id) {
     return new Promise((resolve, reject) => {
-      // TODO: enable real request.
-      // return request
-      //   .delete(api(`/users/${id}`))
-      //   .set('Authorization', authHeader())
-      //   .end((err, res) => err ? reject(err) : resolve());
-      return resolve();
+      return reject('not-implemented');
     });
   }
 }
