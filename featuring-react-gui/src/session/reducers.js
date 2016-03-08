@@ -1,7 +1,7 @@
 import * as CT from 'app/session/constants';
 
 
-export function sessionReducer(state={username: undefined}, action) {
+export function sessionReducer(state={}, action) {
 
   switch (action.type) {
 

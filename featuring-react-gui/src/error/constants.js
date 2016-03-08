@@ -1,2 +1,2 @@
-export const FAILURE_NETWORK = 'FAILURE_NETWORK';
-export const ACK_FAILURE_NETWORK = 'ACK_FAILURE_NETWORK';
+export const ERROR = 'app/ERROR';
+export const ACK_ERROR = 'app/ACK_ERROR';

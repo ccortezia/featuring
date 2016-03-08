@@ -7,7 +7,7 @@ import {browserHistory} from 'react-router';
 import store from 'app/root/store';
 import {featureDataType} from 'app/feature/types';
 import {PRODUCT_AREA_ID_MAP, CLIENT_ID_MAP} from 'app/feature/constants';
-import {ackFailureNetworkAction} from 'app/error/actions';
+import {ackErrorAction} from 'app/error/actions';
 import {createErrorAlert} from 'app/common/alert';
 
 import {
@@ -27,7 +27,24 @@ export class FeatureDetails extends React.Component {
     this.handleDelAckModalCloseRequest = this.handleDelAckModalCloseRequest.bind(this);
     this.handleDelAckModalConfirmRequest = this.handleDelAckModalConfirmRequest.bind(this);
     this.acknowledgeError = this.acknowledgeError.bind(this);
+    this.errorBanner = this.errorBanner.bind(this);
     this.state = {pendingDelAck: false};
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data && nextProps.data.id && this.props.data &&
+        this.props.data.id == nextProps.data.id) {
+      return;
+    }
+    // setTimeout is (clearly) a workaround for a non understood problem
+    //  when disapatching synchronously from inside this method.
+    setTimeout(this.acknowledgeError);
+  }
+
+  componentWillUnmount() {
+    // setTimeout is (clearly) a workaround for a non understood problem
+    //  when disapatching synchronously from inside this method.
+    setTimeout(this.acknowledgeError);
   }
 
   onDeleteClicked(ev) {
@@ -47,38 +64,25 @@ export class FeatureDetails extends React.Component {
   }
 
   handleDelAckModalConfirmRequest() {
+    const origin = this.props.origin;
     store
-      .dispatch(remoteRequestFeatureDeleteAction(this.props.data.id))
-      .then(() => store.dispatch(remoteRequestFeatureListAction()))
+      .dispatch(remoteRequestFeatureDeleteAction({id: this.props.data.id, origin}))
+      .then(() => store.dispatch(remoteRequestFeatureListAction({origin})))
       .then(() => this.setState({pendingDelAck: false}))
       .then(() => browserHistory.push('/features'))
       .catch(() => this.setState({pendingDelAck: false}));
   }
 
   acknowledgeError() {
-    store.dispatch(ackFailureNetworkAction())
+    store.dispatch(ackErrorAction({origin: this.props.origin}))
+  }
+
+  errorBanner() {
+    return this.props.error && !this.props.error.ack
+      && createErrorAlert(this.props.error, this.acknowledgeError);
   }
 
   render() {
-
-    const modalStyles = {
-      overlay: {
-        zIndex         : '2',
-      },
-      content : {
-        top            : '50%',
-        left           : '50%',
-        right          : 'auto',
-        bottom         : 'auto',
-        marginRight    : '-50%',
-        transform      : 'translate(-50%, -50%)',
-        minHeight      : '180px',
-        display        : 'flex',
-        flexDirection  : 'column',
-        justifyContent : 'space-between',
-      }
-    };
-
 
     const classes = classNames([
       "panel panel-default panel-feature-main panel-feature-details",
@@ -87,7 +91,7 @@ export class FeatureDetails extends React.Component {
 
     return (
       <div className={classes}>
-        {this.props.err && !this.props.err.ack && createErrorAlert(this.props.err, this.acknowledgeError)}
+        {this.errorBanner()}
 
         <div>
           <h2>
@@ -151,5 +155,25 @@ export class FeatureDetails extends React.Component {
 FeatureDetails.propTypes = {
   data: featureDataType
 };
+
+
+const modalStyles = {
+  overlay: {
+    zIndex         : '2',
+  },
+  content : {
+    top            : '50%',
+    left           : '50%',
+    right          : 'auto',
+    bottom         : 'auto',
+    marginRight    : '-50%',
+    transform      : 'translate(-50%, -50%)',
+    minHeight      : '180px',
+    display        : 'flex',
+    flexDirection  : 'column',
+    justifyContent : 'space-between',
+  }
+};
+
 
 export default FeatureDetails;

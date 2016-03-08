@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import {Link, browserHistory} from 'react-router';
 import {createErrorAlert} from 'app/common/alert';
 import store from 'app/root/store';
+import {ackErrorAction} from 'app/error/actions';
 import UserEditForm from './UserEditForm';
-import UserRemoteAPI from './UserRemoteAPI';
 
 import {
   remoteRequestUserItemAction,
@@ -19,23 +19,30 @@ export class  UserEditSection extends React.Component {
     this.onCancel = this.onCancel.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.acknowledgeError = this.acknowledgeError.bind(this);
-    this.userAPI = new UserRemoteAPI();
-    this.state = {data: null, err: null};
+    this.errorBanner = this.errorBanner.bind(this);
+    this.state = {data: null};
   }
 
   componentWillMount() {
-    this.userAPI.get(this.props.params.username)
+    const origin = this.props.location.pathname;
+    const username = this.props.params.username;
+    store.dispatch(remoteRequestUserItemAction({username, origin}))
+      .then((action) => action.data)
       .then((data) => this.setState({data}))
       .catch((err) => console.error(err)
-        || browserHistory.push(`/users/${this.props.params.username}`))
+        || browserHistory.push(`/`));
+  }
+
+  componentWillUnmount() {
+    this.acknowledgeError();
   }
 
   onSubmit(submitedData) {
     const fullname = submitedData.fullname;
     const username = this.props.params.username;
-    const obj = Object.assign({}, {username, fullname});
-    store.dispatch(remoteRequestUserUpdateAction(obj))
-      .then(() => store.dispatch(remoteRequestUserItemAction(username)))
+    const data = Object.assign({}, {username, fullname});
+    const origin = this.props.location.pathname;
+    store.dispatch(remoteRequestUserUpdateAction({data, origin}))
       .then((result) => result && browserHistory.push(`/users/${username}`))
       .catch((err) => this.setState({err}));
   }
@@ -45,13 +52,20 @@ export class  UserEditSection extends React.Component {
   }
 
   acknowledgeError() {
-    store.dispatch(ackFailureNetworkAction());
+    const origin = this.props.location.pathname;
+    store.dispatch(ackErrorAction({origin}));
+  }
+
+  errorBanner() {
+    const origin = this.props.location.pathname;
+    const error = this.props.error && this.props.error[origin];
+    return error && !error.ack && createErrorAlert(error, this.acknowledgeError);
   }
 
   render() {
     return (
       <section className="user user-edit">
-        {this.state.err && !this.state.err.ack && createErrorAlert(err)}
+        {this.errorBanner()}
         <h2>Edit this account profile</h2>
         <UserEditForm
           initialValues={this.state.data}
@@ -65,6 +79,6 @@ export class  UserEditSection extends React.Component {
 
 export default connect(
   (state) => ({
-    err: state.error
+    error: state.error
   })
 )(UserEditSection);

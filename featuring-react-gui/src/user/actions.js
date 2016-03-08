@@ -1,7 +1,7 @@
 import * as CT from 'app/user/constants';
 import UserRemoteAPI from './UserRemoteAPI';
 import {extractReasonFromHttpError} from 'app/common/services';
-import {failureNetworkAction} from 'app/error/actions';
+import {errorAction} from 'app/error/actions';
 
 const api = new UserRemoteAPI();
 
@@ -10,76 +10,76 @@ const api = new UserRemoteAPI();
 // Sync Actions
 // ------------------------------
 
-export function requestUserCreateAction(data) {
-  return {type: CT.REQUEST_USER_CREATE, data};
+export function requestUserCreateAction({data, origin} = {origin: null}) {
+  return {type: CT.REQUEST_USER_CREATE, data, origin};
 }
 
-export function receiveUserCreateAction(data) {
-  return {type: CT.RECEIVE_USER_CREATE, data};
+export function receiveUserCreateAction({data, origin} = {origin: null}) {
+  return {type: CT.RECEIVE_USER_CREATE, data, origin};
 }
 
-export function failureUserCreateAction(reason) {
-  return {type: CT.FAILURE_USER_CREATE, reason};
-}
-
-// --
-
-export function requestUserListAction() {
-  return {type: CT.REQUEST_USER_LIST};
-}
-
-export function receiveUserListAction(items) {
-  return {type: CT.RECEIVE_USER_LIST, items};
-}
-
-export function failureUserListAction(reason) {
-  return {type: CT.FAILURE_USER_LIST, reason};
+export function failureUserCreateAction({reason, origin} = {reason: null, origin: null}) {
+  return errorAction({failure: CT.FAILURE_USER_CREATE, reason, origin});
 }
 
 // --
 
-export function requestUserItemAction() {
-  return {type: CT.REQUEST_USER_ITEM};
+export function requestUserListAction({origin}) {
+  return {type: CT.REQUEST_USER_LIST, origin};
 }
 
-export function receiveUserItemAction(data) {
-  return {type: CT.RECEIVE_USER_ITEM, data};
+export function receiveUserListAction({items, origin} = {items: [], origin: null}) {
+  return {type: CT.RECEIVE_USER_LIST, items, origin};
 }
 
-export function failureUserItemAction(reason) {
-  return {type: CT.FAILURE_USER_ITEM, reason};
-}
-
-// --
-
-export function requestUserUpdateAction(data) {
-  return {type: CT.REQUEST_USER_UPDATE, data};
-}
-
-export function receiveUserUpdateAction(data) {
-  return {type: CT.RECEIVE_USER_UPDATE, data};
-}
-
-export function failureUserUpdateAction(reason) {
-  return {type: CT.FAILURE_USER_UPDATE, reason};
+export function failureUserListAction({reason, origin} = {reason: null, origin: null}) {
+  return errorAction({failure: CT.FAILURE_USER_LIST, reason, origin});
 }
 
 // --
 
-export function selectUserDeleteAction(username) {
-  return {type: CT.SELECT_USER_DELETE, username: username};
+export function requestUserItemAction({username, origin} = {origin: null}) {
+  return {type: CT.REQUEST_USER_ITEM, username, origin};
 }
 
-export function requestUserDeleteAction(username) {
-  return {type: CT.REQUEST_USER_DELETE, username: username};
+export function receiveUserItemAction({data, origin} = {origin: null}) {
+  return {type: CT.RECEIVE_USER_ITEM, data, origin};
 }
 
-export function receiveUserDeleteAction() {
-  return {type: CT.RECEIVE_USER_DELETE};
+export function failureUserItemAction({reason, origin} = {reason: null, origin: null}) {
+  return errorAction({failure: CT.FAILURE_USER_ITEM, reason, origin});
 }
 
-export function failureUserDeleteAction(reason) {
-  return {type: CT.FAILURE_USER_DELETE, reason};
+// --
+
+export function requestUserUpdateAction({data, origin} = {origin: null}) {
+  return {type: CT.REQUEST_USER_UPDATE, data, origin};
+}
+
+export function receiveUserUpdateAction({data, origin} = {origin: null}) {
+  return {type: CT.RECEIVE_USER_UPDATE, data, origin};
+}
+
+export function failureUserUpdateAction({reason, origin} = {reason: null, origin: null}) {
+  return errorAction({failure: CT.FAILURE_USER_UPDATE, reason, origin});
+}
+
+// --
+
+export function selectUserDeleteAction({username, origin} = {origin: null}) {
+  return {type: CT.SELECT_USER_DELETE, username: username, origin};
+}
+
+export function requestUserDeleteAction({username, origin} = {origin: null}) {
+  return {type: CT.REQUEST_USER_DELETE, username: username, origin};
+}
+
+export function receiveUserDeleteAction({username, origin} = {origin: null}) {
+  return {type: CT.RECEIVE_USER_DELETE, username, origin};
+}
+
+export function failureUserDeleteAction({reason, origin} = {reason: null, origin: null}) {
+  return errorAction({failure: CT.FAILURE_USER_DELETE, reason, origin});
 }
 
 
@@ -88,67 +88,61 @@ export function failureUserDeleteAction(reason) {
 // ------------------------------
 
 // Creates a dispatcher that signalizes the intention to retrieve the users list.
-export function remoteRequestUserCreateAction(data) {
+export function remoteRequestUserCreateAction({data, origin} = {origin: null}) {
   return dispatch => {
 
     return Promise.resolve().then(() => {
       // Announce remote request is in progress.
-      return dispatch(requestUserCreateAction(data));
+      return dispatch(requestUserCreateAction({data, origin}));
     })
     .then(() => {
       // Reaches the backend.
       return api.create(data);
     })
-    .then((results) => {
+    .then((data) => {
       // Announce remote results were retrieved.
-      return dispatch(receiveUserCreateAction(results));
+      return dispatch(receiveUserCreateAction({data, origin}));
     })
     .catch((err) => {
       return Promise.reject(extractReasonFromHttpError(err));
     })
     .catch((reason) => {
-      return Promise.reject(dispatch(failureUserListAction(reason)));
-    })
-    .catch((action) => {
-      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+      return Promise.reject(dispatch(failureUserListAction({reason, origin})));
     });
   };
 }
 
 // Creates a dispatcher that signalizes the intention to retrieve the users list.
-export function remoteRequestUserListAction() {
+export function remoteRequestUserListAction({origin} = {origin: null}) {
   return dispatch => {
 
     return Promise.resolve().then(() => {
       // Announce remote request is in progress.
-      return dispatch(requestUserListAction());
+      return dispatch(requestUserListAction({origin}));
     })
     .then(() => {
       // Reaches the backend.
       return api.list();
     })
-    .then((results) => {
+    .then((items) => {
       // Announce remote results were retrieved.
-      return dispatch(receiveUserListAction(results));
+      return dispatch(receiveUserListAction({items, origin}));
     })
     .catch((err) => {
       return Promise.reject(extractReasonFromHttpError(err));
     })
     .catch((reason) => {
-      return Promise.reject(dispatch(failureUserListAction(reason)));
-    })
-    .catch((action) => {
-      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+      return Promise.reject(dispatch(failureUserListAction({reason, origin})));
     });
   };
 }
 
 // Creates a dispatcher that signalizes the intention to retrieve an user item.
-export function remoteRequestUserItemAction(username) {
+export function remoteRequestUserItemAction({username, origin} = {origin: null}) {
   return dispatch => {
     return Promise.resolve().then(() => {
       // Announce remote request is in progress.
-      return dispatch(requestUserItemAction());
+      return dispatch(requestUserItemAction({username, origin}));
     })
     .then((action) => {
       // Reaches the backend.
@@ -156,55 +150,49 @@ export function remoteRequestUserItemAction(username) {
     })
     .then((data) => {
       // Announce remote results were retrieved.
-      return dispatch(receiveUserItemAction(data));
+      return dispatch(receiveUserItemAction({data, origin}));
     })
     .catch((err) => {
       return Promise.reject(extractReasonFromHttpError(err));
     })
     .catch((reason) => {
-      return Promise.reject(dispatch(failureUserListAction(reason)));
-    })
-    .catch((action) => {
-      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+      return Promise.reject(dispatch(failureUserListAction({reason, origin})));
     });
   };
 }
 
 // Creates a dispatcher that signalizes the intention to retrieve the users list.
-export function remoteRequestUserUpdateAction(data) {
+export function remoteRequestUserUpdateAction({data, origin} = {origin: null}) {
   return dispatch => {
 
     return Promise.resolve().then(() => {
       // Announce remote request is in progress.
-      return dispatch(requestUserUpdateAction(data));
+      return dispatch(requestUserUpdateAction({data, origin}));
     })
     .then(() => {
       // Reaches the backend.
       return api.update(data.username, data);
     })
-    .then((obj) => {
+    .then((data) => {
       // Announce remote success.
-      return dispatch(receiveUserUpdateAction(obj));
+      return dispatch(receiveUserUpdateAction({data, origin}));
     })
     .catch((err) => {
       return Promise.reject(extractReasonFromHttpError(err));
     })
     .catch((reason) => {
-      return Promise.reject(dispatch(failureUserListAction(reason)));
-    })
-    .catch((action) => {
-      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
-    });;
+      return Promise.reject(dispatch(failureUserListAction({reason, origin})));
+    });
   };
 }
 
 // Creates a dispatcher that signalizes the intention to delete a user record.
-export function remoteRequestUserDeleteAction(username) {
+export function remoteRequestUserDeleteAction({username, origin} = {origin: null}) {
   return dispatch => {
 
     return Promise.resolve().then(() => {
       // Announce remote request is in progress.
-      return dispatch(requestUserDeleteAction(id));
+      return dispatch(requestUserDeleteAction({username, origin}));
     })
     .then(() => {
       // Reaches the backend.
@@ -212,16 +200,13 @@ export function remoteRequestUserDeleteAction(username) {
     })
     .then(() => {
       // Announce remote success.
-      return dispatch(receiveUserDeleteAction());
+      return dispatch(receiveUserDeleteAction({username, origin}));
     })
     .catch((err) => {
       return Promise.reject(extractReasonFromHttpError(err));
     })
     .catch((reason) => {
-      return Promise.reject(dispatch(failureUserListAction(reason)));
-    })
-    .catch((action) => {
-      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
-    });;
+      return Promise.reject(dispatch(failureUserListAction({reason, origin})));
+    });
   };
 }

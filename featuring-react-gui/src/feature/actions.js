@@ -1,7 +1,7 @@
 import * as CT from 'app/feature/constants';
 import FeaturesRemoteAPI from './FeaturesRemoteAPI';
 import {extractReasonFromHttpError} from 'app/common/services';
-import {failureNetworkAction} from 'app/error/actions';
+import {errorAction} from 'app/error/actions';
 
 const api = new FeaturesRemoteAPI();
 
@@ -25,62 +25,62 @@ export function navbackFromBoardStageAction(item) {
 
 // --
 
-export function requestFeatureCreateAction(data) {
-  return {type: CT.REQUEST_FEATURE_CREATE, data};
+export function requestFeatureCreateAction({data, origin} = {origin: null}) {
+  return {type: CT.REQUEST_FEATURE_CREATE, data, origin};
 }
 
-export function receiveFeatureCreateAction(data) {
-  return {type: CT.RECEIVE_FEATURE_CREATE, data};
+export function receiveFeatureCreateAction({data, origin} = {oriign: null}) {
+  return {type: CT.RECEIVE_FEATURE_CREATE, data, origin};
 }
 
-export function failureFeatureCreateAction(reason) {
-  return {type: CT.FAILURE_FEATURE_CREATE, reason};
-}
-
-// --
-
-export function requestFeatureListAction() {
-  return {type: CT.REQUEST_FEATURE_LIST};
-}
-
-export function receiveFeatureListAction(items) {
-  return {type: CT.RECEIVE_FEATURE_LIST, items};
-}
-
-export function failureFeatureListAction(reason) {
-  return {type: CT.FAILURE_FEATURE_LIST, reason};
+export function failureFeatureCreateAction({reason, origin} = {reason: null, origin: null}) {
+  return errorAction({failure: CT.FAILURE_FEATURE_CREATE, reason, origin});
 }
 
 // --
 
-export function requestFeatureUpdateAction(data) {
-  return {type: CT.REQUEST_FEATURE_UPDATE, data};
+export function requestFeatureListAction({origin} = {origin: null}) {
+  return {type: CT.REQUEST_FEATURE_LIST, origin};
 }
 
-export function receiveFeatureUpdateAction(data) {
-  return {type: CT.RECEIVE_FEATURE_UPDATE, data};
+export function receiveFeatureListAction({items, origin} = {items: [], origin: null}) {
+  return {type: CT.RECEIVE_FEATURE_LIST, items, origin};
 }
 
-export function failureFeatureUpdateAction(reason) {
-  return {type: CT.FAILURE_FEATURE_UPDATE, reason};
+export function failureFeatureListAction({reason, origin} = {reason: null, origin: null}) {
+  return errorAction({failure: CT.FAILURE_FEATURE_LIST, reason, origin});
 }
 
 // --
 
-export function selectFeatureDeleteAction(id) {
-  return {type: CT.SELECT_FEATURE_DELETE, featureId: id};
+export function requestFeatureUpdateAction({data, origin} = {origin: null}) {
+  return {type: CT.REQUEST_FEATURE_UPDATE, data, origin};
 }
 
-export function requestFeatureDeleteAction(id) {
-  return {type: CT.REQUEST_FEATURE_DELETE, featureId: id};
+export function receiveFeatureUpdateAction({data, origin} = {origin: null}) {
+  return {type: CT.RECEIVE_FEATURE_UPDATE, data, origin};
 }
 
-export function receiveFeatureDeleteAction() {
-  return {type: CT.RECEIVE_FEATURE_DELETE};
+export function failureFeatureUpdateAction({reason, origin} = {reason: null, origin: null}) {
+  return errorAction({failure: CT.FAILURE_FEATURE_UPDATE, reason, origin});
 }
 
-export function failureFeatureDeleteAction(reason) {
-  return {type: CT.FAILURE_FEATURE_DELETE, reason};
+// --
+
+export function selectFeatureDeleteAction({id, origin} = {origin: null}) {
+  return {type: CT.SELECT_FEATURE_DELETE, featureId: id, origin};
+}
+
+export function requestFeatureDeleteAction({id, origin} = {origin: null}) {
+  return {type: CT.REQUEST_FEATURE_DELETE, featureId: id, origin};
+}
+
+export function receiveFeatureDeleteAction({id, origin} = {origin: null}) {
+  return {type: CT.RECEIVE_FEATURE_DELETE, featureId: id, origin};
+}
+
+export function failureFeatureDeleteAction({reason, origin} = {reason: null, origin: null}) {
+  return errorAction({failure: CT.FAILURE_FEATURE_DELETE, reason, origin});
 }
 
 
@@ -89,96 +89,87 @@ export function failureFeatureDeleteAction(reason) {
 // ------------------------------
 
 // Creates a dispatcher that signalizes the intention to retrieve the features list.
-export function remoteRequestFeatureCreateAction(data) {
+export function remoteRequestFeatureCreateAction({data, origin} = {origin: null}) {
   return dispatch => {
 
     return Promise.resolve().then(() => {
       // Announce remote request is in progress.
-      return dispatch(requestFeatureCreateAction(data));
+      return dispatch(requestFeatureCreateAction({data, origin}));
     })
     .then(() => {
       // Reaches the backend.
       return api.create(data);
     })
-    .then((results) => {
+    .then((data) => {
       // Announce remote results were retrieved.
-      return dispatch(receiveFeatureCreateAction(results));
+      return dispatch(receiveFeatureCreateAction({data, origin}));
     })
     .catch((err) => {
       return Promise.reject(extractReasonFromHttpError(err));
     })
     .catch((reason) => {
-      return Promise.reject(dispatch(failureFeatureListAction(reason)));
-    })
-    .catch((action) => {
-      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
+      return Promise.reject(dispatch(failureFeatureListAction({reason, origin})));
     });
   };
 }
 
 // Creates a dispatcher that signalizes the intention to retrieve the features list.
-export function remoteRequestFeatureListAction() {
+export function remoteRequestFeatureListAction({origin} = {origin: null}) {
   return dispatch => {
 
     return Promise.resolve().then(() => {
       // Announce remote request is in progress.
-      return dispatch(requestFeatureListAction());
+      return dispatch(requestFeatureListAction({origin}));
     })
     .then(() => {
       // Reaches the backend.
       return api.list();
     })
-    .then((results) => {
+    .then((items) => {
       // Announce remote results were retrieved.
-      return dispatch(receiveFeatureListAction(results));
+      return dispatch(receiveFeatureListAction({items, origin}));
     })
     .catch((err) => {
       return Promise.reject(extractReasonFromHttpError(err));
     })
     .catch((reason) => {
-      return Promise.reject(dispatch(failureFeatureListAction(reason)));
-    })
-    .catch((action) => {
-      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
-    });;
+      return Promise.reject(dispatch(failureFeatureListAction({reason, origin})));
+    });
   };
 }
 
 // Creates a dispatcher that signalizes the intention to retrieve the features list.
-export function remoteRequestFeatureUpdateAction(data) {
+export function remoteRequestFeatureUpdateAction({data, origin} = {origin: null}) {
   return dispatch => {
 
     return Promise.resolve().then(() => {
       // Announce remote request is in progress.
-      return dispatch(requestFeatureUpdateAction(data));
+      return dispatch(requestFeatureUpdateAction({data, origin}));
     })
     .then(() => {
       // Reaches the backend.
       return api.update(data.id, data);
     })
-    .then((obj) => {
+    .then((data) => {
       // Announce remote success.
-      return dispatch(receiveFeatureUpdateAction(obj));
+      return dispatch(receiveFeatureUpdateAction({data, origin}));
     })
     .catch((err) => {
       return Promise.reject(extractReasonFromHttpError(err));
     })
     .catch((reason) => {
-      return Promise.reject(dispatch(failureFeatureListAction(reason)));
-    })
-    .catch((action) => {
-      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
-    });;
+      return Promise.reject(dispatch(failureFeatureListAction({reason, origin})));
+    });
   };
 }
 
 // Creates a dispatcher that signalizes the intention to delete a feature record.
-export function remoteRequestFeatureDeleteAction(id) {
+export function remoteRequestFeatureDeleteAction({id, origin} = {origin: null}) {
   return dispatch => {
 
     return Promise.resolve().then(() => {
       // Announce remote request is in progress.
-      return dispatch(requestFeatureDeleteAction(id));
+      return dispatch(requestFeatureDeleteAction({id, origin}));
     })
     .then(() => {
       // Reaches the backend.
@@ -186,16 +177,13 @@ export function remoteRequestFeatureDeleteAction(id) {
     })
     .then(() => {
       // Announce remote success.
-      return dispatch(receiveFeatureDeleteAction());
+      return dispatch(receiveFeatureDeleteAction({id, origin}));
     })
     .catch((err) => {
       return Promise.reject(extractReasonFromHttpError(err));
     })
     .catch((reason) => {
-      return Promise.reject(dispatch(failureFeatureListAction(reason)));
-    })
-    .catch((action) => {
-      return Promise.reject(dispatch(failureNetworkAction(action.reason)));
-    });;
+      return Promise.reject(dispatch(failureFeatureListAction({reason, origin})));
+    });
   };
 }

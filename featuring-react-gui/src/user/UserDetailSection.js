@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link, browserHistory} from 'react-router';
-import UserRemoteAPI from './UserRemoteAPI';
+import store from 'app/root/store';
+import {remoteRequestUserItemAction} from 'app/user/actions';
 
 
 export default class UserDetailSection extends React.Component {
@@ -9,11 +10,13 @@ export default class UserDetailSection extends React.Component {
   constructor({props}) {
     super({props});
     this.state = {data: null};
-    this.remoteAPI = new UserRemoteAPI();
   }
 
   componentWillMount() {
-    return this.remoteAPI.get(this.props.params.username)
+    const origin = this.props.location.pathname;
+    const username = this.props.params.username;
+    store.dispatch(remoteRequestUserItemAction({username, origin}))
+      .then((action) => action.data)
       .then((data) => this.setState({data}))
       .catch((err) => console.error(err)
         || browserHistory.push(`/`));
