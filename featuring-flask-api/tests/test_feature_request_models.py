@@ -14,10 +14,14 @@ def setdb(request):
     create_clients()
 
 
+def padded_title(title):
+    return " " * 10 + title
+
+
 def create_feature_request(title, client, priority):
     FeatureRequest.create(
         client=Client.get(Client.id == client),
-        title=title,
+        title=padded_title(title),
         description="",
         priority=priority,
         product_area=1,
@@ -25,24 +29,24 @@ def create_feature_request(title, client, priority):
 
 
 def update_feature_request(title, client, priority):
-    obj = FeatureRequest.get(FeatureRequest.title == title)
+    obj = FeatureRequest.get(FeatureRequest.title == padded_title(title))
     obj.client = Client.get(Client.id == client)
     obj.priority = priority
     obj.save()
 
 
 def delete_feature_request(title):
-    obj = FeatureRequest.get(FeatureRequest.title == title)
+    obj = FeatureRequest.get(FeatureRequest.title == padded_title(title))
     obj.delete_instance()
 
 
 def get_feature_request(title):
-    return FeatureRequest.get(FeatureRequest.title == title)
+    return FeatureRequest.get(FeatureRequest.title == padded_title(title))
 
 
 def test_create_feature_request_success(setdb):
     create_feature_request("t0", 1, 1)
-    assert get_feature_request("t0").title == "t0"
+    assert get_feature_request("t0").title == padded_title("t0")
     assert get_feature_request("t0").client_id == 1
     assert get_feature_request("t0").priority == 1
 
@@ -336,6 +340,7 @@ def test_update_feature_request_change_client_set_priority_single_element_on_tar
     assert get_feature_request("t1.3").priority == 1
     assert get_feature_request("t1.4").priority == 3
     assert get_feature_request("t2.1").priority == 2
+
 
 # ---
 
