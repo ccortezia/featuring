@@ -2,7 +2,7 @@ import * as CT from 'app/feature/constants';
 
 const defaultState = {
   selectedClientId: 1,
-  selectedItemId: undefined
+  selectedItemDetailId: undefined
 };
 
 export default function featureBoardReducer(state=defaultState, action) {
@@ -15,11 +15,11 @@ export default function featureBoardReducer(state=defaultState, action) {
     case CT.SELECT_FEATURE_FILTER_CLIENT:
       return Object.assign({}, state, {selectedClientId: action.clientId});
 
-    case CT.SELECT_FEATURE_LIST_ITEM:
-      return Object.assign({}, state, {selectedItemId: action.item.id});
+    case CT.SELECT_FEATURE_LIST_ITEM_DETAIL:
+      return Object.assign({}, state, {selectedItemDetailId: action.item.id});
 
     case CT.NAVBACK_FROM_STAGE:
-      return Object.assign({}, state, {selectedItemId: undefined});
+      return Object.assign({}, state, {selectedItemDetailId: undefined});
 
     default:
       return state;

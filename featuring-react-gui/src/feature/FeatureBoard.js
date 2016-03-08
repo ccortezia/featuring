@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {FeatureList, FeatureDetails, FeatureCreateInvitation} from 'app/feature';
 
 
-export function FeatureBoard({items, error, current, selectedItemId}) {
+export function FeatureBoard({current, selectedItemDetailId, error, items}) {
   const paramId = _.get(current, 'props.params.id');
   const numberId = Number(paramId);
   const id = (Number.isInteger(numberId) && numberId) || undefined;
@@ -18,7 +18,10 @@ export function FeatureBoard({items, error, current, selectedItemId}) {
   // Determines if the components have navigation focus, which is relevant only
   //  if the application is being presented on a narrow screen. Otherwise, both
   //  components are presented equally.
-  const navFocus = {central: !!selectedItemId, list: !selectedItemId && !editing && !creating};
+  const navFocus = {
+    central: !!selectedItemDetailId,
+    list: !selectedItemDetailId && !editing && !creating
+  };
 
   function makeCentralComponent() {
     if (data || creating) {
@@ -49,7 +52,7 @@ export function FeatureBoard({items, error, current, selectedItemId}) {
 }
 
 export default connect((state) => ({
-  items: state.feature.board.items,
   error: state.error,
-  selectedItemId: state.feature.board.selectedItemId
+  items: state.feature.board.items,
+  selectedItemDetailId: state.feature.board.selectedItemDetailId
 }))(FeatureBoard);

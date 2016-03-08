@@ -9,7 +9,7 @@ import {CLIENT_ID_MAP} from 'app/feature/constants';
 
 import {
   selectFeatureFilterClientAction,
-  selectFeatureListItemAction
+  selectFeatureListItemDetailAction
 } from 'app/feature/actions';
 
 
@@ -91,7 +91,7 @@ export default connect(
     return {items, selectedClientId: fixedClientId, clientIds};
   },
   (dispatch) => ({
-    onSelectNavigateToDetails: (item) => dispatch(selectFeatureListItemAction(item))
+    onSelectNavigateToDetails: (item) => dispatch(selectFeatureListItemDetailAction(item))
   })
 )(FeatureList);
 
