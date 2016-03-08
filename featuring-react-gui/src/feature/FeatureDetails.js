@@ -67,7 +67,6 @@ export class FeatureDetails extends React.Component {
     const origin = this.props.origin;
     store
       .dispatch(remoteRequestFeatureDeleteAction({id: this.props.data.id, origin}))
-      .then(() => store.dispatch(remoteRequestFeatureListAction({origin})))
       .then(() => this.setState({pendingDelAck: false}))
       .then(() => browserHistory.push('/features'))
       .catch(() => this.setState({pendingDelAck: false}));

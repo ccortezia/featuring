@@ -4,8 +4,7 @@ import {Link} from 'react-router';
 
 
 function resolve(err) {
-
-  switch (err) {
+  switch (err && err.reason) {
     case "offline":
       return {
         title: "Impossible to reach the server",
@@ -14,27 +13,30 @@ function resolve(err) {
           "Please contact the system administrator, or try again in a few minutes"
         ]
       };
-
-    default:
-      return {
-        title: "An unexpected error was detected",
-        messages: [
-          "You might just have found a bug with a bounty on it.",
-          "Contact the local bounty center"
-        ]
-      };
   }
+  return {
+    title: "An unexpected error was detected",
+    messages: [
+      "You might just have found a bug with a bounty on it.",
+      "Contact the local bounty center"
+    ]
+  };
 }
 
-export function ErrorSection({err}) {
-  const error = resolve(err);
+export function ErrorSection({errors}) {
+  const origins = (errors && Object.keys(errors)) || [];
+  const first = (origins.length || undefined) && errors[origins[0]];
+  const error = resolve(first);
   return (
     <section className="main-error">
       <div className="alert alert-danger">
-        <h4>{error.title}</h4>
-        {error.messages.map((message) => <p key={error.messages.indexOf(message)}>{message}</p>)}
+        <h4>{error && error.title}</h4>
+        {
+          error && error.messages.map((message) =>
+            <p key={error && error.messages.indexOf(message)}>{message}</p>)
+        }
       </div>
-      <Link className="btn btn-default" to="/features">TRY AGAIN</Link>
+      <Link className="btn btn-default" to="/">TRY AGAIN</Link>
     </section>
   );
 }
@@ -42,5 +44,5 @@ export function ErrorSection({err}) {
 
 export default connect(
   (state) => ({
-    err: state.error
+    errors: state.error
   }))(ErrorSection);

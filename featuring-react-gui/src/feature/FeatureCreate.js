@@ -30,12 +30,10 @@ export class FeatureCreate extends React.Component {
   }
 
   onSubmit(data) {
-    let nid;
     const origin = this.props.origin;
     store.dispatch(remoteRequestFeatureCreateAction({data, origin}))
-      .then((action) => nid = action.data.id)
-      .then(() => store.dispatch(remoteRequestFeatureListAction({origin})))
-      .then((result) => result && browserHistory.push(`/features/${nid}`));
+      .then((action) => action.data.id)
+      .then((nid) => browserHistory.push(`/features/${nid}`));
   }
 
   onCancel() {

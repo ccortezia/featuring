@@ -19,7 +19,7 @@ export default class UserDetailSection extends React.Component {
       .then((action) => action.data)
       .then((data) => this.setState({data}))
       .catch((err) => console.error(err)
-        || browserHistory.push(`/`));
+        || browserHistory.push(`/error`));
   }
 
   render() {

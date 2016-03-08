@@ -14,6 +14,13 @@ export class HomeSection extends React.Component {
       super({props});
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Fetch user data again in case it got lost.
+    if (!this.props.username && !nextProps.username) {
+      store.dispatch(requestSessionDetailAsyncAction());
+    }
+  }
+
   componentWillMount() {
     store.dispatch(requestSessionDetailAsyncAction());
   }
