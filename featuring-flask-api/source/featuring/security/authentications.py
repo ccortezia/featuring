@@ -43,7 +43,7 @@ def jwt_protected(func):
 def generate_token(info):
     secret = current_app.config['SECRET_KEY']
     token_duration = current_app.config['TOKEN_SECONDS']
-    token_expires_on = now() + timedelta(seconds=token_duration)
+    token_expires_on = now() + timedelta(seconds=int(token_duration))
     payload = {'exp': token_expires_on}
     payload.update(info)
     return jwt.encode(payload, secret, algorithm='HS256')
