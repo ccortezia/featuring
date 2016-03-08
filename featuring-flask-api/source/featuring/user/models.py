@@ -1,5 +1,5 @@
 import functools
-from peewee import CharField
+from peewee import CharField, BooleanField
 from playhouse.signals import Model, pre_save
 from playhouse.fields import PasswordField
 from featuring import app
@@ -14,6 +14,7 @@ class User(Model):
     username = CharField(max_length=25, unique=True)
     password = PasswordField(default=safe_default_password)
     fullname = CharField(max_length=120)
+    is_admin = BooleanField(default=False)
 
     class Meta:
         db_table = 'user'

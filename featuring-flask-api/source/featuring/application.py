@@ -5,7 +5,7 @@ from flask import got_request_exception
 import logging
 from logging.config import dictConfig
 from peewee import SqliteDatabase, IntegrityError
-from featuring.security import AuthenticationFailure
+from featuring.security import AuthenticationFailure, AuthorizationFailure
 
 
 def make_app():
@@ -48,9 +48,15 @@ def make_app():
         response.status_code = 401
         return response
 
+    @app.errorhandler(AuthorizationFailure)
+    def application_generic_err(e):
+        response = jsonify({"detail": e.message or 'insufficient privileges'})
+        response.status_code = 403
+        return response
+
     @app.errorhandler(Exception)
     def application_generic_err(e):
-        logging.getLogger("featuring").error(e)
+        logging.getLogger("featuring").exception(e)
         message = "an unexpected error occured. Check the log for details"
         response = jsonify({"detail": message})
         response.status_code = 500

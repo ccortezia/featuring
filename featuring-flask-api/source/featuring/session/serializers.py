@@ -8,4 +8,5 @@ SessionCreationResultSerializer = {
 SessionDetailSerializer = {
     'username': fields.String,
     'fullname': fields.String,
+    'is_admin': fields.Boolean,
 }

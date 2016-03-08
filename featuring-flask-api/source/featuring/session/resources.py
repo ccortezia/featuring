@@ -13,17 +13,25 @@ class SessionResource(Resource):
     def get(self):
         return {
             'username': request.session['username'],
-            'fullname': request.session['fullname']
+            'fullname': request.session['fullname'],
+            'is_admin': request.session['is_admin']
         }
 
     @marshal_with(SessionCreationResultSerializer)
     def post(self):
         args = SessionCreateParser.parse_args()
+
         try:
             user = User.get(User.username == args['username'])
         except User.DoesNotExist:
             abort(401, message='invalid credentials')
+
         if not user.password.check_password(args['password']):
             abort(401, message='invalid credentials')
-        token = generate_token({'username': user.username, 'fullname': user.fullname})
+
+        token = generate_token({
+            'username': user.username,
+            'fullname': user.fullname,
+            'is_admin': user.is_admin
+        })
         return {'token': token}, 201
