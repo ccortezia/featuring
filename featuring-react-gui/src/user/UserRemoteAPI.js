@@ -17,7 +17,7 @@ export default class UsersRemoteAPI {
       return request
         .get(api(`/users/${username}`))
         .set('Authorization', authHeader())
-        .end((err, res) => console.log(res.body) || err ? reject(err) : resolve(res.body && adaptIn(res.body)));
+        .end((err, res) => err ? reject(err) : resolve(res.body && adaptIn(res.body)));
     });
   }
 
