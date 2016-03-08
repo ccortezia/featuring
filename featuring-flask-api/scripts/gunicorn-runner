@@ -6,4 +6,15 @@ readonly SETTINGS=$SOURCE/featuring/settings
 
 [ -z "$SETTINGS_ENVIRON" ] && export SETTINGS_ENVIRON=featuring.settings.devel
 [ -z "$LOGCONFIG_ENVIRON" ] && export LOGCONFIG_ENVIRON=featuring.settings.logconfig.devel
+
+if [ -z "$MANDRILL_USERNAME" ]; then
+  echo "MANDRILL_USERNAME must be defined. Aborting" 1>&2
+  exit 1
+fi
+
+if [ -z "$MANDRILL_PASSWORD" ]; then
+  echo "MANDRILL_PASSWORD must be defined. Aborting" 1>&2
+  exit 1
+fi
+
 gunicorn --chdir=$SOURCE --config=$SETTINGS/gunicorn.py featuring.wsgi:app

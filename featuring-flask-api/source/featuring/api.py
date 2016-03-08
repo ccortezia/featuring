@@ -12,6 +12,10 @@ from user import (
     UserResource,
     UserListResource)
 
+from signup import (
+    SignupResource,
+    SignupListResource)
+
 
 class Ping(Resource):
     def get(self):
@@ -23,5 +27,7 @@ api.add_resource(FeatureRequestListResource, '/api/v1/features')
 api.add_resource(FeatureRequestResource,     '/api/v1/features/<int:rid>')
 api.add_resource(UserListResource,           '/api/v1/users')
 api.add_resource(UserResource,               '/api/v1/users/<string:username>')
+api.add_resource(SignupListResource,         '/api/v1/signup')
+api.add_resource(SignupResource,             '/api/v1/signup/<string:uid>')
 api.add_resource(SessionResource,            '/api/v1/session')
 app = api.app
