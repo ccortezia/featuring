@@ -22,10 +22,8 @@ class SessionResource(Resource):
         try:
             user = User.get(User.username == args['username'])
         except User.DoesNotExist:
-            print('does not exist')
             abort(401, message='invalid credentials')
         if not user.password.check_password(args['password']):
-            print('invalid passwd')
             abort(401, message='invalid credentials')
         token = generate_token({'username': user.username, 'fullname': user.fullname})
         return {'token': token}, 201
