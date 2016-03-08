@@ -5,7 +5,7 @@ import {FeatureBoard} from 'app/feature';
 export class FeatureSection extends React.Component {
   render() {
     return (
-      <section>
+      <section className="feature">
         <FeatureBoard current={this.props.children} />
       </section>
     );

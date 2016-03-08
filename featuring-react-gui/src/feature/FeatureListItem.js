@@ -12,6 +12,7 @@ import {
 
 
 export function FeatureListItem({data, active, disabled, top, onSelectNavigateToDetails}) {
+  const origin = `/features/board/list/${data.id}`;
 
   function onSelectItem(ev) {
     ev.preventDefault();
@@ -22,8 +23,8 @@ export function FeatureListItem({data, active, disabled, top, onSelectNavigateTo
     ev.preventDefault();
     ev.stopPropagation();
     const obj = Object.assign({}, data, {priority: data.priority - 1});
-    store.dispatch(remoteRequestFeatureUpdateAction(obj))
-      .then(() => store.dispatch(remoteRequestFeatureListAction()));
+    store.dispatch(remoteRequestFeatureUpdateAction({data: obj, origin}))
+      .then(() => store.dispatch(remoteRequestFeatureListAction({origin})));
   }
 
   const maxTitleLenght = 35;

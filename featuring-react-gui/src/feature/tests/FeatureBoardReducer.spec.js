@@ -2,7 +2,7 @@ import chai from 'chai';
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
 import featureBoardReducer from 'app/feature/FeatureBoardReducer';
-import {receiveFeatureListAction, selectFeatureListItemAction} from 'app/feature/actions';
+import {receiveFeatureListAction, selectFeatureListItemDetailAction} from 'app/feature/actions';
 
 
 describe('FeatureBoardReducer', () => {

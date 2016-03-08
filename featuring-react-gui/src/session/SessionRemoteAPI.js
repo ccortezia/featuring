@@ -3,7 +3,7 @@ import {api} from 'app/common/services';
 import {authHeader} from './services';
 
 
-export default class SessionAPI {
+export default class SessionRemoteAPI {
   create(username, password) {
     return new Promise((resolve, reject) => {
       request
@@ -19,8 +19,7 @@ export default class SessionAPI {
         .get(api('/session'))
         .set('Authorization', authHeader())
         .end((err, res) => err ?
-          (console.error(err) || reject(err)) :
-          resolve(res.body));
+          (console.error(err) || reject(err)) : resolve(res.body));
     });
   }
 }

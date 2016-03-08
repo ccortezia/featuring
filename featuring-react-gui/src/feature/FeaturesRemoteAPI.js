@@ -16,6 +16,15 @@ export default class FeaturesRemoteAPI {
     });
   }
 
+  get(id) {
+    return new Promise((resolve, reject) => {
+      return request
+        .get(api(`/features/${id}`))
+        .set('Authorization', authHeader())
+        .end((err, res) => err ? reject(err) : resolve(adaptIn(res.body)));
+    });
+  }
+
   list() {
     return new Promise((resolve, reject) => {
       return request

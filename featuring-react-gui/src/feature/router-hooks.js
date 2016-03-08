@@ -56,20 +56,13 @@ export function onEnterFeatureList(nextState, replace, callback) {
     });
   }
 
-  // This flow is async, and is executed upon full refresh.
-  if (!state.feature.board.items) {
-    return store.dispatch(remoteRequestFeatureListAction())
-      .then((action) => action.items)
-      .then(pickBestFeature)
-      .then(replaceBasedOnFeature)
-      .catch(errorRedirector(nextState, replace))
-      .then(() => callback());
-  }
-
-  // This flow is sync, executed upon internal link navigation.
-  const chosenFeature = pickBestFeature(state.feature.board.items);
-  replaceBasedOnFeature(chosenFeature);
-  return callback();
+  // Re-fetch data upon navigation
+  return store.dispatch(remoteRequestFeatureListAction())
+    .then((action) => action.items)
+    .then(pickBestFeature)
+    .then(replaceBasedOnFeature)
+    .catch(errorRedirector(nextState, replace))
+    .then(() => callback());
 }
 
 

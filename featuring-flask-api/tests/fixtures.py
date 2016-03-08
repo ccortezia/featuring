@@ -3,9 +3,14 @@ import json
 import featuring
 from featuring.api import app
 
+from featuring.user.models import User
+from featuring.user.fixtures import create_users
+
 
 @pytest.fixture(scope='session')
 def client():
+    User.delete().execute()
+    create_users()
     featuring.app.config['TESTING'] = True
     return app.test_client()
 

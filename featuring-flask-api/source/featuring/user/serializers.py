@@ -1,11 +1,7 @@
 from flask_restful import fields
 
 
-SessionCreationResultSerializer = {
-    'token': fields.String
-}
-
-SessionDetailSerializer = {
+UserSerializer = {
     'username': fields.String,
     'fullname': fields.String,
 }

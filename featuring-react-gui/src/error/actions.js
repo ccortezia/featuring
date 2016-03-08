@@ -4,11 +4,10 @@ import * as CT from 'app/error/constants';
 // Sync Actions
 // ------------------------------
 
-export function failureNetworkAction(reason) {
-  return {type: CT.FAILURE_NETWORK, reason};
+export function errorAction({failure, reason, origin} = {reason: null, origin: null}) {
+  return {type: CT.ERROR, failure, reason, origin};
 }
 
-
-export function ackFailureNetworkAction() {
-  return {type: CT.ACK_FAILURE_NETWORK};
+export function ackErrorAction({origin} = {origin: null}) {
+  return {type: CT.ACK_ERROR, origin};
 }
