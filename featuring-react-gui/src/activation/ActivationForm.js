@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import {reduxForm} from 'redux-form';
 
 
-export function ActivationForm({fields: {password, passwordCheck}, handleSubmit, invalid, data}) {
+export function ActivationForm({fields: {password, passwordCheck}, handleSubmit, invalid}) {
 
   const validationClasses = {
     password: {

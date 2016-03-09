@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
 import DatePicker from 'react-datepicker';
 import {PRODUCT_AREA_ID_MAP, CLIENT_ID_MAP} from 'app/feature/constants';
@@ -11,7 +10,7 @@ import {normalizeDeadline} from './formNormalize';
 
 
 export function FeatureEditForm(
-  {fields: {title, description, clientId, area, deadline, ticketUrl}, handleSubmit, invalid, onCancel, data}) {
+  {fields: {title, description, clientId, area, deadline, ticketUrl}, handleSubmit, invalid, onCancel}) {
 
   const validationClasses = {
     title: {

@@ -144,7 +144,7 @@ export function remoteRequestUserItemAction({username, origin} = {origin: null})
       // Announce remote request is in progress.
       return dispatch(requestUserItemAction({username, origin}));
     })
-    .then((action) => {
+    .then(() => {
       // Reaches the backend.
       return api.get(username);
     })

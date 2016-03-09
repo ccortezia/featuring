@@ -1,4 +1,5 @@
-import moment from 'moment';
+/*eslint no-unused-vars:0*/
+import _ from 'lodash';
 import request from 'superagent';
 import {api} from 'app/common/services';
 import {authHeader} from 'app/session/services';
@@ -48,7 +49,7 @@ export default class UsersRemoteAPI {
 function adaptIn(item) {
   return {
     username: item.username,
-    fullname: item.fullname,
+    fullname: item.fullname
   };
 }
 
@@ -57,6 +58,6 @@ function adaptOut(item) {
   return _.pickBy({
     username: item.username,
     fullname: item.fullname,
-    password: item.password,
+    password: item.password
   }, _.negate(_.isUndefined));
 }

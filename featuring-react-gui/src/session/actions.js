@@ -47,7 +47,7 @@ export function requestSessionCreateAsyncAction({username, password, origin}) {
   return dispatch => {
     return Promise.resolve()
       .then(() => dispatch(requestSessionCreateAction({username, password, origin})))
-      .then((action) => api.create(username, password))
+      .then(() => api.create(username, password))
       .then((result) => result.token)
       .catch((err) => console.error(err) || Promise.reject(err))
       .catch((err) => Promise.reject(extractReasonFromHttpError(err)))
@@ -61,7 +61,7 @@ export function requestSessionDetailAsyncAction({origin} = {origin: null}) {
   return dispatch => {
     return Promise.resolve()
       .then(() => dispatch(requestSessionDetailAction({origin})))
-      .then((action) => api.get())
+      .then(() => api.get())
       .then((data) => dispatch(receiveSessionDetailAction({data, origin})))
       .catch((err) => console.error(err) || Promise.reject(err))
       .catch((err) => Promise.reject(extractReasonFromHttpError(err)))
@@ -72,10 +72,10 @@ export function requestSessionDetailAsyncAction({origin} = {origin: null}) {
 
 // Creates a dispatcher that signalizes the intention to logout the current user.
 export function requestSessionDeleteAsyncAction() {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
+  return () => {
+    return new Promise((resolve) => {
       destroySessionToken();
       resolve();
     });
-  }
+  };
 }

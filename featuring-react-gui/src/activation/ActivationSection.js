@@ -52,7 +52,7 @@ export class ActivationSection extends React.Component {
 
 const modalStyles = {
   overlay: {
-    zIndex         : '2',
+    zIndex         : '2'
   },
   content : {
     top            : '50%',
@@ -64,7 +64,7 @@ const modalStyles = {
     minHeight      : '180px',
     display        : 'flex',
     flexDirection  : 'column',
-    justifyContent : 'space-between',
+    justifyContent : 'space-between'
   }
 };
 

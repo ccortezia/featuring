@@ -1,5 +1,5 @@
 import React from 'react';
-import {LogoutButton} from 'app/login'
+import {LogoutButton} from 'app/login';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import {navbarToggleAction} from './actions';

@@ -1,7 +1,5 @@
-import _ from 'lodash';
-import moment from 'moment';
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 import {browserHistory} from 'react-router';
 import store from 'app/root/store';
@@ -13,7 +11,6 @@ import {createErrorAlert} from 'app/common/alert';
 import {
   remoteRequestFeatureItemAction,
   remoteRequestFeatureDeleteAction,
-  remoteRequestFeatureListAction,
   navbackFromBoardCentralAction}
   from 'app/feature/actions';
 
@@ -37,7 +34,7 @@ export class FeatureDetails extends React.Component {
     const current = this.props;
     if (next.data && next.data.id && current.data && current.data.id != next.data.id) {
       this.acknowledgeError();
-      store.dispatch(remoteRequestFeatureItemAction({id: next.data.id}))
+      store.dispatch(remoteRequestFeatureItemAction({id: next.data.id}));
     }
   }
 
@@ -45,15 +42,15 @@ export class FeatureDetails extends React.Component {
     this.acknowledgeError();
   }
 
-  onDeleteClicked(ev) {
+  onDeleteClicked() {
     this.setState({pendingDelAck: true});
   }
 
-  onEditClicked(ev) {
+  onEditClicked() {
     browserHistory.push(`/features/${this.props.data.id}/edit`);
   }
 
-  onNavBackClick(ev) {
+  onNavBackClick() {
     store.dispatch(navbackFromBoardCentralAction());
   }
 
@@ -71,7 +68,7 @@ export class FeatureDetails extends React.Component {
   }
 
   acknowledgeError() {
-    store.dispatch(ackErrorAction({origin: this.props.origin}))
+    store.dispatch(ackErrorAction({origin: this.props.origin}));
   }
 
   errorBanner() {
@@ -156,7 +153,7 @@ FeatureDetails.propTypes = {
 
 const modalStyles = {
   overlay: {
-    zIndex         : '2',
+    zIndex         : '2'
   },
   content : {
     top            : '50%',
@@ -168,7 +165,7 @@ const modalStyles = {
     minHeight      : '180px',
     display        : 'flex',
     flexDirection  : 'column',
-    justifyContent : 'space-between',
+    justifyContent : 'space-between'
   }
 };
 

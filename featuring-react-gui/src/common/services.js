@@ -1,3 +1,4 @@
+/*globals process*/
 
 /*
  * Default translator for values on a superagent response error.
@@ -17,7 +18,7 @@ export function extractReasonFromHttpError(err) {
 
 
 export function api(url) {
-  let host = process.env.API_HOST
+  let host = process.env.API_HOST;
   let base = '/api/v1';
   return `${host}${base}${url}`;
 }

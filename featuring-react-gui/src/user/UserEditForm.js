@@ -2,12 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 import {reduxForm} from 'redux-form';
 import validate from './formValidation';
-import * as CT from './constants';
 
 
 export function UserEditForm(
   {fields: {fullname, currentPassword, newPassword, newPasswordCheck},
-  handleSubmit, invalid, onCancel, data}) {
+  handleSubmit, invalid, onCancel}) {
 
   const validationClasses = {
     fullname: {

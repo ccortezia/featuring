@@ -1,5 +1,3 @@
-import _ from 'lodash';
-import store from 'app/root/store';
 import SignupRemoteAPI from 'app/signup/SignupRemoteAPI';
 
 

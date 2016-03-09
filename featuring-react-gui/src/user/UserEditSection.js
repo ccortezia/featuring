@@ -1,14 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link, browserHistory} from 'react-router';
+import {browserHistory} from 'react-router';
 import {createErrorAlert} from 'app/common/alert';
 import store from 'app/root/store';
 import {ackErrorAction} from 'app/error/actions';
 import UserEditForm from './UserEditForm';
-
-import {
-  requestSessionCreateAsyncAction,
-} from 'app/session/actions';
+import {requestSessionCreateAsyncAction} from 'app/session/actions';
 
 import {
   remoteRequestUserItemAction,
@@ -28,7 +25,7 @@ export class  UserEditSection extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({origin: this.props.location.pathname})
+    this.setState({origin: this.props.location.pathname});
     const origin = this.state.origin;
     const username = this.props.params.username;
     store.dispatch(remoteRequestUserItemAction({username, origin}))

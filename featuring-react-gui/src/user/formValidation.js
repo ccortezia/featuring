@@ -1,4 +1,3 @@
-import {isUrl} from 'app/common/utils';
 import * as CT from './constants';
 
 

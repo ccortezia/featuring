@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {requestSessionDeleteAsyncAction} from 'app/session/actions';
-import {browserHistory} from 'react-router'
+import {browserHistory} from 'react-router';
 
 
 export function LogoutButton({dispatch, redirectTo}) {

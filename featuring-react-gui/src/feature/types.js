@@ -7,4 +7,4 @@ export const featureDataType = React.PropTypes.shape({
   area: PropTypes.number.isRequired,
   ticketUrl: PropTypes.string.isRequired,
   clientId: PropTypes.number.isRequired
-})
+});

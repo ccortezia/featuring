@@ -2,9 +2,6 @@ import chai from 'chai';
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
 import {HomeSection} from 'app/home/HomeSection';
-import {Header} from 'app/header/Header';
-import {Footer} from 'app/footer/Footer';
-import {FeatureSection} from 'app/feature/FeatureSection';
 
 
 describe('HomeSection', () => {

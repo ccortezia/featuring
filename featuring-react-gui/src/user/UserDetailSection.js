@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import {Link, browserHistory} from 'react-router';
 import store from 'app/root/store';
 import {remoteRequestUserItemAction} from 'app/user/actions';

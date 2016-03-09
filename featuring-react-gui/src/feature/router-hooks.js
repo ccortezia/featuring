@@ -2,7 +2,6 @@ import _ from 'lodash';
 import store from 'app/root/store';
 
 import {
-  selectFeatureListItemAction,
   remoteRequestFeatureListAction,
   selectFeatureFilterClientAction}
   from 'app/feature/actions';
@@ -83,10 +82,10 @@ export function onEnterFeatureCreation(nextState, replace, callback) {
 
 
 function errorRedirector(nextState, replace) {
-  return function redirector(err) {
+  return function redirector() {
     return replace({
       pathname: `/error`,
       state: {nextPathname: nextState.location.pathname}
     });
-  }
+  };
 }

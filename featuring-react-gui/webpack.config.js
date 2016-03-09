@@ -21,6 +21,15 @@ module.exports = {
     },
 
     module: {
+      preLoaders: [
+        // Lints ES6 and JSX js files.
+        // requires: eslint-loader
+        {
+          test: /\.js$/,
+          loader: "eslint",
+          exclude: [/node_modules/, /spec\.js$/],
+        }
+      ],
       loaders: [
         // Loads ES6 js files.
         // requires: babel-loader, babel-preset-es2015

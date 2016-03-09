@@ -1,10 +1,9 @@
 import classNames from 'classnames';
 import React from 'react';
-import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 
 
-export function LoginForm({fields: {username, password}, submitting, handleSubmit, invalid, error, failure, className}) {
+export function LoginForm({fields: {username, password}, submitting, handleSubmit, invalid, failure, className}) {
   return (
     <form className={classNames(["form-login", className])} onSubmit={handleSubmit}>
       <div>

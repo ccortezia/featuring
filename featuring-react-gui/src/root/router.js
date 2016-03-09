@@ -1,6 +1,6 @@
 import React from 'react';
-import {Router, Route, browserHistory, hashHistory, IndexRoute, Redirect} from 'react-router';
-import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
+import {Router, Route, browserHistory, IndexRoute, Redirect} from 'react-router';
+import {syncHistoryWithStore} from 'react-router-redux';
 import store from 'app/root/store';
 import {App} from 'app/root';
 import {HomeSection} from 'app/home';

@@ -33,7 +33,7 @@ export function FeatureBoard({current, selectedItemDetailId, error, items}) {
           error={errors.central} />
       );
     }
-    return <FeatureCreateInvitation />
+    return <FeatureCreateInvitation />;
   }
 
   return (

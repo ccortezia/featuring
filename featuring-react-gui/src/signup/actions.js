@@ -42,7 +42,7 @@ export function requestSignupCreateAsyncAction({username, email, fullname, origi
   return dispatch => {
     return Promise.resolve()
       .then(() => dispatch(requestSignupCreateAction({username, email, fullname, origin})))
-      .then((action) => api.create({username, email, fullname}))
+      .then(() => api.create({username, email, fullname}))
       .catch((err) => console.error(err) || Promise.reject(err))
       .catch((err) => Promise.reject(extractReasonFromError(err)))
       .catch((reason) => Promise.reject(dispatch(failureSignupCreateAction({reason, origin}))));

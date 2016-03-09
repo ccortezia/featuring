@@ -1,4 +1,5 @@
-import moment from 'moment';
+/*eslint no-unused-vars:0*/
+import _ from 'lodash';
 import request from 'superagent';
 import {api} from 'app/common/services';
 import {authHeader} from 'app/session/services';

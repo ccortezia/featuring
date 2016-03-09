@@ -1,15 +1,10 @@
 import React from 'react';
-import {Link} from 'react-router';
 import FeatureCreateForm from './FeatureCreateForm';
 import {browserHistory} from 'react-router';
 import store from 'app/root/store';
 import {ackErrorAction} from 'app/error/actions';
 import {createErrorAlert} from 'app/common/alert';
-
-import {
-  remoteRequestFeatureCreateAction,
-  remoteRequestFeatureListAction}
-  from 'app/feature/actions';
+import {remoteRequestFeatureCreateAction} from 'app/feature/actions';
 
 
 export class FeatureCreate extends React.Component {

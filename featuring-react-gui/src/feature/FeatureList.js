@@ -15,7 +15,7 @@ import {
 
 export class FeatureList extends React.Component {
   constructor({props}) {
-    super({props})
+    super({props});
     this.mkListItem = this.mkListItem.bind(this);
     this.onClientSelectChange = this.onClientSelectChange.bind(this);
   }
@@ -35,7 +35,7 @@ export class FeatureList extends React.Component {
     store.dispatch(selectFeatureFilterClientAction(ev.target.value));
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     // Make sure that an element from the chosen client filter is selected when the filter changes.
     if (prevProps.selectedClientId != this.props.selectedClientId) {
       const items = this.props.items.filter((item) => item.clientId == this.props.selectedClientId);

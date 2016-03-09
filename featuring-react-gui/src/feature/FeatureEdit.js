@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router';
 import FeatureEditForm from './FeatureEditForm';
 import {browserHistory} from 'react-router';
 import store from 'app/root/store';
@@ -41,7 +40,7 @@ export class FeatureEdit extends React.Component {
   }
 
   acknowledgeError() {
-    store.dispatch(ackErrorAction({origin: this.props.origin}))
+    store.dispatch(ackErrorAction({origin: this.props.origin}));
   }
 
   errorBanner() {

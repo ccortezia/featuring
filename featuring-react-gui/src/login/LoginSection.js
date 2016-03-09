@@ -70,12 +70,12 @@ export class LoginSection extends React.Component {
   }
 
   onSignup(data) {
-    return this.props.onSignup(data).then((result) => {
+    return this.props.onSignup(data).then(() => {
       this.setState({
         signup: {email: data.email},
         show: {choice: false, login: false, signup: false, signupOk: true}
       });
-    })
+    });
   }
 
   onConfirmSignupOk() {
@@ -138,7 +138,7 @@ function interpretLoginFailure(reason) {
 
 function interpretSignupFailure(reason) {
   return {
-    'unique': "User already registered",
+    'unique': "User already registered"
   }[reason];
 }
 
@@ -165,8 +165,7 @@ export default connect(
     },
     onSignup: ({username, email, fullname}) => {
       return Promise.resolve()
-        .then(() => dispatch(requestSignupCreateAsyncAction({username, email, fullname, origin: '/signup'})))
+        .then(() => dispatch(requestSignupCreateAsyncAction({username, email, fullname, origin: '/signup'})));
     }
   })
-)
-(LoginSection);
+)(LoginSection);

@@ -1,5 +1,4 @@
 import {browserHistory} from 'react-router';
-import {resolveSessionAsyncAction} from './actions';
 import * as CT from './constants';
 
 
@@ -16,4 +15,4 @@ export const authRedirectMiddleware = to => store => next => action => {
     }
   }
   return next(action);
-}
+};
