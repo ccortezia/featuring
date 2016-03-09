@@ -44,11 +44,33 @@ class SignupResource(Resource):
         return '', 204
 
 
+def get_signup_from_any_field(username, email):
+    cond = Signup.username == username
+    cond |= Signup.email == email
+    try:
+        return Signup.select().where(cond).get()
+    except Signup.DoesNotExist:
+        pass
+
+
 class SignupListResource(Resource):
 
     @marshal_with(SignupCreateSerializer)
     def post(self):
         args = SignupCreateParser.parse_args()
-        created = Signup.create(**args)
-        created.send_welcome_email()
-        return created, 201
+        username, email = args['username'], args['email']
+
+        # Abort in case the user is already registered.
+        if User.select().where(User.username == username).count():
+            abort(400, reason='unique')
+
+        try:
+            obj = Signup.create(**args)
+        except IntegrityError:
+            # Re-create signup in case of repetition.
+            obj = get_signup_from_any_field(username, email)
+            obj and obj.delete_instance()
+            obj = Signup.create(**args)
+
+        obj.send_welcome_email()
+        return obj, 201
