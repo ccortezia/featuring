@@ -22,8 +22,8 @@ class Signup(Model):
         database = app.db
 
     def send_welcome_email(self):
-        content = (request.environ['HTTP_HOST'], self.uid)
-        content = {"url": 'http://{}/activate/{}'.format(*content)}
+        url = 'http://{}/activation/{}'.format(request.environ['HTTP_HOST'], self.uid)
+        content = {"fullname": self.fullname, "url": url}
         send(to=self.email,
              subject="Welcome to Featuring !",
              text=PLAINTEXT_WELCOME_MESSAGE.format(**content),
