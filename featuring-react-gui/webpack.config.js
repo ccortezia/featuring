@@ -4,7 +4,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 var NODE_ENV = process.env.NODE_ENV;
-var API_HOST = NODE_ENV == 'development' ? 'http://localhost:8090' : '';
+var API_HOST = process.env.API_HOST || (NODE_ENV == 'development' ? 'http://localhost:8090' : '');
 
 
 module.exports = {

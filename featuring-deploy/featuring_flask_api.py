@@ -1,6 +1,7 @@
 import os
 from fabric.api import run, task, sudo, env, local, runs_once
 from fabric.operations import put
+from fabric.contrib.files import upload_template
 from fabric.context_managers import cd, quiet
 from fabric.utils import abort
 from fabtools import require, deb, service
@@ -17,7 +18,7 @@ SETTINGS = {
         "package": os.path.join(ROOT, COMPNAME, "packaging/*.deb")
     },
     "supervisor": {
-        "proj-local": os.path.join(HERE, "resources/{}.proj.conf".format(COMPNAME)),
+        "proj-local": os.path.join(HERE, "resources/{}.proj.conf.tpl".format(COMPNAME)),
         "proj-remote": "/etc/supervisor/conf.d/{}.conf".format(COMPNAME),
     }
 }
@@ -25,7 +26,14 @@ SETTINGS = {
 
 @task
 def checkenv():
-    pass
+    try:
+        os.environ["MANDRILL_USERNAME"]
+    except KeyError:
+        abort("environment variable MANDRILL_USERNAME is not defined")
+    try:
+        os.environ["MANDRILL_PASSWORD"]
+    except KeyError:
+        abort("environment variable MANDRILL_PASSWORD is not defined")
 
 
 @task
@@ -38,7 +46,14 @@ def install():
     put(SETTINGS["proj"]["package"], '/tmp/{}.deb'.format(COMPNAME))
     sudo("dpkg -P {}".format(COMPNAME))
     sudo("dpkg -i /tmp/{}.deb".format(COMPNAME))
-    put(SETTINGS["supervisor"]["proj-local"], SETTINGS["supervisor"]["proj-remote"], use_sudo=True)
+    context = {}
+    context["MANDRILL_USERNAME"] = os.environ["MANDRILL_USERNAME"]
+    context["MANDRILL_PASSWORD"] = os.environ["MANDRILL_PASSWORD"]
+    upload_template(
+        filename=SETTINGS["supervisor"]["proj-local"],
+        destination=SETTINGS["supervisor"]["proj-remote"],
+        context=context,
+        use_sudo=True)
     sudo("rm -f /tmp/{}.deb".format(COMPNAME))
 
 
@@ -56,6 +71,8 @@ def create_db():
     sudo("SETTINGS_ENVIRON=featuring.settings.production "
          "LOGCONFIG_ENVIRON=featuring.settings.logconfig.production "
          "DB_PATH=/var/lib/featuring/app.db "
+         "MANDRILL_USERNAME='noone' "
+         "MANDRILL_PASSWORD='nopass' "
          "/usr/share/python/{}/bin/create_db".format(COMPNAME))
 
 

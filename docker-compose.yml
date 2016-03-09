@@ -8,5 +8,7 @@ services:
     volumes:
      - ./featuring-flask-api:/code
     environment:
-      GUNICORN_AUTO_RELOAD: "true"
       DB_PATH: "/db"
+      GUNICORN_AUTO_RELOAD: "true"
+      MANDRILL_USERNAME: "$MANDRILL_USERNAME"
+      MANDRILL_PASSWORD: "$MANDRILL_PASSWORD"

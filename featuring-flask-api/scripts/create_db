@@ -14,9 +14,10 @@ from featuring.feature_request.models import FeatureRequest, Client
 from featuring.feature_request.fixtures import create_clients, create_demo_feature_requests
 from featuring.user.models import User
 from featuring.user.fixtures import create_users
+from featuring.signup.models import Signup
 
 app.db.connect()
-app.db.create_tables([Client, FeatureRequest, User], safe=True)
+app.db.create_tables([Client, FeatureRequest, User, Signup], safe=True)
 clients = create_clients()
 create_demo_feature_requests(clients)
 create_users()

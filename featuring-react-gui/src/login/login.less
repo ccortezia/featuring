@@ -8,13 +8,11 @@ section.login {
   background-image: radial-gradient(white, rgba(157, 192, 226, 0.9));
 
   form {
-    height: 220px;
     width: 300px;
-    border: solid 1px #CCCCCC;
-    padding: 25px;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: space-between;
+    border: solid 1px #CCCCCC;
     background-color: rgba(255, 255, 255, 0.7);
 
     > div:first-child {flex-grow: 1}
@@ -22,7 +20,35 @@ section.login {
     > div:nth-child(3) {height: 20px; flex-grow: 0}
   }
 
-  input[type=text],input[type=password] {
+  .form-choice {
+  }
+
+  form.form-choice.show {
+    justify-content: space-around;
+    height: 125px;
+  }
+
+  form.form-signup.show {
+    height: 240px;
+  }
+
+  form.form-signup-ok.show {
+    h2 {margin-top: 5px}
+    text-align: center;
+    height: 240px;
+  }
+
+  form.form-login.show {
+    height: 220px;
+  }
+
+  form.show {
+    opacity: 1;
+    padding: 25px;
+    display: flex;
+  }
+
+  input[type=text],input[type=password],input[type=email] {
     display: block;
     outline: 0;
     padding: 8px;

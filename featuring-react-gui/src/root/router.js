@@ -6,6 +6,7 @@ import {App} from 'app/root';
 import {HomeSection} from 'app/home';
 import {UserDetailSection} from 'app/user';
 import {UserEditSection} from 'app/user';
+import {ActivationSection, onEnterActivationSection} from 'app/activation';
 import {LoginSection} from 'app/login';
 import {ErrorSection} from 'app/error';
 import {FeatureSection, FeatureDetails, FeatureCreate, FeatureEdit} from 'app/feature';
@@ -19,6 +20,7 @@ const router = (
   <Router history={history}>
     <Route path="/" component={App}>
       <IndexRoute component={HomeSection} onEnter={redirectToDefault} />
+      <Route path="activation/:uid" component={ActivationSection} onEnter={onEnterActivationSection}/>
       <Route path="login" component={LoginSection} />
       <Route path="/" component={HomeSection} >
         <Route path="users/:username/edit" component={UserEditSection} />
