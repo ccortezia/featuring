@@ -4,9 +4,9 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 
 
-export function LoginForm({fields: {username, password}, submitting, handleSubmit, invalid, error, failure, className}) {
+export function SignupForm({fields: {username, fullname, email}, submitting, handleSubmit, invalid, error, failure, className}) {
   return (
-    <form className={classNames(["form-login", className])} onSubmit={handleSubmit}>
+    <form className={classNames(["form-signup", className])} onSubmit={handleSubmit}>
       <div>
         <input type="text"
           autoFocus
@@ -14,17 +14,22 @@ export function LoginForm({fields: {username, password}, submitting, handleSubmi
           placeholder="Username"
           disabled={submitting}
           {...username} />
-        <input type="password"
+        <input type="email"
           tabIndex="1"
-          placeholder="Password"
+          placeholder="Email"
           disabled={submitting}
-          {...password} />
+          {...email} />
+        <input type="text"
+          tabIndex="1"
+          placeholder="Full name"
+          disabled={submitting}
+          {...fullname} />
       </div>
 
       <div>
         <input type="submit"
           className="btn btn-block"
-          value="LOGIN"
+          value="REGISTER"
           disabled={submitting || invalid}
         />
       </div>
@@ -46,17 +51,20 @@ function validate(values) {
   if (!values.username) {
     errors.username = 'Required';
   }
-  if (!values.password) {
-    errors.password = 'Required';
+  if (!values.fullname) {
+    errors.fullname = 'Required';
+  }
+  if (!values.email) {
+    errors.email = 'Required';
   }
   return errors;
 }
 
 
-const fields = ['username', 'password'];
+const fields = ['username', 'email', 'fullname'];
 
 export default reduxForm({
-  form: 'loginForm',
+  form: 'registerForm',
   fields,
   validate
-})(LoginForm);
+})(SignupForm);
