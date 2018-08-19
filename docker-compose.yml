@@ -1,7 +1,7 @@
 version: "3.5"
 services:
   api:
-    build: featuring-flask-api2
+    build: featuring-flask-api
     environment:
       DBHOST: featuring_db_1
     networks:
@@ -9,7 +9,7 @@ services:
     ports:
       - "127.0.0.1:8090:5000"
     volumes:
-     - ./featuring-flask-api2:/code
+     - ./featuring-flask-api:/code
   db:
     image: mysql/mysql-server:8.0
     networks:
