@@ -1,9 +1,0 @@
-# Grab production deps
--r requirements.txt
-
-# Grab development deps
-coverage==4.0.3
-docopt==0.6.2
-py==1.4.31
-pytest==2.8.7
-pytest-cov==2.2.1

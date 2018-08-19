@@ -1,1 +1,0 @@
-export {sessionReducer} from './reducers';
