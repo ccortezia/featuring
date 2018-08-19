@@ -1,14 +1,28 @@
-version: '2'
+version: "3.5"
 services:
   api:
-    network_mode: "host"
-    ports:
-      - "8090:8090"
-    build: featuring-flask-api
-    volumes:
-     - ./featuring-flask-api:/code
+    build: featuring-flask-api2
     environment:
-      DB_PATH: "/db"
-      GUNICORN_AUTO_RELOAD: "true"
-      MANDRILL_USERNAME: "$MANDRILL_USERNAME"
-      MANDRILL_PASSWORD: "$MANDRILL_PASSWORD"
+      DBHOST: featuring_db_1
+    networks:
+      - featuring
+    ports:
+      - "127.0.0.1:8090:5000"
+    volumes:
+     - ./featuring-flask-api2:/code
+  db:
+    image: mysql/mysql-server:8.0
+    networks:
+      - featuring
+    environment:
+      MYSQL_USER: featuring
+      MYSQL_DATABASE: featuring
+      MYSQL_PASSWORD: 123123
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3306:3306"
+
+networks:
+  featuring:
+    name: featuring

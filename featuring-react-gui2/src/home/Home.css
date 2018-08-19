@@ -1,0 +1,14 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.home > footer,
+.home > header {
+    flex-shrink: 0;
+}
+
+.home > div {
+    flex: 1 0 auto;
+}

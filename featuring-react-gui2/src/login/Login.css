@@ -1,0 +1,109 @@
+section.login {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: radial-gradient(white, rgba(157, 192, 226, 0.9));
+}
+
+section.login form {
+  width: 300px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  border: solid 1px #CCCCCC;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+section.login form>div:first-child {
+  flex-grow: 1
+}
+
+section.login form>div:nth-child(2) {
+  flex-grow: 0
+}
+
+section.login form>div:nth-child(3) {
+  height: 20px;
+  flex-grow: 0
+}
+
+section.login form.form-choice.show {
+  justify-content: space-around;
+  height: 125px;
+}
+
+section.login form.form-signup.show {
+  height: 240px;
+}
+
+section.login form.form-signup-ok.show {
+  text-align: center;
+  height: 240px;
+}
+
+section.login form.form-signup-ok.show h2 {
+  margin-top: 5px
+}
+
+section.login form.form-login.show {
+  height: 240px;
+}
+
+section.login form.show {
+  opacity: 1;
+  padding: 25px;
+  display: flex;
+}
+
+section.login input[type=text],
+section.login input[type=password],
+section.login input[type=email] {
+  display: block;
+  outline: 0;
+  padding: 8px;
+  border: solid 1px #CCC;
+  width: 100%;
+}
+
+section.login .btn,
+section.login .btn:focus {
+  outline: 0;
+  border-radius: 0;
+  color: #fcf8e3;
+  background-color: #337ab7;
+  font-weight: bold;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+section.login .btn:active {
+  background-color: #FFFFFF;
+  color: #CCCCCC;
+}
+
+section.login .login-status {
+  padding-top: 10px;
+  text-align: center;
+}
+
+section.login .logo {
+  height: 100px;
+  margin-bottom: 25px;
+}
+
+section.login .logo h1 {
+  font-size: 3em
+}
+
+/* TODO: revive media query */
+
+@media (min-width: 0) {
+  section.login section.login .logo {
+    height: 100px;
+    margin-bottom: 40px;
+  }
+  section.login section.login .logo h1 {
+    font-size: 4em
+  }
+}

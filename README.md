@@ -3,8 +3,8 @@ A simple feature request web app
 
 ## Run it locally
 
-- Follow the instructions inside featuring-flask-api.
-- Follow the instructions inside featuring-react-gui.
+- Follow the instructions inside `./featuring-flask-api`.
+- Follow the instructions inside `./featuring-react-gui`.
 - Make sure you have both docker and docker-compose properly setup.
 - Run ```docker-compose up``` in a terminal.
 - Run ```cd featuring-react-gui && npm start``` in another terminal.
@@ -12,7 +12,7 @@ A simple feature request web app
 
 ## Deploy to a generic VPS
 
-- Follow the instruction inside featuring-deploy.
+- Follow the instructions inside `./featuring-deploy`.
 - Run ```cd featuring-deploy && fab -H $user@$host```.
 
 *Temporarily deployed at http://104.236.242.231*

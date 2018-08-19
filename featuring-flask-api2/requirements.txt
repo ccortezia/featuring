@@ -1,0 +1,12 @@
+sqlalchemy==1.2.10
+flask==1.0.2
+flask-sqlalchemy==2.3.2
+flask-shell-ipython==0.3.0
+mysql-connector-python==8.0.12
+marshmallow==2.15.4
+python-dotenv==0.9.1
+pytz==2018.5
+python-jose==3.0.0
+Flask-Migrate==2.2.1
+alembic==1.0.0
+flask-bcrypt==0.7.1

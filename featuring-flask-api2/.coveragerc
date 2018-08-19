@@ -1,0 +1,5 @@
+[run]
+omit =
+    *tests*
+    featuring/logconfig/*
+    featuring/settings/*

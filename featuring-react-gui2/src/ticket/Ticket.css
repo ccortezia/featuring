@@ -1,0 +1,74 @@
+/* Ticket Board Root */
+
+.ticket-board {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Ticket Navigator */
+
+.ticket-navigator {
+  flex-grow: 1;
+  min-width: 400px;
+  max-width: 400px;
+  flex-basis: auto; /* default value */
+}
+
+/* Ticket Board Controller */
+
+.ticket-board-controller {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.ticket-board-controller>div:last-child {
+  width: 75%;
+}
+
+.ticket-board-controller select {
+  width: 100%;
+}
+
+/* Ticket Board List of Tickets */
+
+.ticket-list {
+  flex-grow: 1;
+  overflow-y: scroll;
+  height: 80vh;
+}
+
+/* Ticket Board Individual List Entry */
+
+.ticket-list .ticket-item.list-group-item.active {
+  background-color: #324559;
+  border-color: #324559;
+}
+
+.ticket-item .btn-bump-priority {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+/* Ticket Board Primary Display */
+
+.ticket-panel {
+  flex-grow: 4;
+  padding: 50px;
+}
+
+.ticket-panel header {
+  display: flex;
+  margin: 20px 0 20px 0;
+}
+
+.ticket-panel header div {
+  margin: 0 20px 0 0;
+}
+
+.ticket-panel div.ticket-description {
+  min-height: 200px;
+}

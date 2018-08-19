@@ -1,0 +1,38 @@
+header.primary {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border: solid 2px grey;
+  min-height: 60px;
+  background-color: #222;
+  min-width: 300px;
+}
+
+header.primary .logo {
+  text-decoration: none;
+  color: white;
+  font-size: 2em;
+  text-shadow: 0px 0px 30px #08c, 0px 0px 30px #08c, 0px 0px 30px #08c;
+}
+
+header.primary .auth-box {
+  /* display: none; */
+}
+
+// TODO: handle media query > sm.
+header.primary .nav-toggle {
+  /* display: none; */
+}
+
+header.primary .auth-box {
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+header.primary .username {
+  margin-right: 10px;
+  font-size: 1.3em;
+  text-decoration: none;
+  color: white;
+}

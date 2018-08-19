@@ -1,0 +1,13 @@
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  border: solid 2px grey;
+  min-height: 50px;
+  background-color: #333;
+
+}
+
+footer .author {
+  color: #F5F5F5;
+}
