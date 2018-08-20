@@ -29,3 +29,7 @@ flask db upgrade
 - Activate into the development virtualenv
 - Run `pytest`
 - Coverage info should be available under $ROOT/htmlcov.
+
+### Running in production
+
+Please refer to the component [featuring-deploy](../featuring-deploy)

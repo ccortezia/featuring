@@ -1,7 +1,7 @@
 [program:featuring-flask-api]
-command=/usr/share/python/featuring-flask-api/bin/gunicorn --chdir /usr/share/python/featuring-flask-api/lib/python2.7/site-packages/featuring/ --config=/usr/share/python/featuring-flask-api/lib/python2.7/site-packages/featuring/settings/gunicorn.py featuring.wsgi:app
-directory=/usr/share/python/featuring-flask-api/
-environment=GUNICORN_PORT='8090',SETTINGS_ENVIRON='featuring.settings.production',LOGCONFIG_ENVIRON='featuring.settings.logconfig.production',DB_PATH='/var/lib/featuring/app.db',SECRET_KEY='Tweyrea31kIdicWyff5komvu~Or0A4sVanOkBeçKn6oa9HojoojRyhobyotdemebDalyof)',TOKEN_SECONDS='432000',MANDRILL_USERNAME='%(MANDRILL_USERNAME)s',MANDRILL_PASSWORD='%(MANDRILL_PASSWORD)s'
+command=/opt/venv/featuring/bin/gunicorn --chdir /opt/projs/featuring/featuring-flask-api --config=/usr/local/etc/featuring/gunicorn_setting.py featuring.wsgi:app
+directory=/opt/projs/featuring/featuring-flask-api/
+environment=GUNICORN_PORT='8090',LOGGING_BASEDIR='/var/log/featuring',SECRET_KEY='Tweyrea31kIdicWyff5komvu~Or0A4sVanOkBeçKn6oa9HojoojRyhobyotdemebDalyof)',TOKEN_SECONDS='432000'
 user=root
 autostart=true
 autorestart=true

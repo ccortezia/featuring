@@ -5,6 +5,10 @@ This component is resposible to deploy its sibblings. Currently it statically de
 
 ## Requirements
 
-- Make sure you have [fab](http://www.fabfile.org/) available in your $PATH.
+- Make sure you have [fab (1.x)](http://www.fabfile.org/) available in your $PATH.
 - Make sure you have [npm](https://www.npmjs.com/) available in your $PATH.
 - Make sure your target server has Ubuntu 14.x LTS properly installed.
+
+## Note
+
+This component hasn't been upgraded to work with Python 3.x, so at least for now make sure you work out of a Python 2.7 virtualenv.
