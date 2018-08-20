@@ -11,3 +11,5 @@ footer {
 footer .author {
   color: #F5F5F5;
 }
+footer .author a {color: #a2b3c6;}
+footer .author a:hover {color: #a2b3c6;}
