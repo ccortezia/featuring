@@ -1,6 +1,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
+import UserProfile from './views/UserProfile.vue';
+import TicketBoard from './views/TicketBoard.vue';
+import TicketWelcomePanel from './views/TicketWelcomePanel.vue';
+import TicketCreatorPanel from './views/TicketCreatorPanel.vue';
+import TicketDetailsPanel from './views/TicketDetailsPanel.vue';
+import TicketEditorPanel from './views/TicketEditorPanel.vue';
 
 Vue.use(Router);
 
@@ -10,6 +16,42 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+      children: [
+        {
+          path: 'profile',
+          component: UserProfile,
+        },
+        {
+          path: 'tickets',
+          component: TicketBoard,
+          children: [
+            {
+              path: 'new',
+              component: TicketCreatorPanel,
+            },
+            {
+              path: ':id/edit',
+              component: TicketEditorPanel,
+            },
+            {
+              path: ':id',
+              component: TicketDetailsPanel,
+            },
+            {
+              path: '',
+              component: TicketWelcomePanel,
+            },
+          ],
+        },
+        {
+          path: '',
+          component: TicketBoard,
+          children: [{
+            path: '',
+            component: TicketWelcomePanel,
+          }],
+        },
+      ],
     },
     {
       path: '/about',
