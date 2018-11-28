@@ -1,10 +1,9 @@
 <template>
-    <ul>
-        <TicketBoardItem :id="1" />
-        <TicketBoardItem :id="2" />
-        <TicketBoardItem :id="3" />
-        <TicketBoardItem :id="4" />
-    </ul>
+    <div class="ticket-list">
+        <b-list-group class="list-feature">
+            <TicketBoardItem v-for="ticket in tickets" :key="ticket.id" :ticket="ticket" />
+        </b-list-group>
+    </div>
 </template>
 
 <script lang="ts">
@@ -15,5 +14,17 @@ export default Vue.extend({
     components: {
         TicketBoardItem,
     },
+    props: {
+        tickets: Array,
+    },
 });
 </script>
+
+<style lang="less" scoped>
+.ticket-list {
+  flex-grow: 1;
+  overflow-y: scroll;
+  height: 80vh;
+}
+</style>
+

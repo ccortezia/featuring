@@ -1,5 +1,5 @@
 <template>
-    <div>TICKET CREATOR PANEL</div>
+    <div class="ticket-panel">TICKET CREATOR PANEL</div>
 </template>
 
 <script lang="ts">

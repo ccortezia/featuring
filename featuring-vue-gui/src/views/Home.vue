@@ -19,3 +19,20 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="less" scoped>
+.home {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  > footer,
+  > header {
+    flex-shrink: 0;
+  }
+
+  > div {
+    flex: 1 0 auto;
+  }
+}
+</style>

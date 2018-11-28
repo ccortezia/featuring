@@ -1,16 +1,18 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { StoreOptions } from 'vuex';
+import {RootState} from './types';
+import TicketBoardModule from './modules/TicketBoardModule';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+
+const store: StoreOptions<RootState> = {
   state: {
-
+    version: '1.0.0',
   },
-  mutations: {
-
+  modules: {
+    ticketBoard: TicketBoardModule,
   },
-  actions: {
+};
 
-  },
-});
+export default new Vuex.Store<RootState>(store);
