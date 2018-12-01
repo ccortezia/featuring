@@ -3,7 +3,9 @@ export interface RootState {
 }
 
 export interface TicketData {
-  ticketId: number;
+  ticketId: string;
+  productId: string;
+  clientId: string;
   title: string;
   description: string;
   priority: number;

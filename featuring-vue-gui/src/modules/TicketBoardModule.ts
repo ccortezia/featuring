@@ -11,10 +11,18 @@ const TicketBoardModule: Module<TicketBoardState, RootState> = {
     products: [],
   },
 
+  getters: {
+    ticket: (state) => (ticketId: string) => {
+      const finder = (ticket: TicketData) => ticket.ticketId === ticketId;
+      return state.tickets.find(finder);
+    },
+  },
+
   mutations: {
     selectClient(state, clientId: string) {
       state.selectedClient = clientId;
     },
+
     reloadTicket(state, ticketData: TicketData) {
       flatUpsert(state.tickets, ticketData, 'ticketId');
     },
@@ -33,6 +41,15 @@ const TicketBoardModule: Module<TicketBoardState, RootState> = {
   },
 
   actions: {
+
+    updateTicket({ commit }, ticketData) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          commit('reloadTicket', ticketData);
+        });
+      });
+    },
+
     retrieveTickets({ commit }) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -42,24 +59,36 @@ const TicketBoardModule: Module<TicketBoardState, RootState> = {
               title: 'Ticket 1',
               description: 'Long test to describe what this ticket is about',
               priority: 1,
+              clientId: 1,
+              productId: 1,
+              deadline: '2018-01-01',
             },
             {
               ticketId: '2',
               title: 'Ticket 2',
               description: 'Long test to describe what this ticket is about',
               priority: 2,
+              clientId: 1,
+              productId: 1,
+              deadline: '2018-01-01',
             },
             {
               ticketId: '3',
               title: 'Ticket 3',
               description: 'Long test to describe what this ticket is about',
               priority: 3,
+              clientId: 1,
+              productId: 1,
+              deadline: '2018-01-01',
             },
             {
               ticketId: '4',
               title: 'Ticket 4',
               description: 'Long test to describe what this ticket is about',
               priority: 4,
+              clientId: 1,
+              productId: 1,
+              deadline: '2018-01-01',
             },
           ];
           response.forEach((ticketData) => commit('reloadTicket', ticketData));
@@ -96,10 +125,10 @@ const TicketBoardModule: Module<TicketBoardState, RootState> = {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           const response = [
-            { productId: 1 },
-            { productId: 2 },
-            { productId: 3 },
-            { productId: 4 },
+            { productId: 1, productName: 'Product 1' },
+            { productId: 2, productName: 'Product 2' },
+            { productId: 3, productName: 'Product 3' },
+            { productId: 4, productName: 'Product 4' },
           ];
           response.forEach((productData) => commit('reloadProduct', productData));
           resolve(response);
