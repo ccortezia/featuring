@@ -2,6 +2,7 @@
     <div class="ticket-panel">
         <template v-if="!ready">
             LOADING
+            <font-awesome-icon icon="spinner" size="6x" spin />
         </template>
         <template v-else>
             <b-form @submit="onSubmit" novalidate>
@@ -50,7 +51,7 @@ export default Vue.extend({
         };
     },
     methods: {
-        onSubmit(this, evt) {
+        onSubmit(this, evt: any) {
             evt.preventDefault();
             this.$store.dispatch('ticketBoard/updateTicket', {ticketId: this.ticketId, ...this.formData});
         },
