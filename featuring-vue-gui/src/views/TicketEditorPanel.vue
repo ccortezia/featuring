@@ -29,12 +29,20 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { TicketData, ClientData, ProductData } from '../types';
+import { TicketData, ClientData, ProductData, EntityID, SelectOption } from '../types';
+
+interface FormData {
+    title: string | null;
+    description: string | null;
+    productId: EntityID | null;
+    clientId: EntityID | null;
+    deadline: Date | null;
+}
 
 export default Vue.extend({
     props: ['ticketId'],
     // TODO: Refactor loading protection.
-    data() {
+    data(): { formData: FormData } {
         const state = this.$store.state.ticketBoard;
         const isReady = !!state.tickets.length && !!state.clients.length && !!state.products.length;
         if (isReady) {
@@ -45,43 +53,46 @@ export default Vue.extend({
             formData: {
                 title: null,
                 description: null,
-                priority: null,
+                productId: null,
+                clientId: null,
                 deadline: null,
             },
         };
     },
     methods: {
-        onSubmit(this, evt: any) {
+        onSubmit(evt: any): void {
             evt.preventDefault();
             this.$store.dispatch('ticketBoard/updateTicket', {ticketId: this.ticketId, ...this.formData});
         },
     },
     computed: {
         // TODO: Refactor loading protection.
-        ready(this) {
+        ready(): boolean {
             const state = this.$store.state.ticketBoard;
             return !!state.tickets.length && !!state.clients.length && !!state.products.length;
         },
-        clients(this) {
+        clients(): SelectOption[] {
             const clientsData = this.$store.state.ticketBoard.clients;
             const defaultClientOption = { value: null, text: 'Please select an client' };
             return [defaultClientOption].concat(clientsData.map(clientDataToSelectOption));
         },
-        products(this) {
+        products(): SelectOption[] {
             const productsData = this.$store.state.ticketBoard.products;
             const defaultProductOption = { value: null, text: 'Please select a product' };
             return [defaultProductOption].concat(productsData.map(productDataToSelectOption));
         },
     },
     watch: {
-        ready(nv, ov) {
-            const ticketData = this.$store.getters['ticketBoard/ticket'](this.ticketId);
-            Object.assign(this.formData, ticketDataToFormData(ticketData));
+        ready(nv: boolean, ov: boolean): void {
+            if (nv) {
+                const ticketData = this.$store.getters['ticketBoard/ticket'](this.ticketId);
+                Object.assign(this.formData, ticketDataToFormData(ticketData));
+            }
         },
     },
 });
 
-function ticketDataToFormData(data: TicketData) {
+function ticketDataToFormData(data: TicketData): FormData {
     return {
         title: data.title,
         description: data.description,
@@ -91,11 +102,11 @@ function ticketDataToFormData(data: TicketData) {
     };
 }
 
-function clientDataToSelectOption(clientData: ClientData) {
+function clientDataToSelectOption(clientData: ClientData): SelectOption {
   return { value: clientData.clientId, text: clientData.clientName };
 }
 
-function productDataToSelectOption(productData: ProductData) {
+function productDataToSelectOption(productData: ProductData): SelectOption {
   return { value: productData.productId, text: productData.productName };
 }
 

@@ -16,5 +16,5 @@ DBOPTS = os.environ.setdefault('DBOPTS', 'charset=utf8')
 SQLALCHEMY_DATABASE_URI = f"{DBCONN}://{DBUSER}:{DBPASS}@{DBHOST}/{DBNAME}?{DBOPTS}"
 
 
-SECRET_KEY = os.environ.setdefault('SECRET_KEY', '1287916487126391273918273814562')
+SECRET_KEY = os.environ.setdefault('SECRET_KEY', 'K1287916487126391273918273814562')
 TOKEN_SECONDS = os.environ.setdefault('TOKEN_SECONDS', str(60 * 5))

@@ -33,3 +33,20 @@ flask db upgrade
 ### Running in production
 
 Please refer to the component [featuring-deploy](../featuring-deploy)
+
+
+### Authenticated API access
+
+#### Retrieve an access token
+
+```
+> curl --header "Content-Type: application/json" --request POST --data '{"username":"root","password":"root"}' http://localhost:8090/api/v1/session
+
+< {"data": {"token": "<token-string>"},"details": null,"success": true}
+```
+
+#### Use token to perform authenticated access
+
+```
+curl --header "Content-Type: application/json" --request GET http://localhost:8090/api/v1/session -H "Authorization:Bearer <token-string>"
+```

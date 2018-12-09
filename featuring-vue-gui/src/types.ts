@@ -2,10 +2,12 @@ export interface RootState {
   version: string;
 }
 
+export type EntityID = number;
+
 export interface TicketData {
-  ticketId: string;
-  productId: string;
-  clientId: string;
+  ticketId: EntityID;
+  productId: EntityID;
+  clientId: EntityID;
   title: string;
   description: string;
   priority: number;
@@ -13,12 +15,12 @@ export interface TicketData {
 }
 
 export interface ClientData {
-  clientId: number;
+  clientId: EntityID;
   clientName: string;
 }
 
 export interface ProductData {
-  productId: number;
+  productId: EntityID;
   productName: string;
 }
 
@@ -27,4 +29,30 @@ export interface TicketBoardState {
   tickets: TicketData[];
   clients: ClientData[];
   products: ProductData[];
+}
+
+export interface SelectOption {
+  value: EntityID | null;
+  text: string;
+}
+
+
+export interface APITicketData {
+  ticket_id: EntityID;
+  product_id: EntityID;
+  client_id: EntityID;
+  title: string;
+  description: string;
+  priority: number;
+  deadline: Date;
+}
+
+export interface APIClientData {
+  client_id: EntityID;
+  client_name: string;
+}
+
+export interface APIProductData {
+  product_id: EntityID;
+  product_name: string;
 }

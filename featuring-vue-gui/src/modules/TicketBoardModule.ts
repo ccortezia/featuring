@@ -12,7 +12,10 @@ const TicketBoardModule: Module<TicketBoardState, RootState> = {
   },
 
   getters: {
-    ticket: (state) => (ticketId: string) => {
+    ticket: (state) => (ticketId: number | string) => {
+      if (typeof ticketId === 'string') {
+        ticketId = parseInt(ticketId, 10);
+      }
       const finder = (ticket: TicketData) => ticket.ticketId === ticketId;
       return state.tickets.find(finder);
     },
@@ -51,50 +54,72 @@ const TicketBoardModule: Module<TicketBoardState, RootState> = {
     },
 
     retrieveTickets({ commit }) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const response = [
-            {
-              ticketId: '1',
-              title: 'Ticket 1',
-              description: 'Long test to describe what this ticket is about',
-              priority: 1,
-              clientId: 1,
-              productId: 1,
-              deadline: '2018-01-01',
-            },
-            {
-              ticketId: '2',
-              title: 'Ticket 2',
-              description: 'Long test to describe what this ticket is about',
-              priority: 2,
-              clientId: 1,
-              productId: 1,
-              deadline: '2018-01-01',
-            },
-            {
-              ticketId: '3',
-              title: 'Ticket 3',
-              description: 'Long test to describe what this ticket is about',
-              priority: 3,
-              clientId: 1,
-              productId: 1,
-              deadline: '2018-01-01',
-            },
-            {
-              ticketId: '4',
-              title: 'Ticket 4',
-              description: 'Long test to describe what this ticket is about',
-              priority: 4,
-              clientId: 1,
-              productId: 1,
-              deadline: '2018-01-01',
-            },
-          ];
-          response.forEach((ticketData) => commit('reloadTicket', ticketData));
-          resolve(response);
-        }, 1000);
-      });
+      fetch('http://localhost:8090/api/v1/session', {
+        method: 'POST',
+        body: JSON.stringify({username: 'root', password: 'root'}),
+        headers: {'Content-Type': 'application/json'}})
+        .then((response) => response.json())
+        .then((response) => response.data.token)
+        .then((token) => fetch('http://localhost:8090/api/v1/tickets', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          }}))
+        .then((response) => response.json())
+        .then((response) => {
+          response.data.forEach((ticketData: APITicketData) => {
+            console.log(ticketData);
+            commit('reloadTicket', fromAPITicketData(ticketData));
+          });
+        })
+        .catch((error) => console.error(error))
+      ;
+
+      // return new Promise((resolve, reject) => {
+      //   setTimeout(() => {
+      //     const response = [
+      //       {
+      //         ticketId: 1,
+      //         title: 'Ticket 1',
+      //         description: 'Long test to describe what this ticket is about',
+      //         priority: 1,
+      //         clientId: 1,
+      //         productId: 1,
+      //         deadline: '2018-01-01',
+      //       },
+      //       {
+      //         ticketId: 2,
+      //         title: 'Ticket 2',
+      //         description: 'Long test to describe what this ticket is about',
+      //         priority: 2,
+      //         clientId: 1,
+      //         productId: 1,
+      //         deadline: '2018-01-01',
+      //       },
+      //       {
+      //         ticketId: 3,
+      //         title: 'Ticket 3',
+      //         description: 'Long test to describe what this ticket is about',
+      //         priority: 3,
+      //         clientId: 1,
+      //         productId: 1,
+      //         deadline: '2018-01-01',
+      //       },
+      //       {
+      //         ticketId: 4,
+      //         title: 'Ticket 4',
+      //         description: 'Long test to describe what this ticket is about',
+      //         priority: 4,
+      //         clientId: 1,
+      //         productId: 1,
+      //         deadline: '2018-01-01',
+      //       },
+      //     ];
+      //     response.forEach((ticketData) => commit('reloadTicket', ticketData));
+      //     resolve(response);
+      //   }, 1000);
+      // });
     },
 
     deleteTicket({ commit }, ticketId: string) {
@@ -150,6 +175,20 @@ function flatUpsert<T, K extends keyof T>(targetCollection: T[], dataPoint: T, k
   } else {
     Object.assign(targetCollection[foundIndex], dataPoint);
   }
+}
+
+import {APITicketData} from '../types';
+
+function fromAPITicketData(data: APITicketData): TicketData {
+  return {
+    ticketId: data.ticket_id,
+    productId: data.product_id,
+    clientId: data.client_id,
+    title: data.title,
+    description: data.description,
+    priority: data.priority,
+    deadline: data.deadline,
+  };
 }
 
 export default TicketBoardModule;
